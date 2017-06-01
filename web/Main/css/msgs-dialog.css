@@ -1,0 +1,111 @@
+﻿.notify-dialog {
+    width:420px;
+    height:336px;
+    position:absolute;
+    right:10px;
+    bottom:0px;
+}
+    .notify-dialog .header {
+        height:36px;
+        line-height:36px;
+    }
+        .notify-dialog .header .left {
+            width:3px;
+            height:36px;
+            float:left;
+            background:url(../images/msg-dialog-title-l.png) no-repeat;
+        }
+         .notify-dialog .header .center {
+            width:414px;
+            height:36px;
+            float:left;
+            background:url(../images/msg-dialog-title-bg.png) repeat-x;
+        }
+            .notify-dialog .header .center span {
+                color:#fff;
+                font-size:15px;
+                margin-left:16px;
+                font-weight:bold;
+            }
+         .notify-dialog .header .right {
+            width:3px;
+            height:36px;
+            float:left;
+            background:url(../images/msg-dialog-title-r.png) no-repeat;
+        }
+    .notify-dialog .content {
+        background-color:#F5F5F5;
+        height:256px; 
+        border-width:0px 1px 0px 1px;
+        border-style:solid;
+        border-color:#CCCCCC;
+        list-style:none;
+        margin:0px;
+        padding:0px;
+        font-size:13px;
+        overflow-y:auto;
+        overflow-x:hidden;
+    }
+        .notify-dialog .content li {
+            height:128px;
+            border-bottom:1px dashed #A6CCE6;
+            margin:0px;
+            padding:0px;
+            overflow:hidden;
+        }
+            .notify-dialog .content li .readstatus {
+                float:left;
+                width:50px;
+                height:128px;
+                background:url(../images/msg-unreaded.png) center center no-repeat;
+            }
+            .notify-dialog .content li .readstatus.readed {
+                background:url(../images/msg-readed.png) center center no-repeat;
+            }
+            .notify-dialog .content li .msg-content-container {
+                float: right;
+                height: 127px;
+                padding: 10px 10px 0px 0px;
+                width: 346px;
+                overflow:hidden;
+            }
+                .notify-dialog .content li .msg-content-container .msg-info {
+                    height:22px;
+                    line-height:22px;
+                    color:#990000;
+                }
+                .notify-dialog .content li .msg-content-container .msg-sendtime {
+                    height:22px;
+                    line-height:22px;
+                    color:#990000;
+                }
+                .notify-dialog .content li .msg-content-container .msg-content {
+                    height:44px;
+                    line-height:22px;
+                    color:#333333;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+                .notify-dialog .content li .msg-content-container .msg-buttons {
+                    height: 30px;
+                    line-height: 30px;
+                }
+    .notify-dialog .tools-container {
+        height:32px;
+        line-height:32px;
+        text-align:center;
+        background-color:#F5F5F5;
+        border-bottom:1px solid #cccccc;
+        border-right:1px solid #cccccc;
+        border-left:1px solid #cccccc;
+
+    }
+        .notify-dialog .tools-container a {
+            color:#FF3300;
+            text-decoration:underline;
+        }
+    .notify-dialog .footer {
+        height:12px;
+        background:url(../images/msg-dialog-shadow.png) repeat-x rgba(0, 0, 0, 0.00);
+    }

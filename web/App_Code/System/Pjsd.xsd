@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Pjsd" targetNamespace="http://tempuri.org/Pjsd.xsd" xmlns:mstns="http://tempuri.org/Pjsd.xsd" xmlns="http://tempuri.org/Pjsd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="4" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CZCLZConnectionString" IsAppSettingsProperty="true" Modifier="Assembly" Name="CZCLZConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CZCLZConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsPropertyName="czclzConnectionString" ConnectionStringObject="Data Source=KAIFABU;Initial Catalog=czclz;User ID=sa" IsAppSettingsProperty="false" Modifier="Assembly" Name="czclzConnectionString" ParameterPrefix="@" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="CZCLZConnectionString1" IsAppSettingsProperty="true" Modifier="Assembly" Name="CZCLZConnectionString1 (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.CZCLZConnectionString1.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="SysConnStr" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="SysConnStr (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.SysConnStr.ConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="wxclznewConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="wxclznewConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.wxclznewConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Pjsd" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_DataSetName="Pjsd" msprop:Generator_UserDSName="Pjsd">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="tb_b_DW" msprop:Generator_UserTableName="tb_b_DW" msprop:Generator_RowEvArgName="tb_b_DWRowChangeEvent" msprop:Generator_TableVarName="tabletb_b_DW" msprop:Generator_TablePropName="tb_b_DW" msprop:Generator_RowDeletingName="tb_b_DWRowDeleting" msprop:Generator_RowChangingName="tb_b_DWRowChanging" msprop:Generator_RowDeletedName="tb_b_DWRowDeleted" msprop:Generator_RowEvHandlerName="tb_b_DWRowChangeEventHandler" msprop:Generator_TableClassName="tb_b_DWDataTable" msprop:Generator_RowChangedName="tb_b_DWRowChanged" msprop:Generator_RowClassName="tb_b_DWRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="DW_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnDW_ID" msprop:Generator_ColumnPropNameInRow="DW_ID" msprop:Generator_ColumnPropNameInTable="DW_IDColumn" msprop:Generator_UserColumnName="DW_ID" type="xs:string" />
+              <xs:element name="DW_MC" msprop:Generator_ColumnVarNameInTable="columnDW_MC" msprop:Generator_ColumnPropNameInRow="DW_MC" msprop:Generator_ColumnPropNameInTable="DW_MCColumn" msprop:Generator_UserColumnName="DW_MC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="250" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DW_DZ" msprop:Generator_ColumnVarNameInTable="columnDW_DZ" msprop:Generator_ColumnPropNameInRow="DW_DZ" msprop:Generator_ColumnPropNameInTable="DW_DZColumn" msprop:Generator_UserColumnName="DW_DZ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="250" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="QY_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnQY_ID" msprop:Generator_ColumnPropNameInRow="QY_ID" msprop:Generator_ColumnPropNameInTable="QY_IDColumn" msprop:Generator_UserColumnName="QY_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="DW_ENABLED" msprop:Generator_ColumnVarNameInTable="columnDW_ENABLED" msprop:Generator_ColumnPropNameInRow="DW_ENABLED" msprop:Generator_ColumnPropNameInTable="DW_ENABLEDColumn" msprop:Generator_UserColumnName="DW_ENABLED" type="xs:int" minOccurs="0" />
+              <xs:element name="ADDTIME" msprop:Generator_ColumnVarNameInTable="columnADDTIME" msprop:Generator_ColumnPropNameInRow="ADDTIME" msprop:Generator_ColumnPropNameInTable="ADDTIMEColumn" msprop:Generator_UserColumnName="ADDTIME" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="UPDATETIME" msprop:Generator_ColumnVarNameInTable="columnUPDATETIME" msprop:Generator_ColumnPropNameInRow="UPDATETIME" msprop:Generator_ColumnPropNameInTable="UPDATETIMEColumn" msprop:Generator_UserColumnName="UPDATETIME" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="STATUS" msprop:Generator_ColumnVarNameInTable="columnSTATUS" msprop:Generator_ColumnPropNameInRow="STATUS" msprop:Generator_ColumnPropNameInTable="STATUSColumn" msprop:Generator_UserColumnName="STATUS" type="xs:boolean" minOccurs="0" />
+              <xs:element name="DW_LX" msprop:Generator_ColumnVarNameInTable="columnDW_LX" msprop:Generator_ColumnPropNameInRow="DW_LX" msprop:Generator_ColumnPropNameInTable="DW_LXColumn" msprop:Generator_UserColumnName="DW_LX" type="xs:int" minOccurs="0" />
+              <xs:element name="XGYH_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnXGYH_ID" msprop:Generator_ColumnPropNameInRow="XGYH_ID" msprop:Generator_ColumnPropNameInTable="XGYH_IDColumn" msprop:Generator_UserColumnName="XGYH_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="FJ_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnFJ_ID" msprop:Generator_ColumnPropNameInRow="FJ_ID" msprop:Generator_ColumnPropNameInTable="FJ_IDColumn" msprop:Generator_UserColumnName="FJ_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="DW_LXR" msprop:Generator_ColumnVarNameInTable="columnDW_LXR" msprop:Generator_ColumnPropNameInRow="DW_LXR" msprop:Generator_ColumnPropNameInTable="DW_LXRColumn" msprop:Generator_UserColumnName="DW_LXR" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DW_LXRDH" msprop:Generator_ColumnVarNameInTable="columnDW_LXRDH" msprop:Generator_ColumnPropNameInRow="DW_LXRDH" msprop:Generator_ColumnPropNameInTable="DW_LXRDHColumn" msprop:Generator_UserColumnName="DW_LXRDH" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DW_BZ" msprop:Generator_ColumnVarNameInTable="columnDW_BZ" msprop:Generator_ColumnPropNameInRow="DW_BZ" msprop:Generator_ColumnPropNameInTable="DW_BZColumn" msprop:Generator_UserColumnName="DW_BZ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DW_ORDER" msprop:Generator_ColumnVarNameInTable="columnDW_ORDER" msprop:Generator_ColumnPropNameInRow="DW_ORDER" msprop:Generator_ColumnPropNameInTable="DW_ORDERColumn" msprop:Generator_UserColumnName="DW_ORDER" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tb_b_PJNMGL" msprop:Generator_UserTableName="tb_b_PJNMGL" msprop:Generator_RowEvArgName="tb_b_PJNMGLRowChangeEvent" msprop:Generator_TableVarName="tabletb_b_PJNMGL" msprop:Generator_TablePropName="tb_b_PJNMGL" msprop:Generator_RowDeletingName="tb_b_PJNMGLRowDeleting" msprop:Generator_RowChangingName="tb_b_PJNMGLRowChanging" msprop:Generator_RowDeletedName="tb_b_PJNMGLRowDeleted" msprop:Generator_RowEvHandlerName="tb_b_PJNMGLRowChangeEventHandler" msprop:Generator_TableClassName="tb_b_PJNMGLDataTable" msprop:Generator_RowChangedName="tb_b_PJNMGLRowChanged" msprop:Generator_RowClassName="tb_b_PJNMGLRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PJSD_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnPJSD_ID" msprop:Generator_ColumnPropNameInRow="PJSD_ID" msprop:Generator_ColumnPropNameInTable="PJSD_IDColumn" msprop:Generator_UserColumnName="PJSD_ID" type="xs:string" />
+              <xs:element name="NMSC_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnNMSC_ID" msprop:Generator_ColumnPropNameInRow="NMSC_ID" msprop:Generator_ColumnPropNameInTable="NMSC_IDColumn" msprop:Generator_UserColumnName="NMSC_ID" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tb_b_PJSD_TBJL" msprop:Generator_TableClassName="tb_b_PJSD_TBJLDataTable" msprop:Generator_TableVarName="tabletb_b_PJSD_TBJL" msprop:Generator_RowChangedName="tb_b_PJSD_TBJLRowChanged" msprop:Generator_TablePropName="tb_b_PJSD_TBJL" msprop:Generator_RowDeletingName="tb_b_PJSD_TBJLRowDeleting" msprop:Generator_RowChangingName="tb_b_PJSD_TBJLRowChanging" msprop:Generator_RowEvHandlerName="tb_b_PJSD_TBJLRowChangeEventHandler" msprop:Generator_RowDeletedName="tb_b_PJSD_TBJLRowDeleted" msprop:Generator_RowClassName="tb_b_PJSD_TBJLRow" msprop:Generator_UserTableName="tb_b_PJSD_TBJL" msprop:Generator_RowEvArgName="tb_b_PJSD_TBJLRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TB_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnTB_ID" msprop:Generator_ColumnPropNameInRow="TB_ID" msprop:Generator_ColumnPropNameInTable="TB_IDColumn" msprop:Generator_UserColumnName="TB_ID" type="xs:string" />
+              <xs:element name="DW_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnDW_ID" msprop:Generator_ColumnPropNameInRow="DW_ID" msprop:Generator_ColumnPropNameInTable="DW_IDColumn" msprop:Generator_UserColumnName="DW_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="TB_GSSJ" msprop:Generator_ColumnVarNameInTable="columnTB_GSSJ" msprop:Generator_ColumnPropNameInRow="TB_GSSJ" msprop:Generator_ColumnPropNameInTable="TB_GSSJColumn" msprop:Generator_UserColumnName="TB_GSSJ" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="TB_BZ" msprop:Generator_ColumnVarNameInTable="columnTB_BZ" msprop:Generator_ColumnPropNameInRow="TB_BZ" msprop:Generator_ColumnPropNameInTable="TB_BZColumn" msprop:Generator_UserColumnName="TB_BZ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tb_b_PJSD" msprop:Generator_TableClassName="tb_b_PJSDDataTable" msprop:Generator_TableVarName="tabletb_b_PJSD" msprop:Generator_RowChangedName="tb_b_PJSDRowChanged" msprop:Generator_TablePropName="tb_b_PJSD" msprop:Generator_RowDeletingName="tb_b_PJSDRowDeleting" msprop:Generator_RowChangingName="tb_b_PJSDRowChanging" msprop:Generator_RowEvHandlerName="tb_b_PJSDRowChangeEventHandler" msprop:Generator_RowDeletedName="tb_b_PJSDRowDeleted" msprop:Generator_RowClassName="tb_b_PJSDRow" msprop:Generator_UserTableName="tb_b_PJSD" msprop:Generator_RowEvArgName="tb_b_PJSDRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PJSD_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnPJSD_ID" msprop:Generator_ColumnPropNameInRow="PJSD_ID" msprop:Generator_ColumnPropNameInTable="PJSD_IDColumn" msprop:Generator_UserColumnName="PJSD_ID" type="xs:string" />
+              <xs:element name="QY_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnQY_ID" msprop:Generator_ColumnPropNameInRow="QY_ID" msprop:Generator_ColumnPropNameInTable="QY_IDColumn" msprop:Generator_UserColumnName="QY_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="PJSD_MC" msprop:Generator_ColumnVarNameInTable="columnPJSD_MC" msprop:Generator_ColumnPropNameInRow="PJSD_MC" msprop:Generator_ColumnPropNameInTable="PJSD_MCColumn" msprop:Generator_UserColumnName="PJSD_MC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_DZ" msprop:Generator_ColumnVarNameInTable="columnPJSD_DZ" msprop:Generator_ColumnPropNameInRow="PJSD_DZ" msprop:Generator_ColumnPropNameInTable="PJSD_DZColumn" msprop:Generator_UserColumnName="PJSD_DZ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="250" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_FR" msprop:Generator_ColumnVarNameInTable="columnPJSD_FR" msprop:Generator_ColumnPropNameInRow="PJSD_FR" msprop:Generator_ColumnPropNameInTable="PJSD_FRColumn" msprop:Generator_UserColumnName="PJSD_FR" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_LX" msprop:Generator_ColumnVarNameInTable="columnPJSD_LX" msprop:Generator_ColumnPropNameInRow="PJSD_LX" msprop:Generator_ColumnPropNameInTable="PJSD_LXColumn" msprop:Generator_UserColumnName="PJSD_LX" type="xs:int" minOccurs="0" />
+              <xs:element name="PJSD_FRDH" msprop:Generator_ColumnVarNameInTable="columnPJSD_FRDH" msprop:Generator_ColumnPropNameInRow="PJSD_FRDH" msprop:Generator_ColumnPropNameInTable="PJSD_FRDHColumn" msprop:Generator_UserColumnName="PJSD_FRDH" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_LXR" msprop:Generator_ColumnVarNameInTable="columnPJSD_LXR" msprop:Generator_ColumnPropNameInRow="PJSD_LXR" msprop:Generator_ColumnPropNameInTable="PJSD_LXRColumn" msprop:Generator_UserColumnName="PJSD_LXR" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_LXRDH" msprop:Generator_ColumnVarNameInTable="columnPJSD_LXRDH" msprop:Generator_ColumnPropNameInRow="PJSD_LXRDH" msprop:Generator_ColumnPropNameInTable="PJSD_LXRDHColumn" msprop:Generator_UserColumnName="PJSD_LXRDH" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_LXRSJ" msprop:Generator_ColumnVarNameInTable="columnPJSD_LXRSJ" msprop:Generator_ColumnPropNameInRow="PJSD_LXRSJ" msprop:Generator_ColumnPropNameInTable="PJSD_LXRSJColumn" msprop:Generator_UserColumnName="PJSD_LXRSJ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJD_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnPJD_ID" msprop:Generator_ColumnPropNameInRow="PJD_ID" msprop:Generator_ColumnPropNameInTable="PJD_IDColumn" msprop:Generator_UserColumnName="PJD_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="PJSD_NO" msprop:Generator_ColumnVarNameInTable="columnPJSD_NO" msprop:Generator_ColumnPropNameInRow="PJSD_NO" msprop:Generator_ColumnPropNameInTable="PJSD_NOColumn" msprop:Generator_UserColumnName="PJSD_NO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_ISLS" msprop:Generator_ColumnVarNameInTable="columnPJSD_ISLS" msprop:Generator_ColumnPropNameInRow="PJSD_ISLS" msprop:Generator_ColumnPropNameInTable="PJSD_ISLSColumn" msprop:Generator_UserColumnName="PJSD_ISLS" type="xs:int" minOccurs="0" />
+              <xs:element name="PJSD_Enable" msprop:Generator_ColumnVarNameInTable="columnPJSD_Enable" msprop:Generator_ColumnPropNameInRow="PJSD_Enable" msprop:Generator_ColumnPropNameInTable="PJSD_EnableColumn" msprop:Generator_UserColumnName="PJSD_Enable" type="xs:boolean" />
+              <xs:element name="delflag" msprop:Generator_ColumnVarNameInTable="columndelflag" msprop:Generator_ColumnPropNameInRow="delflag" msprop:Generator_ColumnPropNameInTable="delflagColumn" msprop:Generator_UserColumnName="delflag" type="xs:boolean" />
+              <xs:element name="addtime" msprop:Generator_ColumnVarNameInTable="columnaddtime" msprop:Generator_ColumnPropNameInRow="addtime" msprop:Generator_ColumnPropNameInTable="addtimeColumn" msprop:Generator_UserColumnName="addtime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="updatetime" msprop:Generator_ColumnVarNameInTable="columnupdatetime" msprop:Generator_ColumnPropNameInRow="updatetime" msprop:Generator_ColumnPropNameInTable="updatetimeColumn" msprop:Generator_UserColumnName="updatetime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="updateuser" msprop:Generator_ColumnVarNameInTable="columnupdateuser" msprop:Generator_ColumnPropNameInRow="updateuser" msprop:Generator_ColumnPropNameInTable="updateuserColumn" msprop:Generator_UserColumnName="updateuser" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_Latitude" msprop:Generator_ColumnVarNameInTable="columnPJSD_Latitude" msprop:Generator_ColumnPropNameInRow="PJSD_Latitude" msprop:Generator_ColumnPropNameInTable="PJSD_LatitudeColumn" msprop:Generator_UserColumnName="PJSD_Latitude" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PJSD_Longitude" msprop:Generator_ColumnVarNameInTable="columnPJSD_Longitude" msprop:Generator_ColumnPropNameInRow="PJSD_Longitude" msprop:Generator_ColumnPropNameInTable="PJSD_LongitudeColumn" msprop:Generator_UserColumnName="PJSD_Longitude" type="xs:decimal" minOccurs="0" />
+              <xs:element name="PJSD_SBType" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnPJSD_SBType" msprop:Generator_ColumnPropNameInRow="PJSD_SBType" msprop:Generator_ColumnPropNameInTable="PJSD_SBTypeColumn" msprop:Generator_UserColumnName="PJSD_SBType" type="xs:string" minOccurs="0" />
+              <xs:element name="PJSD_SQ" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnPJSD_SQ" msprop:Generator_ColumnPropNameInRow="PJSD_SQ" msprop:Generator_ColumnPropNameInTable="PJSD_SQColumn" msprop:Generator_UserColumnName="PJSD_SQ" type="xs:string" minOccurs="0" />
+              <xs:element name="PJSD_FZR" msprop:Generator_ColumnVarNameInTable="columnPJSD_FZR" msprop:Generator_ColumnPropNameInRow="PJSD_FZR" msprop:Generator_ColumnPropNameInTable="PJSD_FZRColumn" msprop:Generator_UserColumnName="PJSD_FZR" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_FZRDH" msprop:Generator_ColumnVarNameInTable="columnPJSD_FZRDH" msprop:Generator_ColumnPropNameInRow="PJSD_FZRDH" msprop:Generator_ColumnPropNameInTable="PJSD_FZRDHColumn" msprop:Generator_UserColumnName="PJSD_FZRDH" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_FZRSJ" msprop:Generator_ColumnVarNameInTable="columnPJSD_FZRSJ" msprop:Generator_ColumnPropNameInRow="PJSD_FZRSJ" msprop:Generator_ColumnPropNameInTable="PJSD_FZRSJColumn" msprop:Generator_UserColumnName="PJSD_FZRSJ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_GPRQ" msprop:Generator_ColumnVarNameInTable="columnPJSD_GPRQ" msprop:Generator_ColumnPropNameInRow="PJSD_GPRQ" msprop:Generator_ColumnPropNameInTable="PJSD_GPRQColumn" msprop:Generator_UserColumnName="PJSD_GPRQ" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_JC" msprop:Generator_ColumnVarNameInTable="columnPJSD_JC" msprop:Generator_ColumnPropNameInRow="PJSD_JC" msprop:Generator_ColumnPropNameInTable="PJSD_JCColumn" msprop:Generator_UserColumnName="PJSD_JC" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MS_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnMS_ID" msprop:Generator_ColumnPropNameInRow="MS_ID" msprop:Generator_ColumnPropNameInTable="MS_IDColumn" msprop:Generator_UserColumnName="MS_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="PJSD_GL" msprop:Generator_ColumnVarNameInTable="columnPJSD_GL" msprop:Generator_ColumnPropNameInRow="PJSD_GL" msprop:Generator_ColumnPropNameInTable="PJSD_GLColumn" msprop:Generator_UserColumnName="PJSD_GL" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_KBRQ" msprop:Generator_ColumnVarNameInTable="columnPJSD_KBRQ" msprop:Generator_ColumnPropNameInRow="PJSD_KBRQ" msprop:Generator_ColumnPropNameInTable="PJSD_KBRQColumn" msprop:Generator_UserColumnName="PJSD_KBRQ" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PJSD_TBRQ" msprop:Generator_ColumnVarNameInTable="columnPJSD_TBRQ" msprop:Generator_ColumnPropNameInRow="PJSD_TBRQ" msprop:Generator_ColumnPropNameInTable="PJSD_TBRQColumn" msprop:Generator_UserColumnName="PJSD_TBRQ" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PJSD_TBYY" msprop:Generator_ColumnVarNameInTable="columnPJSD_TBYY" msprop:Generator_ColumnPropNameInRow="PJSD_TBYY" msprop:Generator_ColumnPropNameInTable="PJSD_TBYYColumn" msprop:Generator_UserColumnName="PJSD_TBYY" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_PEOPLE" msprop:Generator_ColumnVarNameInTable="columnPJSD_PEOPLE" msprop:Generator_ColumnPropNameInRow="PJSD_PEOPLE" msprop:Generator_ColumnPropNameInTable="PJSD_PEOPLEColumn" msprop:Generator_UserColumnName="PJSD_PEOPLE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PJSD_PHONE" msprop:Generator_ColumnVarNameInTable="columnPJSD_PHONE" msprop:Generator_ColumnPropNameInRow="PJSD_PHONE" msprop:Generator_ColumnPropNameInTable="PJSD_PHONEColumn" msprop:Generator_UserColumnName="PJSD_PHONE" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="tb_b_User_PJSD_GL" msprop:Generator_TableClassName="tb_b_User_PJSD_GLDataTable" msprop:Generator_TableVarName="tabletb_b_User_PJSD_GL" msprop:Generator_TablePropName="tb_b_User_PJSD_GL" msprop:Generator_RowDeletingName="tb_b_User_PJSD_GLRowDeleting" msprop:Generator_RowChangingName="tb_b_User_PJSD_GLRowChanging" msprop:Generator_RowEvHandlerName="tb_b_User_PJSD_GLRowChangeEventHandler" msprop:Generator_RowDeletedName="tb_b_User_PJSD_GLRowDeleted" msprop:Generator_UserTableName="tb_b_User_PJSD_GL" msprop:Generator_RowChangedName="tb_b_User_PJSD_GLRowChanged" msprop:Generator_RowEvArgName="tb_b_User_PJSD_GLRowChangeEvent" msprop:Generator_RowClassName="tb_b_User_PJSD_GLRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="UGP_id" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnUGP_id" msprop:Generator_ColumnPropNameInRow="UGP_id" msprop:Generator_ColumnPropNameInTable="UGP_idColumn" msprop:Generator_UserColumnName="UGP_id" type="xs:string" />
+              <xs:element name="User_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnUser_ID" msprop:Generator_ColumnPropNameInRow="User_ID" msprop:Generator_ColumnPropNameInTable="User_IDColumn" msprop:Generator_UserColumnName="User_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="PJSD_ID" msdata:DataType="System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" msprop:Generator_ColumnVarNameInTable="columnPJSD_ID" msprop:Generator_ColumnPropNameInRow="PJSD_ID" msprop:Generator_ColumnPropNameInTable="PJSD_IDColumn" msprop:Generator_UserColumnName="PJSD_ID" type="xs:string" minOccurs="0" />
+              <xs:element name="delflag" msprop:Generator_ColumnVarNameInTable="columndelflag" msprop:Generator_ColumnPropNameInRow="delflag" msprop:Generator_ColumnPropNameInTable="delflagColumn" msprop:Generator_UserColumnName="delflag" type="xs:boolean" minOccurs="0" />
+              <xs:element name="addtime" msprop:Generator_ColumnVarNameInTable="columnaddtime" msprop:Generator_ColumnPropNameInRow="addtime" msprop:Generator_ColumnPropNameInTable="addtimeColumn" msprop:Generator_UserColumnName="addtime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="updatetime" msprop:Generator_ColumnVarNameInTable="columnupdatetime" msprop:Generator_ColumnPropNameInRow="updatetime" msprop:Generator_ColumnPropNameInTable="updatetimeColumn" msprop:Generator_UserColumnName="updatetime" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="updateuser" msprop:Generator_ColumnVarNameInTable="columnupdateuser" msprop:Generator_ColumnPropNameInRow="updateuser" msprop:Generator_ColumnPropNameInTable="updateuserColumn" msprop:Generator_UserColumnName="updateuser" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tb_b_DW" />
+      <xs:field xpath="mstns:DW_ID" />
+    </xs:unique>
+    <xs:unique name="tb_b_PJNMGL_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tb_b_PJNMGL" />
+      <xs:field xpath="mstns:PJSD_ID" />
+      <xs:field xpath="mstns:NMSC_ID" />
+    </xs:unique>
+    <xs:unique name="tb_b_PJSD_TBJL_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tb_b_PJSD_TBJL" />
+      <xs:field xpath="mstns:TB_ID" />
+    </xs:unique>
+    <xs:unique name="tb_b_PJSD_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tb_b_PJSD" />
+      <xs:field xpath="mstns:PJSD_ID" />
+    </xs:unique>
+    <xs:unique name="tb_b_User_PJSD_GL_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:tb_b_User_PJSD_GL" />
+      <xs:field xpath="mstns:UGP_id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
