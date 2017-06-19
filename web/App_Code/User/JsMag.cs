@@ -60,10 +60,9 @@ public class JsMag
                 //新增
                 string jsid = Guid.NewGuid().ToString();
 
-                string sqlStr = @"insert into tb_b_JS(JS_ID,JS_NAME,JS_PX,JS_Type,JS_ZT,status,updatetime,addtime,updateuser)
-                                  values(@JS_ID,@JS_NAME,@JS_PX,@JS_Type,@JS_ZT,@status,@updatetime,@addtime,@updateuser)";
+                string sqlStr = @"insert into tb_b_JS(JS_NAME,JS_PX,JS_Type,JS_ZT,status,updatetime,addtime,updateuser)
+                                  values(@JS_NAME,@JS_PX,@JS_Type,@JS_ZT,@status,@updatetime,@addtime,@updateuser)";
                 MySqlCommand cmd = new MySqlCommand(sqlStr);
-                cmd.Parameters.Add("@JS_ID", jsid);
                 cmd.Parameters.Add("@JS_NAME", lbmc);
                 cmd.Parameters.Add("@JS_PX", jsr["JS_PX"].ToInteger());
                 cmd.Parameters.Add("@JS_Type", jsr["JS_Type"].ToInteger());
@@ -77,7 +76,7 @@ public class JsMag
             else
             {
                 //修改
-                string jsid = jsr["JS_ID"].ToString();
+                int jsid = Convert.ToInt32(jsr["JS_ID"].ToString());
 
                 //User.tb_b_JSDataTable hh = new User.tb_b_JSDataTable();
                 //User.tb_b_JSRow sr = hh.Newtb_b_JSRow();

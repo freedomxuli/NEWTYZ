@@ -15,7 +15,7 @@ using MySql.Data.MySqlClient;
 [CSClass("SystemUser")]
 public class SystemUser
 {
-    
+
 
     private DataRow m_data;
 
@@ -24,10 +24,12 @@ public class SystemUser
         get { return m_data["Password"].ToString(); }
     }
 
-    public string UserID {
+    public string UserID
+    {
         get { return m_data["YH_ID"].ToString(); }
     }
-    public string LoginName {
+    public string LoginName
+    {
         get { return m_data["YH_DLM"].ToString(); }
     }
     public string UserName
@@ -93,8 +95,8 @@ public class SystemUser
             if (dtUser.Rows.Count > 0)
             {
                 su.m_data = dtUser.Rows[0];
-            
-                HttpContext.Current.Response.Cookies.Add(new HttpCookie("userid", dtUser.Rows[0]["YH_ID"].ToString()) { HttpOnly = true});
+
+                HttpContext.Current.Response.Cookies.Add(new HttpCookie("userid", dtUser.Rows[0]["YH_ID"].ToString()) { HttpOnly = true });
                 return su;
             }
             return null;
@@ -200,13 +202,13 @@ public class SystemUser
     /// <param name="password">密码</param>
     /// <param name="dwid">所属单位ID</param>
     /// <returns>是否创建成功</returns>
-    public static bool CreateUser(string 登陆名, string 姓名, string 密码, string 部门ID, string 电话, string 职务, string 手机,string 电子邮件,string 地址)
+    public static bool CreateUser(string 登陆名, string 姓名, string 密码, string 部门ID, string 电话, string 职务, string 手机, string 电子邮件, string 地址)
     {
         string sqlStr = "insert into TZJGJC_T_YH (User_ID,LoginName,Password,User_XM,User_ZW,User_DH,User_SJ,User_Email,User_DZ,User_Enable,User_DelFlag,addtime,updatetime,updateuser) " +
                 "values (@User_ID,@LoginName,@Password,@User_XM,@User_ZW,@User_DH,@User_SJ,@User_Email,@User_DZ,@User_Enable,@User_DelFlag,@addtime,@updatetime,@updateuser)";
         var YHID = Guid.NewGuid().ToString();
         var EditUser = SystemUser.CurrentUser;
-        MySqlCommand  cmd = new MySqlCommand(sqlStr);
+        MySqlCommand cmd = new MySqlCommand(sqlStr);
         cmd.Parameters.AddWithValue("@User_ID", YHID);
         cmd.Parameters.AddWithValue("@LoginName", 登陆名);
         cmd.Parameters.AddWithValue("@Password", 密码);
@@ -241,7 +243,7 @@ public class SystemUser
         StringBuilder sqlCmd = new StringBuilder();
         MySqlCommand cmd = new MySqlCommand();
         sqlCmd.Append("SELECT count(*) FROM tb_b_YH_YHQX WHERE UserID=@UserID ");
-        cmd.Parameters.Add("@UserID",MySqlDbType.VarChar).Value = new Guid(UserID);
+        cmd.Parameters.Add("@UserID", UserID);
         if (pids != null)
         {
             sqlCmd.Append(" AND (");
@@ -370,7 +372,7 @@ public class SystemUser
     public void RemovePriviledge(Guid Priviledge)
     {
         DBConnection conn = new DBConnection();
-        MySqlCommand cmd = new MySqlCommand ();
+        MySqlCommand cmd = new MySqlCommand();
         cmd.CommandText = "delete from tb_b_YH_YHQX where PrivilegeCode = @PrivilegeCode and UserID=@UserID";
         cmd.Parameters.Add("@PrivilegeCode", MySqlDbType.VarChar).Value = Priviledge;
         cmd.Parameters.Add("@UserID", MySqlDbType.VarChar).Value = new Guid(UserID);

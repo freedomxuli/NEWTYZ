@@ -40,7 +40,7 @@ public class UserMag
                 string where = "";
                 if (!string.IsNullOrEmpty(jsid))
                 {
-                    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID='" + jsid + "' and delflag=0 )";
+                    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID=" + jsid + " and delflag=0 )";
                 }
 
                 if (!string.IsNullOrEmpty(xm.Trim()))
@@ -73,7 +73,7 @@ public class UserMag
             dbc.BeginTransaction();
             try
             {
-                string str = "SELECT * FROM tb_b_User_JS_Gl where delflag=0 AND JS_ID='F6613AFB-06E2-454A-881F-8C51483976F3' and USER_ID='" + userid + "'";
+                string str = "SELECT * FROM tb_b_User_JS_Gl where delflag=0 AND JS_ID='F6613AFB-06E2-454A-881F-8C51483976F3' and USER_ID=" + userid + "";
                 DataTable dt = dbc.ExecuteDataTable(str);
                 if (dt.Rows.Count == 1)
                 {
@@ -117,7 +117,7 @@ public class UserMag
                 string where = "";
                 if (!string.IsNullOrEmpty(jsid))
                 {
-                    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID='" + jsid + "' and delflag=0 )";
+                    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID=" + jsid + " and delflag=0 )";
                 }
 
                 if (!string.IsNullOrEmpty(yhm.Trim()))
@@ -200,9 +200,9 @@ public class UserMag
 
         using (DBConnection dbc = new DBConnection())
         {
-            string sqlStrUser = "select * from tb_b_Users where User_ID='" + UserId + "'";
+            string sqlStrUser = "select * from tb_b_Users where User_ID=" + UserId + "";
             DataTable dtuser = dbc.ExecuteDataTable(sqlStrUser);
-            string sqlStrJs = "select distinct JS_ID from tb_b_User_JS_Gl where delflag=0 and User_ID='" + UserId + "'";
+            string sqlStrJs = "select distinct JS_ID from tb_b_User_JS_Gl where delflag=0 and User_ID=" + UserId + "";
             DataTable dtjs = dbc.ExecuteDataTable(sqlStrJs);
 
             return new { dtuser = dtuser, dtjs = dtjs };
@@ -213,7 +213,7 @@ public class UserMag
     [CSMethod("GetUser")]
     public DataTable GetUser(string UserId)
     {
-        string sqlStr = "select * from tb_b_Users where User_ID='" + UserId + "'";
+        string sqlStr = "select * from tb_b_Users where User_ID=" + UserId + "";
         using (DBConnection dbc = new DBConnection())
         {
             return dbc.ExecuteDataTable(sqlStr);
@@ -223,7 +223,7 @@ public class UserMag
     [CSMethod("GetUserJs")]
     public DataTable GetUserJs(string UserId)
     {
-        string sqlStr = "select distinct JS_ID from tb_b_User_JS_Gl where delflag=0 and User_ID='" + UserId + "'";
+        string sqlStr = "select distinct JS_ID from tb_b_User_JS_Gl where delflag=0 and User_ID=" + UserId + "";
         using (DBConnection dbc = new DBConnection())
         {
             return dbc.ExecuteDataTable(sqlStr);
@@ -246,14 +246,14 @@ public class UserMag
         using (DBConnection dbc = new DBConnection())
         {
             DataTable dt = new DataTable();
-            string sqlStr = "select * from tb_b_JS where status=0 and JS_ID='" + jsid + "'";
+            string sqlStr = "select * from tb_b_JS where status=0 and JS_ID=" + jsid + "";
             DataTable dtjs = dbc.ExecuteDataTable(sqlStr);
             if (dtjs != null && dtjs.Rows.Count > 0)
             {
                 int jstype = Convert.ToInt32(dtjs.Rows[0]["JS_Type"]);
                 if (jstype == 0)
                 {
-                    string str = "select distinct DW_ID from tb_b_User_Dw_Gl where delflag=0 and DW_ID in(SELECT DW_ID  FROM tb_b_Department where STATUS=0) and User_ID='" + UserId + "'";
+                    string str = "select distinct DW_ID from tb_b_User_Dw_Gl where delflag=0 and DW_ID in(SELECT DW_ID  FROM tb_b_Department where STATUS=0) and User_ID=" + UserId + "";
                     dt = dbc.ExecuteDataTable(str);
                 }
                 else
@@ -261,10 +261,10 @@ public class UserMag
                     switch (jsid.ToUpper())
                     {
                         case "F6613AFB-06E2-454A-881F-8C51483976F3":
-                            dt = dbc.ExecuteDataTable("select distinct DW_ID from tb_b_User_Dw_Gl where delflag=0 and DW_ID in( select DW_ID from tb_b_DW where DW_LX=4 and STATUS=0) and User_ID='" + UserId + "'");
+                            dt = dbc.ExecuteDataTable("select distinct DW_ID from tb_b_User_Dw_Gl where delflag=0 and DW_ID in( select DW_ID from tb_b_DW where DW_LX=4 and STATUS=0) and User_ID=" + UserId + "");
                             break;
                         case "7E53492E-CF66-411F-83C4-7923467F59B4":
-                            dt = dbc.ExecuteDataTable("select distinct DW_ID from tb_b_User_Dw_Gl where delflag=0 and DW_ID in( select PJSD_ID from tb_b_PJSD where delflag=0) and User_ID='" + UserId + "'");
+                            dt = dbc.ExecuteDataTable("select distinct DW_ID from tb_b_User_Dw_Gl where delflag=0 and DW_ID in( select PJSD_ID from tb_b_PJSD where delflag=0) and User_ID=" + UserId + "");
                             break;
                     }
                 }
@@ -280,7 +280,7 @@ public class UserMag
         using (DBConnection dbc = new DBConnection())
         {
             DataTable dt = new DataTable();
-            string sqlStr = "select * from tb_b_JS where status=0 and JS_ID='" + jsid + "'";
+            string sqlStr = "select * from tb_b_JS where status=0 and JS_ID=" + jsid + "";
             DataTable dtjs = dbc.ExecuteDataTable(sqlStr);
             if (dtjs != null && dtjs.Rows.Count > 0)
             {
@@ -323,7 +323,7 @@ public class UserMag
                 //用户关联
                 DataTable dtusergl = new DataTable();
 
-                string sqlStr = "select * from tb_b_JS where status=0 and JS_ID='" + jsid + "'";
+                string sqlStr = "select * from tb_b_JS where status=0 and JS_ID=" + jsid + "";
                 DataTable dtjs = dbc.ExecuteDataTable(sqlStr);
 
                 if (dtjs != null && dtjs.Rows.Count > 0)
@@ -336,7 +336,7 @@ public class UserMag
                         dtqx = dbc.ExecuteDataTable(str2);
                         if (UserId != null)
                         {
-                            string str3 = "select a.PRIVILEGECODE,b.MODULENAME from tb_b_YH_YHQX a left join tb_b_YH_QX b on a.PRIVILEGECODE=b.PRIVILEGECODE where USERID='" + UserId + "'";
+                            string str3 = "select a.PRIVILEGECODE,b.MODULENAME from tb_b_YH_YHQX a left join tb_b_YH_QX b on a.PRIVILEGECODE=b.PRIVILEGECODE where USERID=" + UserId + "";
                             dtqxgl = dbc.ExecuteDataTable(str3);
                         }
                     }
@@ -346,7 +346,7 @@ public class UserMag
                         dtqx = dbc.ExecuteDataTable(str2);
                         if (UserId != null)
                         {
-                            string str3 = "select a.PRIVILEGECODE,b.MODULENAME from tb_b_YH_YHQX a left join tb_b_YH_QX b on a.PRIVILEGECODE=b.PRIVILEGECODE where USERID='" + UserId + "'";
+                            string str3 = "select a.PRIVILEGECODE,b.MODULENAME from tb_b_YH_YHQX a left join tb_b_YH_QX b on a.PRIVILEGECODE=b.PRIVILEGECODE where USERID=" + UserId + "";
                             dtqxgl = dbc.ExecuteDataTable(str3);
                         }
 
@@ -433,11 +433,10 @@ public class UserMag
                     }
                     else
                     {
-                        sqlStr = "insert into tb_b_Users (User_ID,LoginName,Password,User_DM,User_XM,User_ZW,User_DH,User_SJ,User_Email,User_DZ,User_Enable,User_DelFlag,addtime,updatetime,updateuser) " +
-                            "values (@User_ID,@LoginName,@Password,@User_DM,@User_XM,@User_ZW,@User_DH,@User_SJ,@User_Email,@User_DZ,@User_Enable,@User_DelFlag,@addtime,@updatetime,@updateuser)";
+                        sqlStr = "insert into tb_b_Users (LoginName,Password,User_DM,User_XM,User_ZW,User_DH,User_SJ,User_Email,User_DZ,User_Enable,User_DelFlag,addtime,updatetime,updateuser) " +
+                            "values (@LoginName,@Password,@User_DM,@User_XM,@User_ZW,@User_DH,@User_SJ,@User_Email,@User_DZ,@User_Enable,@User_DelFlag,@addtime,@updatetime,@updateuser)";
                     }
                     MySqlCommand cmd = new MySqlCommand(sqlStr);
-                    cmd.Parameters.AddWithValue("@User_ID", YHID);
                     cmd.Parameters.AddWithValue("@LoginName", jsr["LoginName"].ToString());
                     cmd.Parameters.AddWithValue("@Password", jsr["Password"].ToString());
                     cmd.Parameters.AddWithValue("@User_DM", jsr["User_DM"].ToString());
@@ -462,9 +461,8 @@ public class UserMag
                     //建立用户角色关联
                     for (int i = 0; i < yhjs.ToArray().Length; i++)
                     {
-                        string sqlstr_js = "insert into tb_b_User_JS_Gl (UserGl_id,User_ID,JS_ID,delflag,addtime,updatetime,updateuser) values(@UserGl_id,@User_ID,@JS_ID,@delflag,@addtime,@updatetime,@updateuser)";
+                        string sqlstr_js = "insert into tb_b_User_JS_Gl (User_ID,JS_ID,delflag,addtime,updatetime,updateuser) values(@User_ID,@JS_ID,@delflag,@addtime,@updatetime,@updateuser)";
                         cmd = new MySqlCommand(sqlstr_js);
-                        cmd.Parameters.AddWithValue("@UserGl_id", Guid.NewGuid());
                         cmd.Parameters.AddWithValue("@User_ID", YHID);
                         cmd.Parameters.AddWithValue("@JS_ID", yhjs.ToArray()[i].ToString());
                         cmd.Parameters.AddWithValue("@delflag", 0);
@@ -567,9 +565,8 @@ public class UserMag
                     //建立用户角色关联
                     for (int i = 0; i < yhjs.ToArray().Length; i++)
                     {
-                        string sqlstr_js = "insert into tb_b_User_JS_Gl (UserGl_id,User_ID,JS_ID,delflag,addtime,updatetime,updateuser) values(@UserGl_id,@User_ID,@JS_ID,@delflag,@addtime,@updatetime,@updateuser)";
+                        string sqlstr_js = "insert into tb_b_User_JS_Gl (User_ID,JS_ID,delflag,addtime,updatetime,updateuser) values(@User_ID,@JS_ID,@delflag,@addtime,@updatetime,@updateuser)";
                         cmd = new MySqlCommand(sqlstr_js);
-                        cmd.Parameters.AddWithValue("@UserGl_id", Guid.NewGuid());
                         cmd.Parameters.AddWithValue("@User_ID", YHID);
                         cmd.Parameters.AddWithValue("@JS_ID", yhjs.ToArray()[i].ToString());
                         cmd.Parameters.AddWithValue("@delflag", 0);
@@ -679,7 +676,7 @@ public class UserMag
             return false;
         using (DBConnection dbc = new DBConnection())
         {
-            int retInt = dbc.ExecuteNonQuery("update tb_b_Users set User_DelFlag = 1 where user_id = '" + userid + "'");
+            int retInt = dbc.ExecuteNonQuery("update tb_b_Users set User_DelFlag = 1 where user_id = " + userid + "");
             if (retInt > 0)
                 return true;
             return false;
@@ -737,7 +734,7 @@ public class UserMag
     {
         if (userIds.Length > 0)
         {
-            string userIdStr = "'" + string.Join(",", userIds).Replace(",", "','") + "'";
+            string userIdStr = string.Join(",", userIds);
             var sqlStr = string.Format("update tb_b_Users set User_Enable = @YH_ENABLE where User_ID IN({0})", userIdStr);
             MySqlCommand cmd = new MySqlCommand(sqlStr);
             cmd.Parameters.AddWithValue("@YH_ENABLE", enable ? 0 : 1);

@@ -277,7 +277,7 @@ Ext.onReady(function () {
                     boxLabel: retVal[i].JS_NAME,
                     name: 'yhjs',
                     hideLabel: true,
-                    inputValue: retVal[i].JS_ID,
+                    inputValue: retVal[i].JS_ID + '',
                     handler: function (chk, checked) {
                         var jsid = this.inputValue;
                         var jsname = this.boxLabel;
@@ -331,12 +331,12 @@ Ext.onReady(function () {
                                     });
                                     Ext.getCmp("jstab").add(qxpan);
                                 }
-                       
+
                                 //Ext.getCmp("jstab").setActiveTab(jspan);
                                 var usergl = retVal.usergl;
-                            
+
                                 if (dtqx.length > 0) {
-                              
+
                                     Ext.getCmp("jstab").setActiveTab(qxpan);
                                     var qxgl = retVal.dtqxgl;
 
@@ -382,7 +382,7 @@ Ext.onReady(function () {
                         }
 
                         Ext.getCmp("yhjsGroup").setValue({
-                            yhjs: jsids
+                            yhjs: jsids + ''
                         });
 
                     }

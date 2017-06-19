@@ -117,9 +117,9 @@ public class PrivilegeDescription
     /// <returns></returns>
     public static bool IsNeedAreaPrivilege(string lmmc)
     {
-        using(DBConnection dbc=new DBConnection())
+        using (DBConnection dbc = new DBConnection())
         {
-            string sql = "select MK_ISQY from tb_b_MK where MK_MC like '%"+lmmc.Trim()+"%'";
+            string sql = "select MK_ISQY from tb_b_MK where MK_MC like '%" + lmmc.Trim() + "%'";
             return Convert.ToBoolean(dbc.ExecuteScalar(sql));
         }
     }
