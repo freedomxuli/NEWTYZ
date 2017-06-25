@@ -11,6 +11,7 @@ using SmartFramework4v2.Web.Common.JSON;
 using SmartFramework4v2.Data;
 using SmartFramework4v2.Data.MySql;
 using MySql.Data.MySqlClient;
+using System.IO;
 /// <summary>
 ///UserMag 的摘要说明
 /// </summary>
@@ -93,19 +94,19 @@ public class UserMag
     }
 
     [CSMethod("GetUserList")]
-    public object GetUserList(int pagnum, int pagesize, string jsid, string yhm, string xm, string dm)
+    public object GetUserList(int pagnum, int pagesize, string xm, string gh, string sdate, string edate, string qy, string zt)
     {
-        if (!string.IsNullOrEmpty(jsid))
-        {
-            try
-            {
-                Guid guid = new Guid(jsid);
-            }
-            catch
-            {
-                throw new Exception("角色ID出错！");
-            }
-        }
+        //if (!string.IsNullOrEmpty(jsid))
+        //{
+        //    try
+        //    {
+        //        Guid guid = new Guid(jsid);
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception("角色ID出错！");
+        //    }
+        //}
 
         using (DBConnection dbc = new DBConnection())
         {
@@ -115,26 +116,37 @@ public class UserMag
                 int ac = 0;
 
                 string where = "";
-                if (!string.IsNullOrEmpty(jsid))
-                {
-                    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID=" + jsid + " and delflag=0 )";
-                }
-
-                if (!string.IsNullOrEmpty(yhm.Trim()))
-                {
-                    where += " and " + dbc.C_Like("LoginName", yhm.Trim(), LikeStyle.LeftAndRightLike);
-                }
+                //if (!string.IsNullOrEmpty(jsid))
+                //{
+                //    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID=" + jsid + " and delflag=0 )";
+                //}
 
                 if (!string.IsNullOrEmpty(xm.Trim()))
                 {
                     where += " and " + dbc.C_Like("User_XM", xm.Trim(), LikeStyle.LeftAndRightLike);
                 }
-                if (!string.IsNullOrEmpty(dm.Trim()))
+                if (!string.IsNullOrEmpty(gh.Trim()))
                 {
-                    where += " and " + dbc.C_Like("User_DM", dm.Trim(), LikeStyle.LeftAndRightLike);
+                    where += " and " + dbc.C_Like("User_JobNo", gh.Trim(), LikeStyle.LeftAndRightLike);
+                }
+                if (!string.IsNullOrEmpty(sdate))
+                {
+                    where += " and StartDate>=" + dbc.ToSqlValue(sdate);
+                }
+                if (!string.IsNullOrEmpty(edate))
+                {
+                    where += " and EndDate<=" + dbc.ToSqlValue(edate);
+                }
+                if (!string.IsNullOrEmpty(qy))
+                {
+                    where += " and QY_ID=" + qy;
+                }
+                if (!string.IsNullOrEmpty(zt))
+                {
+                    where += " and User_Enable=" + zt;
                 }
 
-                string str = "select * from tb_b_Users where User_DelFlag=0  ";
+                string str = "select a.*,b.QY_NAME from tb_b_Users a left join tb_b_qy b on a.QY_ID=b.QY_ID where User_DelFlag=0  ";
                 str += where;
 
                 //开始取分页数据
@@ -392,7 +404,7 @@ public class UserMag
     }
 
     [CSMethod("SaveUser")]
-    public bool SaveUser(JSReader jsr, JSReader yhjs, JSReader yhjsdw, JSReader qxids)
+    public bool SaveUser(JSReader jsr, JSReader yhjs, JSReader yhjsdw, JSReader qxids, JSReader fj)
     {
         if (jsr["LoginName"].IsNull || jsr["LoginName"].IsEmpty)
         {
@@ -426,37 +438,64 @@ public class UserMag
                     var YHID = Guid.NewGuid().ToString();
                     //建立用户
                     string sqlStr = "";
-                    if (jsr["QY_ID"].ToString() != "")
-                    {
-                        sqlStr = "insert into tb_b_Users (User_ID,LoginName,Password,User_DM,User_XM,User_ZW,User_DH,User_SJ,User_Email,User_DZ,User_Enable,User_DelFlag,addtime,updatetime,updateuser,QY_ID) " +
-                            "values (@User_ID,@LoginName,@Password,@User_DM,@User_XM,@User_ZW,@User_DH,@User_SJ,@User_Email,@User_DZ,@User_Enable,@User_DelFlag,@addtime,@updatetime,@updateuser,@qyid)";
-                    }
-                    else
-                    {
-                        sqlStr = "insert into tb_b_Users (LoginName,Password,User_DM,User_XM,User_ZW,User_DH,User_SJ,User_Email,User_DZ,User_Enable,User_DelFlag,addtime,updatetime,updateuser) " +
-                            "values (@LoginName,@Password,@User_DM,@User_XM,@User_ZW,@User_DH,@User_SJ,@User_Email,@User_DZ,@User_Enable,@User_DelFlag,@addtime,@updatetime,@updateuser)";
-                    }
+                    //if (jsr["QY_ID"].ToString() != "")
+                    //{
+                    sqlStr = "insert into tb_b_Users (LoginName,Password,User_XM,User_SJ,User_Email,User_DZ,User_Enable,User_DelFlag,addtime,updatetime,updateuser,QY_ID,User_Sex,User_Age,User_From,User_Education,User_JobNo,User_IdCard,User_ContractNo,User_Mode,StartDate,EndDate) " +
+                                             "values (@LoginName,@Password,@User_XM,@User_SJ,@User_Email,@User_DZ,@User_Enable,@User_DelFlag,@addtime,@updatetime,@updateuser,@qyid,@User_Sex,@User_Age,@User_From,@User_Education,@User_JobNo,@User_IdCard,@User_ContractNo,@User_Mode,@StartDate,@EndDate)";
+
+
+                    //}
+                    //else
+                    //{
+                    //    sqlStr = "insert into tb_b_Users (LoginName,Password,User_DM,User_XM,User_ZW,User_DH,User_SJ,User_Email,User_DZ,User_Enable,User_DelFlag,addtime,updatetime,updateuser) " +
+                    //        "values (@LoginName,@Password,@User_DM,@User_XM,@User_ZW,@User_DH,@User_SJ,@User_Email,@User_DZ,@User_Enable,@User_DelFlag,@addtime,@updatetime,@updateuser)";
+                    //}
                     MySqlCommand cmd = new MySqlCommand(sqlStr);
                     cmd.Parameters.AddWithValue("@LoginName", jsr["LoginName"].ToString());
                     cmd.Parameters.AddWithValue("@Password", jsr["Password"].ToString());
-                    cmd.Parameters.AddWithValue("@User_DM", jsr["User_DM"].ToString());
                     cmd.Parameters.AddWithValue("@User_XM", jsr["User_XM"].ToString());
-                    cmd.Parameters.AddWithValue("@User_ZW", jsr["User_ZW"].ToString());
-                    cmd.Parameters.AddWithValue("@User_DH", jsr["User_DH"].ToString());
                     cmd.Parameters.AddWithValue("@User_SJ", jsr["User_SJ"].ToString());
                     cmd.Parameters.AddWithValue("@User_Email", jsr["User_Email"].ToString());
                     cmd.Parameters.AddWithValue("@User_DZ", jsr["User_DZ"].ToString());
-                    if (jsr["QY_ID"].ToString() != "")
-                    {
-                        cmd.Parameters.AddWithValue("@qyid", jsr["QY_ID"].ToString());
-                    }
+
+                    cmd.Parameters.AddWithValue("@qyid", jsr["QY_ID"].ToString());
+
                     cmd.Parameters.AddWithValue("@User_Enable", Convert.ToInt32(jsr["User_Enable"].ToString()));
                     cmd.Parameters.AddWithValue("@User_DelFlag", 0);
                     cmd.Parameters.AddWithValue("@addtime", DateTime.Now);
                     cmd.Parameters.AddWithValue("@updatetime", DateTime.Now);
                     cmd.Parameters.AddWithValue("@updateuser", EditUser.UserID);
 
+                    cmd.Parameters.AddWithValue("@User_Sex", jsr["User_Sex"].ToString());
+                    cmd.Parameters.AddWithValue("@User_Age", Convert.ToInt32(jsr["User_Age"].ToString()));
+                    cmd.Parameters.AddWithValue("@User_From", jsr["User_From"].ToString());
+                    cmd.Parameters.AddWithValue("@User_Education", jsr["User_Education"].ToString());
+                    cmd.Parameters.AddWithValue("@User_JobNo", jsr["User_JobNo"].ToString());
+                    cmd.Parameters.AddWithValue("@User_IdCard", jsr["User_IdCard"].ToString());
+                    cmd.Parameters.AddWithValue("@User_ContractNo", jsr["User_ContractNo"].ToString());
+                    cmd.Parameters.AddWithValue("@User_Mode", jsr["User_Mode"].ToString());
+                    cmd.Parameters.AddWithValue("@StartDate", Convert.ToDateTime(jsr["StartDate"].ToString()));
+                    cmd.Parameters.AddWithValue("@EndDate", Convert.ToDateTime(jsr["EndDate"].ToString()));
+
                     dbc.ExecuteNonQuery(cmd);
+
+                    var fj_arr = fj.ToArray();
+                    if (fj_arr.Length > 0)
+                    {
+                        var fj_ids = "";
+                        for (int i = 0; i < fj_arr.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                fj_ids += "'" + fj_arr[i].ToString() + "'";
+                            }
+                            else
+                            {
+                                fj_ids += ",'" + fj_arr[i].ToString() + "'";
+                            }
+                        }
+                        dbc.ExecuteNonQuery("update tb_b_fj set fj_pid='" + YHID + "' where status=0 and fj_id in(" + fj_ids + ")");
+                    }
 
                     //建立用户角色关联
                     for (int i = 0; i < yhjs.ToArray().Length; i++)
@@ -525,14 +564,14 @@ public class UserMag
                         con = ",QY_ID=null";
 
                     }
-                    string sqlstr = "update tb_b_Users set LoginName=@LoginName,Password=@Password,User_DM=@User_DM,User_XM=@User_XM,User_ZW=@User_ZW,User_DH=@User_DH,User_SJ=@User_SJ,User_Email=@User_Email,User_DZ=@User_DZ,User_Enable=@User_Enable,updatetime=@updatetime,updateuser=@updateuser " + con + " where User_ID=@User_ID";
+                    string sqlstr = @"update tb_b_Users set LoginName=@LoginName,Password=@Password,User_XM=@User_XM,User_SJ=@User_SJ,User_Email=@User_Email,User_DZ=@User_DZ,User_Enable=@User_Enable,updatetime=@updatetime,updateuser=@updateuser 
+,User_Sex=@User_Sex,User_Age=@User_Age,User_From=@User_From,User_Education=@User_Education,User_JobNo=@User_JobNo,User_IdCard=@User_IdCard,User_ContractNo=@User_ContractNo,User_Mode=@User_Mode,StartDate=@StartDate
+,EndDate=@EndDate
+" + con + " where User_ID=@User_ID";
                     MySqlCommand cmd = new MySqlCommand(sqlstr);
                     cmd.Parameters.AddWithValue("@LoginName", jsr["LoginName"].ToString());
                     cmd.Parameters.AddWithValue("@Password", jsr["Password"].ToString());
-                    cmd.Parameters.AddWithValue("@User_DM", jsr["User_DM"].ToString());
                     cmd.Parameters.AddWithValue("@User_XM", jsr["User_XM"].ToString());
-                    cmd.Parameters.AddWithValue("@User_ZW", jsr["User_ZW"].ToString());
-                    cmd.Parameters.AddWithValue("@User_DH", jsr["User_DH"].ToString());
                     cmd.Parameters.AddWithValue("@User_SJ", jsr["User_SJ"].ToString());
                     cmd.Parameters.AddWithValue("@User_Email", jsr["User_Email"].ToString());
                     cmd.Parameters.AddWithValue("@User_DZ", jsr["User_DZ"].ToString());
@@ -540,6 +579,17 @@ public class UserMag
                     cmd.Parameters.AddWithValue("@updatetime", DateTime.Now);
                     cmd.Parameters.AddWithValue("@updateuser", EditUser.UserID);
                     cmd.Parameters.AddWithValue("@User_ID", YHID);
+
+                    cmd.Parameters.AddWithValue("@User_Sex", jsr["User_Sex"].ToString());
+                    cmd.Parameters.AddWithValue("@User_Age", Convert.ToInt32(jsr["User_Age"].ToString()));
+                    cmd.Parameters.AddWithValue("@User_From", jsr["User_From"].ToString());
+                    cmd.Parameters.AddWithValue("@User_Education", jsr["User_Education"].ToString());
+                    cmd.Parameters.AddWithValue("@User_JobNo", jsr["User_JobNo"].ToString());
+                    cmd.Parameters.AddWithValue("@User_IdCard", jsr["User_IdCard"].ToString());
+                    cmd.Parameters.AddWithValue("@User_ContractNo", jsr["User_ContractNo"].ToString());
+                    cmd.Parameters.AddWithValue("@User_Mode", jsr["User_Mode"].ToString());
+                    cmd.Parameters.AddWithValue("@StartDate", Convert.ToDateTime(jsr["StartDate"].ToString()));
+                    cmd.Parameters.AddWithValue("@EndDate", Convert.ToDateTime(jsr["EndDate"].ToString()));
                     dbc.ExecuteNonQuery(cmd);
 
                     //删除用户的角色关联
@@ -561,6 +611,24 @@ public class UserMag
                     cmd = new MySqlCommand(del_qx);
                     cmd.Parameters.AddWithValue("@USERID", YHID);
                     dbc.ExecuteNonQuery(cmd);
+
+                    var fj_arr = fj.ToArray();
+                    if (fj_arr.Length > 0)
+                    {
+                        var fj_ids = "";
+                        for (int i = 0; i < fj_arr.Length; i++)
+                        {
+                            if (i == 0)
+                            {
+                                fj_ids += "'" + fj_arr[i].ToString() + "'";
+                            }
+                            else
+                            {
+                                fj_ids += ",'" + fj_arr[i].ToString() + "'";
+                            }
+                        }
+                        dbc.ExecuteNonQuery("update tb_b_fj set fj_pid='" + YHID + "' where status=0 and fj_id in(" + fj_ids + ")");
+                    }
 
                     //建立用户角色关联
                     for (int i = 0; i < yhjs.ToArray().Length; i++)
@@ -795,6 +863,117 @@ public class UserMag
             Privileges.Add(drPrivilege["PRIVILEGECODE"].ToString());
         }
         return Privileges.ToArray();
+    }
+
+    [CSMethod("UploadPicForProduct", 1)]
+    public object UploadPicForProduct(FileData[] fds, string lx, string bz)
+    {
+        var sqlStr = "insert into tb_b_FJ (fj_id,fj_mc,addtime,updatetime,status,xgyh_id,fj_lx,fj_bz,fj_url)"
+                    + "values (@fj_id,@fj_mc,@addtime,@updatetime,0,@xgyh_id,@fj_lx,@fj_bz,@fj_url)";
+        using (DBConnection dbc = new DBConnection())
+        {
+            string FJID = Guid.NewGuid().ToString();
+            MySqlCommand cmd = new MySqlCommand(sqlStr);
+            cmd.Parameters.AddWithValue("@fj_id", FJID);
+            cmd.Parameters.AddWithValue("@fj_mc", fds[0].FileName);
+            cmd.Parameters.AddWithValue("@addtime", DateTime.Now);
+            cmd.Parameters.AddWithValue("@updatetime", DateTime.Now);
+            // cmd.Parameters.AddWithValue("@fj_nr", fds[0].FileBytes);
+            cmd.Parameters.AddWithValue("@xgyh_id", SystemUser.CurrentUser.UserID);
+            cmd.Parameters.AddWithValue("@fj_lx", lx);
+            cmd.Parameters.AddWithValue("@fj_bz", bz);
+            cmd.Parameters.AddWithValue("@fj_url", "approot/r/files/" + bz + "/" + FJID + "." + fds[0].FileName);
+            int retInt = dbc.ExecuteNonQuery(cmd);
+
+            if (retInt > 0)
+            {
+                HttpContext context = HttpContext.Current;
+                var Server = context.Server;
+                string truepath = "~/files/" + bz + "/" + FJID + "." + fds[0].FileName;
+                if (!Directory.Exists(Server.MapPath("~/files")))
+                    Directory.CreateDirectory(Server.MapPath("~/files"));
+                if (!Directory.Exists(Server.MapPath("~/files/" + bz)))
+                    Directory.CreateDirectory(Server.MapPath("~/files/" + bz));
+                using (Stream iStream = new FileStream(Server.MapPath(truepath),
+                               FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite))
+                {
+                    iStream.Write(fds[0].FileBytes, 0, fds[0].FileBytes.Length);
+                }
+
+                return new { fileurl = "approot/r/files/" + bz + "/" + FJID + "." + fds[0].FileName, isdefault = 0, fileid = FJID };
+            }
+            return null;
+        }
+    }
+    [CSMethod("GetProductImages")]
+    public DataTable GetProductImages(JSReader jsr, string pid, string lx, string bz)
+    {
+        using (DBConnection dbc = new DBConnection())
+        {
+            DataTable dt = new DataTable();
+            string fj_ids = "";
+            var fjid_arr = jsr.ToArray();
+            if (fjid_arr.Length > 0)
+            {
+                for (int i = 0; i < fjid_arr.Length; i++)
+                {
+                    if (i == 0)
+                    {
+                        fj_ids += "'" + fjid_arr[i].ToString() + "'";
+                    }
+                    else
+                    {
+                        fj_ids += ",'" + fjid_arr[i].ToString() + "'";
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(pid))
+            {
+                string sqlStr = "";
+                if (fjid_arr.Length > 0)
+                {
+                    sqlStr = "select * from tb_b_FJ where (fj_pid=" + pid + " or fj_id in(" + fj_ids + ")) and fj_lx='" + lx + "' and status=0 and fj_bz='" + bz + "'";
+                }
+                else
+                {
+                    sqlStr = "select * from tb_b_FJ where fj_pid=" + pid + " and fj_lx='" + lx + "' and status=0 and fj_bz='" + bz + "'";
+                }
+                dt = dbc.ExecuteDataTable(sqlStr);
+            }
+            else
+            {
+                if (fjid_arr.Length > 0)
+                {
+                    string sqlStr = "select * from tb_b_FJ where fj_id in(" + fj_ids + ") and fj_lx='" + lx + "' and status=0 and fj_bz='" + bz + "'";
+                    dt = dbc.ExecuteDataTable(sqlStr);
+                }
+            }
+            return dt;
+        }
+    }
+    [CSMethod("DelProductImageByPicID")]
+    public bool DelProductImageByPicID(string picid)
+    {
+        string sqlStr = "update tb_b_FJ set STATUS = 1,UPDATETIME = sysdate(),XGYH_ID = @XGYH_ID where fj_id = @fj_id ";
+        // string sqlStr2 = "update tb_b_ProductList set product_picid = null ,product_pic = null,updatetime = getdate() where product_picid=@SP_PICID";
+        using (DBConnection dbc = new DBConnection())
+        {
+            try
+            {
+                dbc.BeginTransaction();
+                MySqlCommand cmd = new MySqlCommand(sqlStr);
+                cmd.Parameters.AddWithValue("@XGYH_ID", SystemUser.CurrentUser.UserID);
+                cmd.Parameters.AddWithValue("@fj_id", picid);
+                dbc.ExecuteNonQuery(cmd);
+                dbc.CommitTransaction();
+                return true;
+            }
+            catch
+            {
+                dbc.RoolbackTransaction();
+                return false;
+            }
+        }
     }
 
 }
