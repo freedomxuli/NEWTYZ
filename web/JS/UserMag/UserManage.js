@@ -73,7 +73,7 @@ function getUser(nPage) {
             currentPage: retVal.cp
             //sorters: { property: 'a', direction: 'DESC' }
         });
-    }, CS.onError, nPage, pageSize, cx_xm, cx_gh, cx_sdate, cx_edate, cx_qy, cx_zt);
+    }, CS.onError, nPage, pageSize, cx_xm, cx_gh, cx_sdate, cx_edate, cx_qy, cx_zt, Ext.getCmp("cx_js").getValue());
 
 }
 
@@ -250,7 +250,19 @@ Ext.onReady(function () {
                                     xtype: 'toolbar',
                                     dock: 'top',
                                     items: [
-
+                                        {
+                                            xtype: 'combobox',
+                                            id: 'cx_js',
+                                            width: 140,
+                                            fieldLabel: '角色',
+                                            editable: false,
+                                            labelWidth: 40,
+                                            store: JsStore,
+                                            queryMode: 'local',
+                                            displayField: 'JS_NAME',
+                                            valueField: 'JS_ID',
+                                            value: ''
+                                        },
                                         {
                                             xtype: 'textfield',
                                             id: 'cx_xm',

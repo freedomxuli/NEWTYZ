@@ -94,19 +94,9 @@ public class UserMag
     }
 
     [CSMethod("GetUserList")]
-    public object GetUserList(int pagnum, int pagesize, string xm, string gh, string sdate, string edate, string qy, string zt)
+    public object GetUserList(int pagnum, int pagesize, string xm, string gh, string sdate, string edate, string qy, string zt, string jsid)
     {
-        //if (!string.IsNullOrEmpty(jsid))
-        //{
-        //    try
-        //    {
-        //        Guid guid = new Guid(jsid);
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("角色ID出错！");
-        //    }
-        //}
+     
 
         using (DBConnection dbc = new DBConnection())
         {
@@ -116,10 +106,10 @@ public class UserMag
                 int ac = 0;
 
                 string where = "";
-                //if (!string.IsNullOrEmpty(jsid))
-                //{
-                //    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID=" + jsid + " and delflag=0 )";
-                //}
+                if (!string.IsNullOrEmpty(jsid))
+                {
+                    where += " and User_ID in (SELECT User_ID FROM tb_b_User_JS_Gl where JS_ID=" + jsid + " and delflag=0 )";
+                }
 
                 if (!string.IsNullOrEmpty(xm.Trim()))
                 {

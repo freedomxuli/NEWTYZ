@@ -16,6 +16,7 @@ public class MenuControl
 
     public static String xmlMenu = @"
         <MainMenu>
+           
             <Menu Name='系统维护中心'>
                 <Item Name='角色管理'>
                     <Tab p='Smart.SystemPrivilege.系统维护中心_角色管理.角色管理' Name='角色管理'>approot/r/page/UserMag/JsManage.html</Tab>
@@ -23,9 +24,26 @@ public class MenuControl
                 <Item Name='人员管理'>
                     <Tab p='' Name='人员管理'>approot/r/page/UserMag/UserManage.html</Tab>
                 </Item>            
-             
+              <Item Name='新闻管理'>
+                    <Tab p='' Name='新闻管理'>approot/r/page/News/NewsList.html</Tab>
+                </Item>
+               <Item Name='平台规则设置'>
+                    <Tab p='' Name='平台规则设置'>approot/r/page/Rule/Rule.html</Tab>
+                </Item>
+               <Item Name='页面内容设置'>
+                    <Tab p='' Name='页面内容设置'>approot/r/page/WebSet/webset.html</Tab>
+                </Item>
             </Menu>
-    
+           <Menu Name='待处理审核'>
+                <Item Name='房东申请审核'>
+                    <Tab p='' Name='房东申请审核'>approot/r/page/sqsh/fdsh.html</Tab>
+                </Item>
+                <Item Name='代理商申请审核'>
+                    <Tab p='' Name='代理商申请审核'>approot/r/page/sqsh/dlssh.html</Tab>
+                </Item>            
+              
+            </Menu>
+
 
            
             
@@ -82,7 +100,7 @@ public class MenuControl
                 }
                 if (msg != "")
                 {
-                    lis += "+ '<li class=\"fore\"><a class=\"MenuItem\" href=\"page/TabMenu.html?msg=" + msg  + "\" target=\"mainframe\"><img height=16 width=16 align=\"absmiddle\" style=\"border:0\" src=\"../CSS/images/application.png\" />　" + secname + "</a></li>'";
+                    lis += "+ '<li class=\"fore\"><a class=\"MenuItem\" href=\"page/TabMenu.html?msg=" + msg + "\" target=\"mainframe\"><img height=16 width=16 align=\"absmiddle\" style=\"border:0\" src=\"../CSS/images/application.png\" />　" + secname + "</a></li>'";
 
                 }
             }

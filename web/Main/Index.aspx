@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>南通菜篮子管理平台</title>
+    <title>租房网站后台管理系统</title>
     <style type="text/css">
         .x-grid-record-red table {
             color: #FF0000;

@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>南通菜篮子管理平台</title>
+    <title>租房网站后台管理系统</title>
     <style type="text/css">
         body {
             margin-left: 0px;
@@ -50,19 +50,19 @@
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                                 <tr>
                                                     <td>
-                                                        <img src="images/dl22_r1_c1.jpg" width="1000" height="86"></td>
+                                                        <img src="images/dl22_r4_c1.jpg" width="1000" height="86"></td>
                                                 </tr>
                                             </table>
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                                 <tr>
                                                     <td>
-                                                        <img src="images/dl22_r2_c1.png" width="1000" height="123"></td>
+                                                        <img src="images/dl22_r4_c1.jpg" width="1000" height="123"></td>
                                                 </tr>
                                             </table>
                                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                                 <tr>
                                                     <td width="550">
-                                                        <img src="images/dl22_r3_c1.jpg" width="550" height="288"></td>
+                                                        <img src="images/dl22_r4_c1.jpg" width="550" height="288"></td>
                                                     <td valign="top" background="images/dl22_r3_c2.jpg">
                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                                             <tr>

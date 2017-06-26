@@ -538,7 +538,7 @@ Ext.onReady(function () {
                             text: '返回',
                             iconCls: 'back',
                             handler: function () {
-                                history.back();
+                                FrameStack.popFrame();
                             }
                         }
                     ]
