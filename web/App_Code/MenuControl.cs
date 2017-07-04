@@ -16,7 +16,15 @@ public class MenuControl
 
     public static String xmlMenu = @"
         <MainMenu>
-           
+             <Menu Name='经纪人权限'>
+                <Item Name='代理商管理'>
+                    <Tab p='' Name='代理商管理'>approot/r/page/jjrqx/dlsgl.html</Tab>
+                </Item>
+                <Item Name='代理商申请审核'>
+                    <Tab p='' Name='代理商申请审核'>approot/r/page/sqsh/dlssh.html</Tab>
+                </Item>            
+              
+            </Menu>
             <Menu Name='系统维护中心'>
                 <Item Name='角色管理'>
                     <Tab p='Smart.SystemPrivilege.系统维护中心_角色管理.角色管理' Name='角色管理'>approot/r/page/UserMag/JsManage.html</Tab>

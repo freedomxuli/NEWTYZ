@@ -347,7 +347,12 @@ Ext.onReady(function () {
                                                     iconCls: 'add',
                                                     text: '新增',
                                                     handler: function () {
-                                                        window.location.href = "AddUser.html";
+                                                        FrameStack.pushFrame({
+                                                            url: 'AddUser.html',
+                                                            onClose: function (ret) {
+                                                                getUser(1);
+                                                            }
+                                                        });
                                                     }
                                                 }
                                             ]
