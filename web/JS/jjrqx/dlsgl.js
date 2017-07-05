@@ -1,11 +1,6 @@
 ﻿
 var pageSize = 15;
-var cx_xm;
-var cx_gh;
-var cx_sdate;
-var cx_edate;
-var cx_qy;
-var cx_zt;
+
 
 //************************************数据源*****************************************
 var store = createSFW4Store({
@@ -45,14 +40,12 @@ var dqstore = Ext.create('Ext.data.Store', {
 });
 
 function loadData(nPage) {
-    cx_xm = Ext.getCmp("cx_xm").getValue();
-    cx_gh = Ext.getCmp("cx_gh").getValue();
-    cx_sdate = Ext.getCmp("cx_sdate").getValue();
-    cx_edate = Ext.getCmp("cx_edate").getValue();
-    cx_qy = Ext.getCmp("cx_qy").getValue();
-    cx_zt = Ext.getCmp("cx_zt").getValue();
 
-    CS('CZCLZ.YHGLClass.GetUserList', function (retVal) {
+    var cx_mc = Ext.getCmp("cx_mc").getValue();
+    var cx_xm = Ext.getCmp("cx_xm").getValue();
+    var cx_qy = Ext.getCmp("cx_qy").getValue();
+
+    CS('CZCLZ.JjrDB.GetDlsList', function (retVal) {
         store.setData({
             data: retVal.dt,
             pageSize: pageSize,
@@ -60,7 +53,7 @@ function loadData(nPage) {
             currentPage: retVal.cp
             //sorters: { property: 'a', direction: 'DESC' }
         });
-    }, CS.onError, nPage, pageSize, cx_xm, cx_gh, cx_sdate, cx_edate, cx_qy, cx_zt);
+    }, CS.onError, nPage, pageSize, cx_mc, cx_xm, cx_qy);
 
 }
 
@@ -237,17 +230,12 @@ function tp() {
 
 function edit(v) {
     FrameStack.pushFrame({
-        url: 'AddUser.html?id=' + v,
+        url: 'dlsxz.html?id=' + v,
         onClose: function (ret) {
-            getUser(1);
+            loadData(1);
         }
     });
 }
-//************************************页面方法***************************************
-
-//************************************弹出界面***************************************
-
-//************************************弹出界面***************************************
 
 //************************************主界面*****************************************
 Ext.onReady(function () {
@@ -356,7 +344,7 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    str = "<a href='#' onclick='sh()'>审核</a>";
+                                    str = "<a href='#' onclick='edit(\"" + record.data.ID + "\")'>编辑</a>";
                                     return str;
                                 }
                             }
@@ -373,26 +361,18 @@ Ext.onReady(function () {
 
                                         {
                                             xtype: 'textfield',
-                                            id: 'cx_gh',
+                                            id: 'cx_mc',
                                             width: 180,
                                             labelWidth: 80,
-                                            fieldLabel: '经纪人工号'
+                                            fieldLabel: '代理商名称'
                                         },
-                                        {
-                                            xtype: 'textfield',
-                                            id: 'cx_sqh',
-                                            width: 140,
-                                            labelWidth: 40,
-                                            fieldLabel: '授权码'
-                                        },
-                                           {
-                                               xtype: 'textfield',
-                                               id: 'cx_dlsm',
-                                               width: 160,
-                                               labelWidth: 60,
-                                               fieldLabel: '代理商码'
-                                           },
-
+                                         {
+                                             xtype: 'textfield',
+                                             id: 'cx_xm',
+                                             width: 180,
+                                             labelWidth: 80,
+                                             fieldLabel: '代理商姓名'
+                                         },
                                          {
                                              xtype: 'combobox',
                                              id: 'cx_qy',
@@ -470,7 +450,7 @@ Ext.onReady(function () {
     });
 
     new mainView();
- 
+
     CS('CZCLZ.YHGLClass.GetQy', function (retVal) {
         if (retVal) {
             dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
@@ -479,7 +459,7 @@ Ext.onReady(function () {
         }
     }, CS.onError);
 
-
+    loadData(1);
 })
 //************************************主界面*****************************************
 

@@ -7,12 +7,25 @@ var dqstore = Ext.create('Ext.data.Store', {
     ]
 });
 
-function DataBind() {
-    CS('JSSF.SFXM.SetNum', function (retVal) {
-        if (retVal) {
+var store = createSFW4Store({
+    fields: [
+       { name: 'ID' },
+       { name: 'AGENT_ID' },
+       { name: 'DEVICE_ID' },
+       { name: 'DEVICE_NUMBER' },
+       { name: 'DEVICE_MONEY' },
+       { name: 'STATUS' }
+    ]
 
+});
+
+function DataBind() {
+    CS('CZCLZ.JjrDB.GetDLsById', function (retVal) {
+        if (retVal) {
+            var addform = Ext.getCmp("addform");
+            addform.form.setValues(retVal[0]);
         }
-    }, CS.onError, hyzgbh);
+    }, CS.onError, id);
 }
 
 function tp(v) {
@@ -249,6 +262,7 @@ Ext.onReady(function () {
                                              xtype: 'combobox',
                                              id: 'QY_ID',
                                              editable: false,
+                                             hidden: true,
                                              store: dqstore,
                                              queryMode: 'local',
                                              displayField: 'TEXT',
@@ -369,7 +383,7 @@ Ext.onReady(function () {
                                                                 text: '添加设备',
                                                                 handler: function () {
 
-                                                                    var wjgl_add = new wjgl();
+                                                                    var tjsb = new sbWin();
 
                                                                     wjgl_add.show(null, function () {
 
@@ -429,6 +443,9 @@ Ext.onReady(function () {
             Ext.getCmp("QY_ID").setValue('');
         }
     }, CS.onError);
+
+    if (id != null && id != "")
+        DataBind();
 });
 
 Ext.define('phWin', {
@@ -473,7 +490,7 @@ Ext.define('phWin', {
                                  fileid: retVal.fileid
                              }));
                              picItem.push(retVal.fileid);
-                         }, CS.onError, lx, 'user');
+                         }, CS.onError, lx, '代理商');
                      }
                  },
             {
