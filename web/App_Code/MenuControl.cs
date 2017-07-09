@@ -20,9 +20,84 @@ public class MenuControl
                 <Item Name='代理商管理'>
                     <Tab p='' Name='代理商管理'>approot/r/page/jjrqx/dlsgl.html</Tab>
                 </Item>
-                <Item Name='代理商申请审核'>
-                    <Tab p='' Name='代理商申请审核'>approot/r/page/sqsh/dlssh.html</Tab>
+                <Item Name='房东管理'>
+                    <Tab p='' Name='房东管理'>approot/r/page/jjrqx/fdgl.html</Tab>
                 </Item>            
+               <Item Name='保洁管理'>
+                    <Tab p='' Name='保洁管理'>approot/r/page/jjrqx/bjgl.html</Tab>
+                </Item>
+                <Item Name='纠纷管理'>
+                    <Tab p='' Name='纠纷管理'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>
+                <Item Name='投诉管理'>
+                    <Tab p='' Name='投诉管理'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>
+            </Menu>
+            <Menu Name='财务权限'>
+                <Item Name='代理商财务确认'>
+                    <Tab p='' Name='代理商财务确认'>approot/r/page/cwqx/dlsqrlist.html</Tab>
+                </Item>
+                <Item Name='房东财务确认'>
+                    <Tab p='' Name='房东财务确认'>approot/r/page/cwqx/fdqrlist.html</Tab>
+                </Item>            
+             
+            </Menu>
+          <Menu Name='生产组权限'>
+                <Item Name='代理商设备配货'>
+                    <Tab p='' Name='代理商设备配货'>approot/r/page/sczqx/dlslist.html</Tab>
+                </Item>
+                <Item Name='房东财务设备配货'>
+                    <Tab p='' Name='代理商设备配货'>approot/r/page/sczqx/fdlist.html</Tab>
+                </Item>            
+             
+            </Menu>
+          <Menu Name='客服权限'>
+                <Item Name='订单查询'>
+                    <Tab p='' Name='订单查询'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>
+                <Item Name='待处理纠纷'>
+                    <Tab p='' Name='待处理纠纷'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>           
+                 <Item Name='待处理投诉'>
+                    <Tab p='' Name='待处理投诉'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>
+            </Menu>
+          <Menu Name='订单专员权限'>
+                <Item Name='超时未确认订单'>
+                    <Tab p='' Name='超时未确认订单'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>
+                <Item Name='待确认取消订单'>
+                    <Tab p='' Name='待确认取消订单'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>           
+                 <Item Name='纠纷订单'>
+                    <Tab p='' Name='纠纷订单'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>
+                 <Item Name='已处理订单'>
+                    <Tab p='' Name='已处理订单'>approot/r/page/kfqx/ddlist.html</Tab>
+                </Item>
+            </Menu>
+          <Menu Name='代理商权限'>
+                <Item Name='信息查看'>
+                    <Tab p='' Name='信息查看'>approot/r/page/dlsqx/dlslist.html</Tab>
+                </Item>
+               
+            </Menu>
+          <Menu Name='房东权限'>
+                <Item Name='信息查看'>
+                    <Tab p='' Name='信息查看'>approot/r/page/fdqx/fdlist.html</Tab>
+                </Item>            
+             
+            </Menu>
+          <Menu Name='待处理审核'>
+                <Item Name='代理商申请审核'>
+                    <Tab p='' Name='代理商申请审核'>approot/r/page/sqsh/dlsshlist.html</Tab>
+                </Item>    
+                <Item Name='房东申请审核'>
+                    <Tab p='' Name='房东申请审核'>approot/r/page/sqsh/fdshlist.html</Tab>
+                </Item>
+                 <Item Name='保洁申请审核'>
+                    <Tab p='' Name='保洁申请审核'>approot/r/page/sqsh/bjshlist.html</Tab>
+                </Item>    
               
             </Menu>
             <Menu Name='系统维护中心'>
@@ -42,15 +117,7 @@ public class MenuControl
                     <Tab p='' Name='页面内容设置'>approot/r/page/WebSet/webset.html</Tab>
                 </Item>
             </Menu>
-           <Menu Name='待处理审核'>
-                <Item Name='房东申请审核'>
-                    <Tab p='' Name='房东申请审核'>approot/r/page/sqsh/fdsh.html</Tab>
-                </Item>
-                <Item Name='代理商申请审核'>
-                    <Tab p='' Name='代理商申请审核'>approot/r/page/sqsh/dlssh.html</Tab>
-                </Item>            
-              
-            </Menu>
+          
 
 
            

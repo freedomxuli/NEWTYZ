@@ -428,7 +428,37 @@ Ext.onReady(function () {
                                                     iconCls: 'delete',
                                                     text: '删除',
                                                     handler: function () {
+                                                        var idlist = [];
+                                                        var grid = Ext.getCmp("maingrid");
+                                                        var rds = grid.getSelectionModel().getSelection();
+                                                        if (rds.length == 0) {
+                                                            Ext.Msg.show({
+                                                                title: '提示',
+                                                                msg: '请选择至少一条要删除的记录!',
+                                                                buttons: Ext.MessageBox.OK,
+                                                                icon: Ext.MessageBox.INFO
+                                                            });
+                                                            return;
+                                                        }
 
+                                                        Ext.MessageBox.confirm('删除提示', '是否要删除数据!', function (obj) {
+                                                            if (obj == "yes") {
+                                                                for (var n = 0, len = rds.length; n < len; n++) {
+                                                                    var rd = rds[n];
+
+                                                                    idlist.push(rd.get("ID"));
+                                                                }
+
+                                                                CS('CZCLZ.JjrDB.DelDLsByids', function (retVal) {
+                                                                    if (retVal) {
+                                                                        loadData(1);
+                                                                    }
+                                                                }, CS.onError, idlist);
+                                                            }
+                                                            else {
+                                                                return;
+                                                            }
+                                                        });
                                                     }
                                                 }
                                             ]

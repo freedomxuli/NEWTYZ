@@ -7,17 +7,18 @@ var dqstore = Ext.create('Ext.data.Store', {
     ]
 });
 
-var store = createSFW4Store({
+var deviceStore = Ext.create('Ext.data.Store', {
     fields: [
-       { name: 'ID' },
-       { name: 'AGENT_ID' },
-       { name: 'DEVICE_ID' },
-       { name: 'DEVICE_NUMBER' },
-       { name: 'DEVICE_MONEY' },
-       { name: 'STATUS' }
+       { name: 'ID', type: 'string' },
+       { name: 'DEVICE_NAME', type: 'string' },
+       { name: 'DEVICE_NUMBER', type: 'string' },
+       { name: 'DEVICE_MONEY', type: 'string' }
     ]
 
 });
+
+
+
 
 function DataBind() {
     CS('CZCLZ.JjrDB.GetDLsById', function (retVal) {
@@ -54,6 +55,102 @@ function tp(v) {
     var win = new phWin({ lx: v });
     win.show();
 }
+
+Ext.define('deviceWin', {
+    extend: 'Ext.window.Window',
+
+    height: 250,
+    width: 400,
+    layout: {
+        type: 'fit'
+    },
+    id: 'deviceWin',
+    closeAction: 'destroy',
+    modal: true,
+    title: '设备信息',
+    initComponent: function () {
+        var me = this;
+        me.items = [
+            {
+                xtype: 'form',
+                id: 'deviceform',
+                frame: true,
+                bodyPadding: 10,
+
+                title: '',
+                store: deviceStore,
+                items: [
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'ID',
+                        id: 'ID',
+                        name: 'ID',
+                        labelWidth: 70,
+                        hidden: true,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        id: 'DEVICE_NAME',
+                        name: 'DEVICE_NAME',
+                        fieldLabel: '设备类型',
+                        labelWidth: 70,
+                        allowBlank: false,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'numberfield',
+                        id: 'DEVICE_NUMBER',
+                        name: 'DEVICE_NUMBER',
+                        fieldLabel: '设备数量',
+                        labelWidth: 70,
+                        allowBlank: false,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'numberfield',
+                        id: 'DEVICE_MONEY',
+                        name: 'DEVICE_MONEY',
+                        fieldLabel: '金额',
+                        labelWidth: 70,
+                        allowBlank: false,
+                        anchor: '100%'
+                    }
+                ],
+                buttonAlign: 'center',
+                buttons: [
+                    {
+                        text: '确定',
+                        handler: function () {
+                            var form = Ext.getCmp('deviceform');
+                            if (form.form.isValid()) {
+                                //取得表单中的内容
+                                var values = form.form.getValues(false);
+
+                                CS('CZCLZ.JjrDB.SaveDlsDevice', function (retVal) {
+                                    if (retVal) {
+                                        var grid = Ext.getCmp("devicegrid");
+                                        var store = grid.getStore();
+                                        store.insert(0, retVal[0]);
+                                    }
+
+                                    Ext.getCmp('deviceWin').close()
+                                }, CS.onError, values);
+                            }
+                        }
+                    },
+                    {
+                        text: '取消',
+                        handler: function () {
+                            this.up('window').close();
+                        }
+                    }
+                ]
+            }
+        ];
+        me.callParent(arguments);
+    }
+});
 
 Ext.onReady(function () {
     Ext.define('add', {
@@ -105,6 +202,7 @@ Ext.onReady(function () {
                                           {
                                               xtype: 'textfield',
                                               name: 'AGENT_NAME',
+                                              allowBlank: false,
                                               margin: '10 10 10 10',
                                               fieldLabel: '代理商姓名',
                                               columnWidth: 0.5,
@@ -115,6 +213,7 @@ Ext.onReady(function () {
                                               xtype: 'combobox',
                                               name: 'AGENT_LEVEL',
                                               margin: '10 10 10 10',
+                                              allowBlank: false,
                                               fieldLabel: '代理商级别',
                                               columnWidth: 0.5,
                                               labelWidth: 150,
@@ -135,6 +234,7 @@ Ext.onReady(function () {
                                               name: 'AGENT_MOBILE_TEL',
                                               margin: '10 10 10 10',
                                               fieldLabel: '代理商电话',
+                                              allowBlank: false,
                                               columnWidth: 0.5,
                                               labelWidth: 150
                                           },
@@ -143,6 +243,7 @@ Ext.onReady(function () {
                                                name: 'AGENT_EMAIL',
                                                margin: '10 10 10 10',
                                                fieldLabel: '代理商邮箱',
+                                               allowBlank: false,
                                                columnWidth: 0.5,
                                                labelWidth: 150
                                            },
@@ -151,6 +252,7 @@ Ext.onReady(function () {
                                                 name: 'DELIVER_ADDRESS',
                                                 margin: '10 10 10 10',
                                                 fieldLabel: '发货地址',
+                                                allowBlank: false,
                                                 columnWidth: 0.5,
                                                 labelWidth: 150
                                             },
@@ -159,6 +261,7 @@ Ext.onReady(function () {
                                                name: 'CONTACT_TEL',
                                                margin: '10 10 10 10',
                                                fieldLabel: '联系人电话',
+                                               allowBlank: false,
                                                columnWidth: 0.5,
                                                labelWidth: 150
                                            },
@@ -167,6 +270,7 @@ Ext.onReady(function () {
                                              name: 'AGENT_IDENTITY_NUMBER',
                                              margin: '10 10 10 10',
                                              fieldLabel: '代理商身份证号',
+                                             allowBlank: false,
                                              columnWidth: 0.5,
                                              labelWidth: 150
                                          },
@@ -191,6 +295,7 @@ Ext.onReady(function () {
                                               name: 'AGENT_CONTRACT_NUMBER',
                                               margin: '10 10 10 10',
                                               fieldLabel: '代理商合同编号',
+                                              allowBlank: false,
                                               columnWidth: 0.5,
                                               labelWidth: 150
                                           },
@@ -199,6 +304,7 @@ Ext.onReady(function () {
                                              name: 'AGENT_TYPE',
                                              margin: '10 10 10 10',
                                              fieldLabel: '代理方式',
+                                             allowBlank: false,
                                              columnWidth: 0.5,
                                              labelWidth: 150,
                                              queryMode: 'local',
@@ -217,6 +323,7 @@ Ext.onReady(function () {
                                              name: 'RATIO_TYPE',
                                              margin: '10 10 10 10',
                                              fieldLabel: '提成比例',
+                                             allowBlank: false,
                                              columnWidth: 0.5,
                                              labelWidth: 150
                                          },
@@ -229,6 +336,7 @@ Ext.onReady(function () {
                                              editable: false,
                                              margin: '10 10 10 10',
                                              fieldLabel: '代理商合同生效时间',
+                                             allowBlank: false,
                                              columnWidth: 0.5,
                                              labelWidth: 150
                                          },
@@ -239,6 +347,7 @@ Ext.onReady(function () {
                                              editable: false,
                                              margin: '10 10 10 10',
                                              fieldLabel: '代理商合同失效时间',
+                                             allowBlank: false,
                                              columnWidth: 0.5,
                                              labelWidth: 150
                                          },
@@ -247,6 +356,7 @@ Ext.onReady(function () {
                                               name: 'AGENT_CONTRACT_STATE',
                                               margin: '10 10 10 10',
                                               fieldLabel: '代理商合同类型',
+                                              allowBlank: false,
                                               columnWidth: 0.5,
                                               labelWidth: 150
                                           },
@@ -255,6 +365,7 @@ Ext.onReady(function () {
                                                name: 'AGENT_DEPOSIT',
                                                margin: '10 10 10 10',
                                                fieldLabel: '押金总额',
+                                               allowBlank: false,
                                                columnWidth: 0.5,
                                                labelWidth: 150
                                            },
@@ -287,34 +398,26 @@ Ext.onReady(function () {
                                             {
                                                 xtype: 'gridpanel',
                                                 margin: '0 0 0 0',
-                                                id: 'wjgl2',
+                                                id: 'devicegrid',
                                                 //  store: store2,
                                                 height: 300,
                                                 columnLines: true,
                                                 border: true,
                                                 autoscroll: true,
-                                                columns: [Ext.create('Ext.grid.RowNumberer'),
+                                                columns: [
                                                      {
                                                          xtype: 'gridcolumn',
-                                                         dataIndex: 'WJYJ_LB',
+                                                         dataIndex: 'DEVICE_NAME',
                                                          align: 'center',
                                                          text: '设备类型',
                                                          flex: 1,
                                                          sortable: false,
                                                          menuDisabled: true
                                                      },
+
                                                     {
                                                         xtype: 'gridcolumn',
-                                                        dataIndex: 'WJYJ_TITLE',
-                                                        align: 'center',
-                                                        text: '设备SN号',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    },
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'WJYJ_FILENO',
+                                                        dataIndex: 'DEVICE_NUMBER',
                                                         align: 'center',
                                                         text: '设备数量',
                                                         flex: 1,
@@ -323,49 +426,14 @@ Ext.onReady(function () {
                                                     },
                                                     {
                                                         xtype: 'gridcolumn',
-                                                        dataIndex: 'WJYJ_FWDW',
+                                                        dataIndex: 'DEVICE_MONEY',
                                                         align: 'center',
                                                         text: '押金金额',
                                                         flex: 1,
                                                         sortable: false,
                                                         menuDisabled: true
-                                                    },
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'WJYJ_FWRQnew',
-                                                        align: 'center',
-                                                        text: '设备生效时间',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    },
-                                                     {
-                                                         xtype: 'gridcolumn',
-                                                         dataIndex: 'WJYJ_FWRQnew',
-                                                         align: 'center',
-                                                         text: '设备失效时间',
-                                                         flex: 1,
-                                                         sortable: false,
-                                                         menuDisabled: true
-                                                     },
-                                                      {
-                                                          xtype: 'gridcolumn',
-                                                          dataIndex: 'WJYJ_FWRQnew',
-                                                          align: 'center',
-                                                          text: '设备授权码',
-                                                          flex: 1,
-                                                          sortable: false,
-                                                          menuDisabled: true
-                                                      },
-                                                      {
-                                                          xtype: 'gridcolumn',
-                                                          dataIndex: 'WJYJ_FWRQnew',
-                                                          align: 'center',
-                                                          text: '设备状态',
-                                                          flex: 1,
-                                                          sortable: false,
-                                                          menuDisabled: true
-                                                      }
+                                                    }
+
                                                 ],
                                                 dockedItems: [
                                                     {
@@ -383,11 +451,11 @@ Ext.onReady(function () {
                                                                 text: '添加设备',
                                                                 handler: function () {
 
-                                                                    var tjsb = new sbWin();
+                                                                    var win = new deviceWin();
 
-                                                                    wjgl_add.show(null, function () {
+                                                                    win.show(null, function () {
 
-                                                                        wjdataBind(1);
+                                                                        // wjdataBind(1);
 
                                                                     });
 
