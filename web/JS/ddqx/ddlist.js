@@ -9,14 +9,13 @@ var store = createSFW4Store({
     currentPage: 1,
     fields: [
        { name: 'ID' },
-       { name: 'LANDLORD_MC' },
-       { name: 'User_XM' },
-       { name: 'LANDLORD_NAME' },
-       { name: 'AGENT_NAME' },
-       { name: 'LANDLORD_MOBILE_TEL' },
-       { name: 'LANDLORD_START_TIME' },
-       { name: 'LANDLORD_END_TIME' },
-        { name: 'QY_NAME' }
+        { name: 'OrderNo' },
+       { name: 'RealName' },
+       { name: 'CellPhone' },
+       { name: 'StartDate' },
+       { name: 'EndDate' },
+       { name: 'OrderStatus' },
+       { name: 'OrderStyle' }
 
     ],
     //sorters: [{ property: 'b', direction: 'DESC'}],
@@ -42,10 +41,9 @@ var dqstore = Ext.create('Ext.data.Store', {
 function loadData(nPage) {
 
     var cx_mc = Ext.getCmp("cx_mc").getValue();
-    var cx_xm = Ext.getCmp("cx_xm").getValue();
-    var cx_qy = Ext.getCmp("cx_qy").getValue();
+    var cx_no = Ext.getCmp("cx_no").getValue();
 
-    CS('CZCLZ.CwDB.GetFdList', function (retVal) {
+    CS('CZCLZ.PayOrderDB.GetPayOrderList', function (retVal) {
         store.setData({
             data: retVal.dt,
             pageSize: pageSize,
@@ -53,7 +51,7 @@ function loadData(nPage) {
             currentPage: retVal.cp
             //sorters: { property: 'a', direction: 'DESC' }
         });
-    }, CS.onError, nPage, pageSize, cx_mc, cx_xm, cx_qy);
+    }, CS.onError, nPage, pageSize, cx_mc, cx_no);
 
 }
 
@@ -109,28 +107,29 @@ Ext.onReady(function () {
                               hidden: true,
                               sortable: false,
                               menuDisabled: true,
-                              align: 'center',
-                              text: "房东"
+                              align: 'center'
                           },
+                           {
+                               xtype: 'gridcolumn',
+                               dataIndex: 'OrderNo',
+                               sortable: false,
+                               menuDisabled: true,
+                               align: 'center',
+                               text: "订单编号"
+                           },
                             {
                                 xtype: 'gridcolumn',
-                                dataIndex: 'LANDLORD_MC',
+                                dataIndex: 'RealName',
                                 sortable: false,
                                 menuDisabled: true,
                                 align: 'center',
                                 text: "房客姓名"
                             },
-                             {
-                                 xtype: 'gridcolumn',
-                                 dataIndex: 'LANDLORD_NAME',
-                                 sortable: false,
-                                 menuDisabled: true,
-                                 align: 'center',
-                                 text: "房客手机号"
-                             },
+
                               {
-                                  xtype: 'gridcolumn',
-                                  dataIndex: 'User_XM',
+                                  xtype: 'datecolumn',
+                                  format: 'Y-m-d',
+                                  dataIndex: 'StartDate',
                                   sortable: false,
                                   menuDisabled: true,
                                   align: 'center',
@@ -138,8 +137,9 @@ Ext.onReady(function () {
                               },
 
                                 {
-                                    xtype: 'gridcolumn',
-                                    dataIndex: 'LANDLORD_MOBILE_TEL',
+                                    xtype: 'datecolumn',
+                                    format: 'Y-m-d',
+                                    dataIndex: 'EndDate',
                                     sortable: false,
                                     menuDisabled: true,
                                     align: 'center',
@@ -149,7 +149,7 @@ Ext.onReady(function () {
                             {
                                 xtype: 'datecolumn',
                                 format: 'Y-m-d',
-                                dataIndex: 'LANDLORD_START_TIME',
+                                dataIndex: 'HotelName',
                                 sortable: false,
                                 menuDisabled: true,
                                 align: 'center',
@@ -158,7 +158,7 @@ Ext.onReady(function () {
                              {
                                  xtype: 'datecolumn',
                                  format: 'Y-m-d',
-                                 dataIndex: 'LANDLORD_END_TIME',
+                                 dataIndex: 'CompleteAddress',
                                  sortable: false,
                                  menuDisabled: true,
                                  align: 'center',
@@ -180,7 +180,7 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\")'>审核</a>";
+                                    str = "<a href='#' onclick='ck(\"" + record.data.ID + "\")'>查看订单</a>";
                                     return str;
                                 }
                             }
@@ -197,40 +197,40 @@ Ext.onReady(function () {
 
                                         {
                                             xtype: 'textfield',
-                                            id: 'cx_mc',
+                                            id: 'cx_no',
                                             width: 180,
                                             labelWidth: 80,
                                             fieldLabel: '订单号'
                                         },
-                                          {
-                                              xtype: 'datefield',
-                                              format: 'Y-m-d',
-                                              id: 'cx_mc',
-                                              width: 180,
-                                              labelWidth: 80,
-                                              fieldLabel: '入住时间'
-                                          },
-                                           {
-                                               xtype: 'textfield',
-                                               id: 'cx_mc',
-                                               width: 180,
-                                               labelWidth: 80,
-                                               fieldLabel: '宾馆名称'
-                                           },
-                                          {
-                                              xtype: 'textfield',
-                                              id: 'cx_mc',
-                                              width: 180,
-                                              labelWidth: 80,
-                                              fieldLabel: '前台电话'
-                                          },
-                                            {
-                                                xtype: 'textfield',
-                                                id: 'cx_mc',
-                                                width: 180,
-                                                labelWidth: 80,
-                                                fieldLabel: '房客电话'
-                                            },
+                                          //{
+                                          //    xtype: 'datefield',
+                                          //    format: 'Y-m-d',
+                                          //    id: 'cx_sdate',
+                                          //    width: 180,
+                                          //    labelWidth: 80,
+                                          //    fieldLabel: '入住时间'
+                                          //},
+                                          // {
+                                          //     xtype: 'textfield',
+                                          //     id: 'cx_mc',
+                                          //     width: 180,
+                                          //     labelWidth: 80,
+                                          //     fieldLabel: '宾馆名称'
+                                          // },
+                                          //{
+                                          //    xtype: 'textfield',
+                                          //    id: 'cx_mc',
+                                          //    width: 180,
+                                          //    labelWidth: 80,
+                                          //    fieldLabel: '前台电话'
+                                          //},
+                                          //  {
+                                          //      xtype: 'textfield',
+                                          //      id: 'cx_mc',
+                                          //      width: 180,
+                                          //      labelWidth: 80,
+                                          //      fieldLabel: '房客电话'
+                                          //  },
                                               {
                                                   xtype: 'textfield',
                                                   id: 'cx_mc',
