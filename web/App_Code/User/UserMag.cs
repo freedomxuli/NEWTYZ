@@ -12,6 +12,7 @@ using SmartFramework4v2.Data;
 using SmartFramework4v2.Data.MySql;
 using MySql.Data.MySqlClient;
 using System.IO;
+using DB;
 /// <summary>
 ///UserMag 的摘要说明
 /// </summary>
@@ -96,7 +97,7 @@ public class UserMag
     [CSMethod("GetUserList")]
     public object GetUserList(int pagnum, int pagesize, string xm, string gh, string sdate, string edate, string qy, string zt, string jsid)
     {
-     
+
 
         using (DBConnection dbc = new DBConnection())
         {
@@ -964,6 +965,112 @@ public class UserMag
                 return false;
             }
         }
+    }
+
+
+    [CSMethod("GetDeviceList")]
+    public object GetDeviceList(int pagnum, int pagesize, string sbbh, string yhxm)
+    {
+        using (DBConnection dbc = new DBConnection())
+        {
+            try
+            {
+                int cp = pagnum;
+                int ac = 0;
+
+                string where = "";
+
+                if (!string.IsNullOrEmpty(sbbh))
+                {
+                    where += " and EquipmentId=" + sbbh;
+                }
+
+                string str = @"select a.EquipmentId,a.EquipmentDate,a.EquipmentVersion,a.DealerAuthoriCode,b.Type
+                              from equipmentinfo_table a left join equipmenttype_table b on a.EquipmentType=b.TypeNo 
+                              where 1=1 " + where;
+                str += where;
+
+                //开始取分页数据
+                System.Data.DataTable dtPage = new System.Data.DataTable();
+                dtPage = dbc.GetPagedDataTable(str + " order by a.ID desc", pagesize, ref cp, out ac);
+
+                return new { dt = dtPage, cp = cp, ac = ac };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+    }
+
+    [CSMethod("DeviceAuthorization")]
+    public bool DeviceAuthorization(JSReader jsr)
+    {
+        var user = SystemUser.CurrentUser;
+        string userid = user.UserID;
+
+        using (DBConnection dbc = new DBConnection())
+        {
+            dbc.BeginTransaction();
+            try
+            {
+                for (int i = 0; i < jsr.ToArray().Length; i++)
+                {
+                    string deviceid = jsr.ToArray()[i].ToString();
+                    DataTable dtInfo = dbc.ExecuteDataTable("select * from equipmentinfo_table where EquipmentId=" + dbc.ToSqlValue(deviceid));
+                    DataTable dtPara = dbc.ExecuteDataTable("select * from equipmentpara_table where EquipmentId=" + dbc.ToSqlValue(deviceid));
+
+                    string EquipmentId = dtInfo.Rows[0]["EquipmentId"].ToString();
+                    int EquipmentType = Convert.ToInt32(dtInfo.Rows[0]["EquipmentType"].ToString());
+                    string EquipmentVersion = dtInfo.Rows[0]["EquipmentVersion"].ToString();
+                    int EquipmentConNum = Convert.ToInt32(dtPara.Rows[0]["EquipmentConNum"].ToString());
+                    string EquipmentCon1Type = dtPara.Rows[0]["EquipmentCon1Type"].ToString();
+                    string EquipmentCon2Type = dtPara.Rows[0]["EquipmentCon2Type"].ToString();
+                    string EquipmentCon3Type = dtPara.Rows[0]["EquipmentCon3Type"].ToString();
+                    string EquipmentCon4Type = dtPara.Rows[0]["EquipmentCon4Type"].ToString();
+                    string EquipmentCon5Type = dtPara.Rows[0]["EquipmentCon5Type"].ToString();
+                    int EquipmentInfoNum = Convert.ToInt32(dtPara.Rows[0]["EquipmentInfoNum"].ToString());
+                    string EquipmentInfo1Type = dtPara.Rows[0]["EquipmentInfo1Type"].ToString();
+                    string EquipmentInfo2Type = dtPara.Rows[0]["EquipmentInfo2Type"].ToString();
+                    string EquipmentInfo3Type = dtPara.Rows[0]["EquipmentInfo3Type"].ToString();
+                    string EquipmentInfo4Type = dtPara.Rows[0]["EquipmentInfo4Type"].ToString();
+                    string EquipmentInfo5Type = dtPara.Rows[0]["EquipmentInfo5Type"].ToString();
+                    string EquipIEEEAddress = dtInfo.Rows[0]["EquipIEEEAddress"].ToString();
+                    string EquipmentBluetoothMAC = dtInfo.Rows[0]["EquipmentBluetoothMAC"].ToString();
+                    string EquipmentWireMAC = dtInfo.Rows[0]["EquipmentWireMAC"].ToString();
+                    string EquipmentWirelessMAC = dtInfo.Rows[0]["EquipmentWirelessMAC"].ToString();
+                    string ServerIP = dtInfo.Rows[0]["ServerIP"].ToString();
+                    string BackupServerIP = dtInfo.Rows[0]["BackupServerIP"].ToString();
+                    string EquipmentGatewayConnectKey = dtInfo.Rows[0]["EquipmentGatewayConnectKey"].ToString();
+                    string EquipmentFieldConnectKey = dtInfo.Rows[0]["EquipmentFieldConnectKey"].ToString();
+                    string EquipmentDate = dtInfo.Rows[0]["EquipmentDate"].ToString();
+                    string EquipmentTester = dtInfo.Rows[0]["EquipmentTester"].ToString();
+                    string EquipmentDealer = "";
+                    string DealerAuthoriCode = GenerateAuthorizeNo();
+                    DBHelper db = new DBHelper();
+                    bool isSend = db.xuInsert(EquipmentId, EquipmentType, EquipmentVersion, EquipmentConNum, EquipmentCon1Type, EquipmentCon2Type, EquipmentCon3Type, EquipmentCon4Type, EquipmentCon5Type, EquipmentInfoNum, EquipmentInfo1Type, EquipmentInfo2Type, EquipmentInfo3Type, EquipmentInfo4Type, EquipmentInfo5Type, EquipIEEEAddress, EquipmentBluetoothMAC, EquipmentWireMAC, EquipmentWirelessMAC, ServerIP, BackupServerIP, EquipmentGatewayConnectKey, EquipmentFieldConnectKey, EquipmentDate, EquipmentTester, EquipmentDealer, DealerAuthoriCode);
+                    if (isSend)
+                    {
+                        dbc.ExecuteNonQuery("update equipmentinfo_table set EquipmentDealer='" + EquipmentDealer + "',DealerAuthoriCode='" + DealerAuthoriCode + "' where EquipmentId='" + EquipmentId + "'");
+                    }
+                }
+
+                dbc.CommitTransaction();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                dbc.RoolbackTransaction();
+                throw ex;
+            }
+
+        }
+    }
+
+    public static string GenerateAuthorizeNo()
+    {
+        return DateTime.Now.ToString("yyMMddss");
     }
 
 }

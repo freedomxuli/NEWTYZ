@@ -39,7 +39,17 @@ public class MenuControl
                 </Item>
                 <Item Name='房东财务确认'>
                     <Tab p='' Name='房东财务确认'>approot/r/page/cwqx/fdqrlist.html</Tab>
-                </Item>            
+                </Item> 
+                 
+                <Item Name='与房东结算'>
+                    <Tab p='' Name='与房东结算'>approot/r/page/cwqx/fdjs.html</Tab>
+                </Item>     
+                <Item Name='与房客结算'>
+                    <Tab p='' Name='与房客结算'>approot/r/page/cwqx/fkjs.html</Tab>
+                </Item>     
+                <Item Name='与保洁结算'>
+                    <Tab p='' Name='与保洁结算'>approot/r/page/cwqx/bjjs.html</Tab>
+                </Item>                
              
             </Menu>
           <Menu Name='生产组权限'>
@@ -106,7 +116,10 @@ public class MenuControl
                 </Item>
                 <Item Name='人员管理'>
                     <Tab p='' Name='人员管理'>approot/r/page/UserMag/UserManage.html</Tab>
-                </Item>            
+                </Item>    
+                <Item Name='设备管理'>
+                    <Tab p='' Name='设备管理'>approot/r/page/UserMag/DeviceManage.html</Tab>
+                </Item>        
               <Item Name='新闻管理'>
                     <Tab p='' Name='新闻管理'>approot/r/page/News/NewsList.html</Tab>
                 </Item>

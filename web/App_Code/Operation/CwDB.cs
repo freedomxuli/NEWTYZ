@@ -4,6 +4,7 @@ using SmartFramework4v2.Web.Common.JSON;
 using SmartFramework4v2.Web.WebExcutor;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -184,6 +185,52 @@ public class CwDB
                 throw ex;
             }
         }
+    }
+
+    [CSMethod("GetCWJSList")]
+    public object GetCWJSList(int pagnum, int pagesize, string jsmc, string xm, string nc, string zt)
+    {
+        using (SmartFramework4v2.Data.SqlServer.DBConnection dbc = new SmartFramework4v2.Data.SqlServer.DBConnection(ConfigurationManager.ConnectionStrings["LockConnStr"].ConnectionString))
+        {
+            try
+            {
+                int cp = pagnum;
+                int ac = 0;
+
+                string where = "";
+                if (!string.IsNullOrEmpty(xm))
+                {
+                    where += " and UserName like'%" + xm + "%'";
+                }
+                if (!string.IsNullOrEmpty(nc))
+                {
+                    where += " and NickName like'%" + nc + "%'";
+                }
+                if (!string.IsNullOrEmpty(zt))
+                {
+                    where += " and a.status=" + zt;
+                }
+
+
+                string str = @"select a.*,b.* from Lock_HotelWithdrawals a 
+                               left join aspnet_Users b on a.UserId=b.UserId
+                               left join aspnet_UsersInRoles c on a.UserId=c.UserId
+                               left join aspnet_Roles d on c.RoleId=d.RoleId
+                               where a.PayType=2 and d.RoleName=" + dbc.ToSqlValue(jsmc) + " " + where;
+                str += where;
+
+                //开始取分页数据
+                System.Data.DataTable dtPage = new System.Data.DataTable();
+                dtPage = dbc.GetPagedDataTable(str + " order by a.CreateTime desc", pagesize, ref cp, out ac);
+
+                return new { dt = dtPage, cp = cp, ac = ac };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 
 }
