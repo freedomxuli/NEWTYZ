@@ -612,6 +612,68 @@ public class JjrDB
         }
     }
 
+    [CSMethod("SaveFdDevice")]
+    public object SaveFdDevice(JSReader jsr)
+    {
+        using (DBConnection dbc = new DBConnection())
+        {
+            dbc.BeginTransaction();
+            try
+            {
+                int id;
+                if (jsr["ID"].ToString() == "")
+                {
+                    id = Convert.ToInt16(dbc.ExecuteScalar("select AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME='tb_b_landlord_sp'").ToString());
+
+                    string sql = "insert into tb_b_landlord_sp(";
+                    sql += "DEVICE_NAME,";
+                    sql += "DEVICE_NUMBER,";
+                    sql += "DEVICE_MONEY,";
+                    sql += "STATUS";
+                    sql += ") values(";
+                    sql += "@DEVICE_NAME,";
+                    sql += "@DEVICE_NUMBER,";
+                    sql += "@DEVICE_MONEY,";
+                    sql += "@STATUS";
+                    sql += ")";
+
+                    MySqlCommand cmd = new MySqlCommand(sql);
+                    cmd.Parameters.Add("@DEVICE_NAME", jsr["DEVICE_NAME"].ToString());
+                    cmd.Parameters.Add("@DEVICE_NUMBER", Convert.ToDecimal(jsr["DEVICE_NUMBER"].ToString()));
+                    cmd.Parameters.Add("@DEVICE_MONEY", Convert.ToDecimal(jsr["DEVICE_MONEY"].ToString()));
+                    cmd.Parameters.Add("@STATUS", "0");
+                    dbc.ExecuteNonQuery(cmd);
+                }
+                else
+                {
+                    id = Convert.ToInt32(jsr["ID"].ToString());
+
+                    string sql = "update tb_b_landlord_sp set ";
+                    sql += "DEVICE_NAME=@DEVICE_NAME,";
+                    sql += "DEVICE_NUMBER=@DEVICE_NUMBER,";
+                    sql += "DEVICE_MONEY=@DEVICE_MONEY";
+                    sql += " where ID=" + id;
+
+                    MySqlCommand cmd = new MySqlCommand(sql);
+                    cmd.Parameters.Add("@DEVICE_NAME", jsr["DEVICE_NAME"].ToString());
+                    cmd.Parameters.Add("@DEVICE_NUMBER", Convert.ToDecimal(jsr["DEVICE_NUMBER"].ToString()));
+                    cmd.Parameters.Add("@DEVICE_MONEY", Convert.ToDecimal(jsr["DEVICE_MONEY"].ToString()));
+                    dbc.ExecuteNonQuery(cmd);
+                }
+
+                dbc.CommitTransaction();
+
+                DataTable dt = dbc.ExecuteDataTable("select ID,DEVICE_NAME,DEVICE_NUMBER,DEVICE_MONEY from tb_b_agent_sp where id=" + id);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                dbc.RoolbackTransaction();
+                throw ex;
+            }
+        }
+    }
+
     [CSMethod("SaveBjXX")]
     public bool SaveBjXX(JSReader jsr, JSReader fj)
     {
