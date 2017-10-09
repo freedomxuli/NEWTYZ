@@ -1,4 +1,4 @@
-﻿
+﻿var AuthorizeId;
 var pageSize = 15;
 
 
@@ -9,17 +9,18 @@ var store = createSFW4Store({
     currentPage: 1,
     fields: [
        { name: 'ID' },
-        { name: 'AuthorizeNo' },
+       { name: 'AuthorizeNo' },
        { name: 'RealName' },
-    { name: 'AuthorStatus' },
+       { name: 'CellPhone' },
+       { name: 'AuthorStatus' },
        { name: 'CellPhone' },
        { name: 'LiveStartDate' },
        { name: 'LiveEndDate' },
        { name: 'HotelName' },
        { name: 'Mobile' },
        { name: 'CompleteAddress' },
-       { name: 'RoomNo' }
-
+       { name: 'RoomNo' },
+       { name: 'IssueState' }
     ],
     //sorters: [{ property: 'b', direction: 'DESC'}],
     onPageChange: function (sto, nPage, sorters) {
@@ -33,6 +34,10 @@ var JsStore = Ext.create('Ext.data.Store', {
        { name: 'JS_ID' },
        { name: 'JS_NAME' }
     ]
+});
+
+var userStore = Ext.create('Ext.data.Store', {
+    fields: ['VALUE', 'TEXT']
 });
 
 var dqstore = Ext.create('Ext.data.Store', {
@@ -70,8 +75,9 @@ function sh() {
 
 //************************************页面方法***************************************
 
-function tp() {
-    var win = new phWin();
+function ck(id) {
+    AuthorizeId = id;
+    var win = new tsWin();
     win.show();
 }
 
@@ -83,6 +89,111 @@ function sh(v) {
         }
     });
 }
+
+
+Ext.define('tsWin', {
+    extend: 'Ext.window.Window',
+    id: 'tsWin',
+    height: 250,
+    width: 478,
+    layout: {
+        type: 'anchor'
+    },
+    title: '纠纷/投诉',
+    modal: true,
+    initComponent: function () {
+        var me = this;
+        Ext.applyIf(me, {
+            items: [
+                {
+                    xtype: 'form',
+                    id: 'form',
+                    items: [
+                     {
+                         xtype: 'combobox',
+                         name: 'IssueState',
+                         margin: '10 10 10 10',
+                         width: 200,
+                         labelWidth: 60,
+                         fieldLabel: '标记为',
+                         queryMode: 'local',
+                         displayField: 'TEXT',
+                         valueField: 'VALUE',
+                         allowBlank: false,
+                         store: new Ext.data.ArrayStore({
+                             fields: ['TEXT', 'VALUE'],
+                             data: [
+                                  ['纠纷', '1'],
+                                  ['投诉', '2']
+                             ]
+                         })
+                     },
+                    {
+                        xtype: 'combobox',
+                        name: 'TOUSERID',
+                        margin: '10 10 10 10',
+                        width: 200,
+                        labelWidth: 60,
+                        fieldLabel: '发送至',
+                        queryMode: 'local',
+                        displayField: 'TEXT',
+                        valueField: 'VALUE',
+                        allowBlank: false,
+                        store: userStore
+                    },
+                   {
+                       xtype: 'textareafield',
+                       name: 'ISSUEINFO',
+                       height: 102,
+                       width: 436,
+                       labelWidth: 60,
+                       margin: '10 10 10 10',
+                       fieldLabel: '事件详情'
+                   }
+                    ]
+                }
+
+            ]
+        });
+
+        me.callParent(arguments);
+    },
+    buttonAlign: 'center',
+    buttons: [
+        {
+            text: '确定',
+            handler: function () {
+                alert(AuthorizeId);
+                var form = Ext.getCmp('form');
+                if (form.form.isValid()) {
+                    //取得表单中的内容
+                    var values = form.form.getValues(false);
+                    CS('CZCLZ.PayOrderDB.SendIssue', function (retVal) {
+                        if (retVal) {
+                            Ext.Msg.show({
+                                title: '提示',
+                                msg: '提交成功',
+                                buttons: Ext.MessageBox.OK,
+                                icon: Ext.MessageBox.INFO,
+                                fn: function () {
+                                    loadData(1);
+                                    Ext.getCmp("tsWin").close();
+                                }
+                            });
+                        }
+                    }, CS.onError, values, AuthorizeId);
+                }
+            }
+        },
+        {
+            text: '关闭',
+            handler: function () {
+                Ext.getCmp('tsWin').close();
+            }
+        }
+    ]
+
+});
 
 //************************************主界面*****************************************
 Ext.onReady(function () {
@@ -133,7 +244,15 @@ Ext.onReady(function () {
                                 align: 'center',
                                 text: "房客姓名"
                             },
-
+                             {
+                                 xtype: 'gridcolumn',
+                                 flex: 1,
+                                 dataIndex: 'CellPhone',
+                                 sortable: false,
+                                 menuDisabled: true,
+                                 align: 'center',
+                                 text: "房客电话"
+                             },
                               {
                                   xtype: 'datecolumn',
                                   flex: 1,
@@ -201,8 +320,14 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str = "";
-                                    if (value == 2)
-                                        str = "<a href='#' onclick='ck(\"" + record.data.ID + "\")'>纠纷/投诉</a>";
+                                    if (value == 2) {
+                                        if (record.data.IssueState != 1 && record.data.IssueState != 2)
+                                            str = "<a href='#' onclick='ck(\"" + record.data.AuthorizeNo + "\")'>纠纷/投诉</a>";
+                                        else if (record.data.IssueState == 1)
+                                            str = "纠纷处理中";
+                                        else if (record.data.IssueState == 2)
+                                            str = "投诉处理中";
+                                    }
                                     return str;
                                 }
                             }
@@ -300,11 +425,10 @@ Ext.onReady(function () {
 
     new mainView();
 
-    CS('CZCLZ.YHGLClass.GetQy', function (retVal) {
+    CS('CZCLZ.PayOrderDB.GetUser', function (retVal) {
         if (retVal) {
-            dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
-            dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+            userStore.loadData(retVal, true);
+            // Ext.getCmp("QY_ID").setValue('');
         }
     }, CS.onError);
 

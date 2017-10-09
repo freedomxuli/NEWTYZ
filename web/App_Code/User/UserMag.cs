@@ -425,8 +425,8 @@ public class UserMag
                     {
                         throw new Exception("该用户名已存在！");
                     }
-
-                    var YHID = Guid.NewGuid().ToString();
+                    int YHID = Convert.ToInt16(dbc.ExecuteScalar("select AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME='tb_b_Users'").ToString());
+                    //var YHID = Guid.NewGuid().ToString();
                     //建立用户
                     string sqlStr = "";
                     //if (jsr["QY_ID"].ToString() != "")
@@ -485,7 +485,7 @@ public class UserMag
                                 fj_ids += ",'" + fj_arr[i].ToString() + "'";
                             }
                         }
-                        dbc.ExecuteNonQuery("update tb_b_fj set fj_pid='" + YHID + "' where status=0 and fj_id in(" + fj_ids + ")");
+                        dbc.ExecuteNonQuery("update tb_b_fj set fj_pid=" + YHID + " where status=0 and fj_id in(" + fj_ids + ")");
                     }
 
                     //建立用户角色关联
@@ -536,7 +536,7 @@ public class UserMag
                 else
                 {
                     var YHID = jsr["User_ID"].ToString();
-                    var oldname = dbc.ExecuteScalar("select LoginName from tb_b_Users where User_ID='" + YHID + "'");
+                    var oldname = dbc.ExecuteScalar("select LoginName from tb_b_Users where User_ID=" + YHID + "");
                     if (!jsr["LoginName"].ToString().Equals(oldname.ToString()))
                     {
                         DataTable dt_user = dbc.ExecuteDataTable("select * from tb_b_Users where LoginName='" + jsr["LoginName"].ToString() + "' and User_DelFlag=0");

@@ -65,8 +65,9 @@ public class MenuControl
                 <Item Name='订单查询'>
                     <Tab p='' Name='订单查询'>approot/r/page/kfqx/ddlist.html</Tab>
                 </Item>
-                <Item Name='待处理纠纷'>
-                    <Tab p='' Name='待处理纠纷'>approot/r/page/kfqx/ddlist.html</Tab>
+                <Item Name='纠纷订单'>
+                    <Tab p='' Name='待处理纠纷'>approot/r/page/kfqx/dcljfdd.html</Tab>
+                    <Tab p='' Name='已处理纠纷'>approot/r/page/kfqx/ycljfdd.html</Tab>
                 </Item>           
                  <Item Name='待处理投诉'>
                     <Tab p='' Name='待处理投诉'>approot/r/page/kfqx/ddlist.html</Tab>
