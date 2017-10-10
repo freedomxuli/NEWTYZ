@@ -114,6 +114,7 @@ Ext.onReady(function () {
                           },
                             {
                                 xtype: 'gridcolumn',
+                                flex:1,
                                 dataIndex: 'LANDLORD_MC',
                                 sortable: false,
                                 menuDisabled: true,
@@ -122,6 +123,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'gridcolumn',
+                                 flex: 1,
                                  dataIndex: 'LANDLORD_NAME',
                                  sortable: false,
                                  menuDisabled: true,
@@ -130,6 +132,7 @@ Ext.onReady(function () {
                              },
                               {
                                   xtype: 'gridcolumn',
+                                  flex: 1,
                                   dataIndex: 'User_XM',
                                   sortable: false,
                                   menuDisabled: true,
@@ -139,6 +142,7 @@ Ext.onReady(function () {
                               
                                 {
                                     xtype: 'gridcolumn',
+                                    flex: 1,
                                     dataIndex: 'LANDLORD_MOBILE_TEL',
                                     sortable: false,
                                     menuDisabled: true,
@@ -148,6 +152,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'datecolumn',
+                                flex: 1,
                                 format: 'Y-m-d',
                                 dataIndex: 'LANDLORD_START_TIME',
                                 sortable: false,
@@ -157,6 +162,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'datecolumn',
+                                 flex: 1,
                                  format: 'Y-m-d',
                                  dataIndex: 'LANDLORD_END_TIME',
                                  sortable: false,
@@ -166,6 +172,7 @@ Ext.onReady(function () {
                              },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'QY_NAME',
                                 sortable: false,
                                 menuDisabled: true,
@@ -322,7 +329,7 @@ Ext.onReady(function () {
         if (retVal) {
             dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
             dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+           // Ext.getCmp("QY_ID").setValue('');
         }
     }, CS.onError);
 

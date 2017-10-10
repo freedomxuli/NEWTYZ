@@ -119,7 +119,7 @@ public class PayOrderDB
                 cmd.Parameters.AddWithValue("@SERVICETYPE", serviceType);
                 cmd.Parameters.AddWithValue("@STATUS", 0);
                 dbc.ExecuteNonQuery(cmd);
-
+               
                 sqlStr = "insert into tb_u_flow_step(";
                 sqlStr += "FLOWID,";
                 sqlStr += "STEP,";
@@ -185,6 +185,79 @@ public class PayOrderDB
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+    }
+
+    [CSMethod("GetDdqxjftsList")]
+    public object GetDdqxjftsList(int pagnum, int pagesize, string no, int reslut, string serviceType)
+    {
+        using (DBConnection dbc = new DBConnection())
+        {
+            try
+            {
+                int cp = pagnum;
+                int ac = 0;
+
+                string mStr = " and TOUSERID=" + SystemUser.CurrentUser.UserID;
+                if (!string.IsNullOrEmpty(no))
+                    mStr += " and " + dbc.C_Like("a.SERVICEID", no.Trim(), LikeStyle.LeftAndRightLike);
+
+                string sqlStr = @"select a.SERVICEID,b.*,c.User_XM FQR,d.User_XM CLR from tb_u_flow a
+                                 left join tb_u_flow_step b on a.FLOWID=b.FLOWID
+                                 left join tb_b_users c on b.FROMUSERID=c.User_ID
+                                 left join tb_b_users d on b.TOUSERID=d.User_ID
+                                 where RESULT=" + reslut + " and SERVICETYPE='" + serviceType + "'" + mStr + " order by b.CREATTIME desc";
+                DataTable dtPage = dbc.GetPagedDataTable(sqlStr, pagesize, ref cp, out ac);
+                return new { dt = dtPage, cp = cp, ac = ac };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+
+    [CSMethod("EndIssue")]
+    public bool EndIssue(JSReader jsr, string SERVICEID, int flowId, int setpId)
+    {
+        using (SmartFramework4v2.Data.SqlServer.DBConnection dbc = new SmartFramework4v2.Data.SqlServer.DBConnection(ConfigurationManager.ConnectionStrings["LockConnStr"].ConnectionString))
+        {
+            dbc.BeginTransaction();
+            try
+            {
+                var RESULTINFO = jsr["RESULTINFO"].ToString();
+
+                SetFlow2(RESULTINFO, flowId, setpId);
+
+                string sqlStr = "update Lock_AuthorizeOrder set IssueState=0 where AuthorizeNo=" + SERVICEID;
+                dbc.ExecuteNonQuery(sqlStr);
+                dbc.CommitTransaction();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                dbc.RoolbackTransaction();
+                throw ex;
+            }
+        }
+    }
+
+    public void SetFlow2(string RESULTINFO, int flowId, int setpId)
+    {
+        using (DBConnection dbc = new DBConnection())
+        {
+            dbc.BeginTransaction();
+            try
+            {
+                dbc.ExecuteNonQuery("update tb_u_flow set status=1 where flowid=" + flowId);
+                dbc.ExecuteNonQuery("update tb_u_flow_step set RESULT=1,RESULTINFO='" + RESULTINFO + "',FINISHTIME=sysdate() where STEPID=" + setpId);
+                dbc.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                dbc.RoolbackTransaction();
                 throw ex;
             }
         }

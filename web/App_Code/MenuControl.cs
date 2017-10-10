@@ -26,11 +26,14 @@ public class MenuControl
                <Item Name='保洁管理'>
                     <Tab p='' Name='保洁管理'>approot/r/page/jjrqx/bjgl.html</Tab>
                 </Item>
-                <Item Name='纠纷管理'>
-                    <Tab p='' Name='纠纷管理'>approot/r/page/kfqx/ddlist.html</Tab>
+                <Item Name='代理商申请'>
+                    <Tab p='' Name='代理商申请'>approot/r/page/jjrqx/dlssqck.html</Tab>
                 </Item>
-                <Item Name='投诉管理'>
-                    <Tab p='' Name='投诉管理'>approot/r/page/kfqx/ddlist.html</Tab>
+                <Item Name='房东申请'>
+                    <Tab p='' Name='房东申请'>approot/r/page/jjrqx/fdsqck.html</Tab>
+                </Item>
+                <Item Name='保洁申请'>
+                    <Tab p='' Name='保洁申请'>approot/r/page/jjrqx/bjsqck.html</Tab>
                 </Item>
             </Menu>
             <Menu Name='财务权限'>
@@ -56,8 +59,8 @@ public class MenuControl
                 <Item Name='代理商设备配货'>
                     <Tab p='' Name='代理商设备配货'>approot/r/page/sczqx/dlslist.html</Tab>
                 </Item>
-                <Item Name='房东财务设备配货'>
-                    <Tab p='' Name='代理商设备配货'>approot/r/page/sczqx/fdlist.html</Tab>
+                <Item Name='房东设备配货'>
+                    <Tab p='' Name='房东设备配货'>approot/r/page/sczqx/fdlist.html</Tab>
                 </Item>            
              
             </Menu>
@@ -69,8 +72,9 @@ public class MenuControl
                     <Tab p='' Name='待处理纠纷'>approot/r/page/kfqx/dcljfdd.html</Tab>
                     <Tab p='' Name='已处理纠纷'>approot/r/page/kfqx/ycljfdd.html</Tab>
                 </Item>           
-                 <Item Name='待处理投诉'>
-                    <Tab p='' Name='待处理投诉'>approot/r/page/kfqx/ddlist.html</Tab>
+                 <Item Name='投诉订单'>
+                    <Tab p='' Name='待处理投诉'>approot/r/page/kfqx/dcltsdd.html</Tab>
+                    <Tab p='' Name='已处理投诉'>approot/r/page/kfqx/ycltsdd.html</Tab>
                 </Item>
             </Menu>
           <Menu Name='订单专员权限'>
@@ -81,10 +85,12 @@ public class MenuControl
                     <Tab p='' Name='待确认取消订单'>approot/r/page/kfqx/ddlist.html</Tab>
                 </Item>           
                  <Item Name='纠纷订单'>
-                    <Tab p='' Name='纠纷订单'>approot/r/page/kfqx/ddlist.html</Tab>
+                    <Tab p='' Name='待处理纠纷订单'>approot/r/page/ddqx/dcljflist.html</Tab>
+                    <Tab p='' Name='已处理纠纷订单'>approot/r/page/ddqx/ycljflist.html</Tab>
                 </Item>
-                 <Item Name='已处理订单'>
-                    <Tab p='' Name='已处理订单'>approot/r/page/kfqx/ddlist.html</Tab>
+                 <Item Name='投诉订单'>
+                    <Tab p='' Name='待处理投诉订单'>approot/r/page/ddqx/dcltslist.html</Tab>
+                    <Tab p='' Name='已处理投诉订单'>approot/r/page/ddqx/ycltslist.html</Tab>
                 </Item>
             </Menu>
           <Menu Name='代理商权限'>

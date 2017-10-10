@@ -58,12 +58,6 @@ function loadData(nPage) {
 }
 
 
-function sh() {
-    var win = new ShWin();
-    win.show();
-}
-
-
 //************************************页面方法***************************************
 
 function tp() {
@@ -73,7 +67,7 @@ function tp() {
 
 function sh(v) {
     FrameStack.pushFrame({
-        url: 'fdqr.html?id=' + v,
+        url: 'fddetail.html?id=' + v,
         onClose: function (ret) {
             loadData(1);
         }
@@ -180,7 +174,7 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\")'>查看</a>";
+                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\")'>配货</a>";
                                     return str;
                                 }
                             }

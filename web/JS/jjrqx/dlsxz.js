@@ -209,6 +209,25 @@ Ext.onReady(function () {
                                               labelWidth: 150
 
                                           },
+                                           {
+                                               xtype: 'textfield',
+                                               name: 'LoginNmae',
+                                               margin: '10 10 10 10',
+                                               fieldLabel: '登录名',
+                                               allowBlank: false,
+                                               columnWidth: 0.5,
+                                               labelWidth: 150
+                                           },
+                                          {
+                                              xtype: 'textfield',
+                                              name: 'PassWord',
+                                              allowBlank: false,
+                                              margin: '10 10 10 10',
+                                              fieldLabel: '密码',
+                                              columnWidth: 0.5,
+                                              labelWidth: 150
+
+                                          },
                                           {
                                               xtype: 'combobox',
                                               name: 'AGENT_LEVEL',
@@ -382,7 +401,16 @@ Ext.onReady(function () {
                                              fieldLabel: '代理商所属区域',
                                              columnWidth: 0.5,
                                              labelWidth: 150
-                                         }
+                                         },
+                                          {
+                                              xtype: 'displayfield',
+                                              name: 'DealerAuthoriCode',
+                                              margin: '10 10 10 10',
+                                              fieldLabel: '授权码',
+                                              allowBlank: false,
+                                              columnWidth: 0.5,
+                                              labelWidth: 150
+                                          },
 
 
                                 ]

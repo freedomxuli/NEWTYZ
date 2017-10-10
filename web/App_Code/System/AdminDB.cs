@@ -281,7 +281,10 @@ public class AdminDB
                     where += " and QY_ID='" + qy + "'";
                 }
 
-                string str = "select a.*,b.QY_NAME,c.User_XM from tb_b_landlord a left join tb_b_qy b on a.QY_ID=b.QY_ID left join tb_b_users c on a.ROLE_ID=c.User_Id where a.STATUS=0 and a.ZT=0";
+                string str = @"select a.*,b.QY_NAME,c.User_XM,e.* from tb_b_landlord a left join tb_b_qy b on a.QY_ID=b.QY_ID left join tb_b_users c on a.ROLE_ID=c.User_Id  
+                              right join tb_u_flow d on a.ID=d.SERVICEID
+                              left join tb_u_flow_step e on d.FLOWID=e.FLOWID
+                              where a.STATUS=0 and a.ZT=0 and d.SERVICETYPE='房东申请' and d.STATUS=0 and e.RESULT=0";
                 str += where;
 
                 //开始取分页数据
@@ -572,22 +575,21 @@ public class AdminDB
     }
 
     [CSMethod("AgreeFd")]
-    public bool AgreeFd(int id, string yhm, string mm)
+    public bool AgreeFd(int id, int flowId, int stepId)
     {
         using (DBConnection dbc = new DBConnection())
         {
             dbc.BeginTransaction();
             try
             {
-                dbc.ExecuteNonQuery("update tb_b_landlord set ZT=1,ADMIN_ID=" + SystemUser.CurrentUser.UserID + ",COMFIRM_TIME=sysdate() where id=" + id);
 
                 DataTable dt = GetFdById(id);
                 int user_id = Convert.ToInt16(dbc.ExecuteScalar("select AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME='tb_b_users'").ToString());
                 string sql = @"insert into tb_b_users(LoginName,Password,User_XM,StartDate,EndDate,User_Enable,User_Delflag,AddTime)  
                              values(@LoginName,@Password,@User_XM,@StartDate,@EndDate,@User_Enable,@User_Delflag,@AddTime)";
                 MySqlCommand cmd = new MySqlCommand(sql);
-                cmd.Parameters.Add("@LoginName", yhm);
-                cmd.Parameters.Add("@Password", mm);
+                cmd.Parameters.Add("@LoginName", dt.Rows[0]["LoginName"].ToString());
+                cmd.Parameters.Add("@Password", dt.Rows[0]["PassWord"].ToString());
                 cmd.Parameters.Add("@User_XM", dt.Rows[0]["LANDLORD_NAME"].ToString());
                 cmd.Parameters.Add("@StartDate", Convert.ToDateTime(dt.Rows[0]["LANDLORD_START_TIME"].ToString()));
                 cmd.Parameters.Add("@EndDate", Convert.ToDateTime(dt.Rows[0]["LANDLORD_END_TIME"].ToString()));
@@ -597,7 +599,9 @@ public class AdminDB
                 dbc.ExecuteNonQuery(cmd);
 
                 dbc.ExecuteNonQuery("insert into tb_b_user_js_gl(User_ID,JS_ID,delflag,addtime) values(" + user_id + ",8,0,sysdate())");
-
+                dbc.ExecuteNonQuery("update tb_b_landlord set ZT=1,User_ID=" + user_id + ",ADMIN_ID=" + SystemUser.CurrentUser.UserID + ",DealerAuthoriCode='" + DateTime.Now.ToString("yyMMddss") + "',COMFIRM_TIME=sysdate() where id=" + id);
+                Flow.FinishFlow(dbc, flowId);
+                Flow.FinishStep(dbc, stepId, 1, "审核通过");
                 dbc.CommitTransaction();
                 return true;
             }

@@ -205,8 +205,19 @@ Ext.onReady(function () {
                             {
                                 text: '同意',
                                 handler: function () {
-                                    var win = new userWin();
-                                    win.show();
+                                    Ext.MessageBox.confirm('确认', '确认通过？', function (btn) {
+                                        if (btn == 'yes') {
+                                            var form = Ext.getCmp('userform');
+                                            if (form.form.isValid()) {
+                                                //取得表单中的内容
+                                                CS('CZCLZ.AdminDB.AgreeFd', function (retVal) {
+                                                    if (retVal) {
+                                                        FrameStack.popFrame();
+                                                    }
+                                                }, CS.onError, id);
+                                            }
+                                        }
+                                    });
                                 }
 
                             },
@@ -488,75 +499,8 @@ Ext.onReady(function () {
 
 
                                 ]
-                            },
-                            {
-                                xtype: 'panel',
-                                margin: '10 0 0 0',
-                                // border: true,
-                                items: [
-                                    {
-                                        xtype: 'panel',
-                                        items: [
-                                            {
-                                                xtype: 'gridpanel',
-                                                margin: '0 0 0 0',
-                                                id: 'devicegrid',
-                                                //  store: store2,
-                                                height: 300,
-                                                columnLines: true,
-                                                border: true,
-                                                autoscroll: true,
-                                                columns: [
-                                                     {
-                                                         xtype: 'gridcolumn',
-                                                         dataIndex: 'DEVICE_NAME',
-                                                         align: 'center',
-                                                         text: '设备类型',
-                                                         flex: 1,
-                                                         sortable: false,
-                                                         menuDisabled: true
-                                                     },
-
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'DEVICE_NUMBER',
-                                                        align: 'center',
-                                                        text: '设备数量',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    },
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'DEVICE_MONEY',
-                                                        align: 'center',
-                                                        text: '押金金额',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    }
-
-                                                ],
-                                                dockedItems: [
-                                                    {
-                                                        xtype: 'toolbar',
-                                                        dock: 'top',
-                                                        items: [
-                                                            {
-                                                                xtype: 'displayfield',
-                                                                fieldLabel: '',
-                                                                value: '<div style="font-size:14px; color:#007ED2;">代理设备列表</div>'
-                                                            },
-                                                            '->'
-                                                            
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
                             }
+                               
                         ]
                     }
                 ]

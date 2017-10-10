@@ -209,6 +209,26 @@ Ext.onReady(function () {
                                               labelWidth: 150
 
                                           },
+                                         {
+                                             xtype: 'textfield',
+                                             name: 'LoginName',
+                                             margin: '10 10 10 10',
+                                             fieldLabel: '用户名',
+                                             allowBlank: false,
+                                             columnWidth: 0.5,
+                                             labelWidth: 150
+
+                                         },
+                                         {
+                                             xtype: 'textfield',
+                                             name: 'PassWord',
+                                             margin: '10 10 10 10',
+                                             fieldLabel: '密码',
+                                             allowBlank: false,
+                                             columnWidth: 0.5,
+                                             labelWidth: 150
+
+                                         },
 
                                           {
                                               xtype: 'textfield',
@@ -406,6 +426,7 @@ Ext.onReady(function () {
                                              id: 'QY_ID',
                                              name: 'QY_ID',
                                              editable: false,
+                                             allowBlank: false,
                                              store: dqstore,
                                              queryMode: 'local',
                                              displayField: 'TEXT',
@@ -418,112 +439,31 @@ Ext.onReady(function () {
 
 
                                 ]
+
+                            }
+                        ],
+                        buttonAlign: 'center',
+                        buttons: [
+                            {
+                                text: '保存',
+                                handler: function () {
+                                    var form = Ext.getCmp('addform');
+                                    if (form.form.isValid()) {
+                                        var values = form.getValues(false);
+                                        CS('CZCLZ.JjrDB.SaveFdXX', function (retVal) {
+                                            if (retVal) {
+                                                FrameStack.popFrame();
+                                            }
+                                        }, CS.onError, values, picItem);
+                                    }
+                                }
+
                             },
                             {
-                                xtype: 'panel',
-                                margin: '10 0 0 0',
-                                // border: true,
-                                items: [
-                                    {
-                                        xtype: 'panel',
-                                        items: [
-                                            {
-                                                xtype: 'gridpanel',
-                                                margin: '0 0 0 0',
-                                                id: 'devicegrid',
-                                                //  store: store2,
-                                                height: 300,
-                                                columnLines: true,
-                                                border: true,
-                                                autoscroll: true,
-                                                columns: [
-                                                     {
-                                                         xtype: 'gridcolumn',
-                                                         dataIndex: 'DEVICE_NAME',
-                                                         align: 'center',
-                                                         text: '设备类型',
-                                                         flex: 1,
-                                                         sortable: false,
-                                                         menuDisabled: true
-                                                     },
-
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'DEVICE_NUMBER',
-                                                        align: 'center',
-                                                        text: '设备数量',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    },
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'DEVICE_MONEY',
-                                                        align: 'center',
-                                                        text: '押金金额',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    }
-
-                                                ],
-                                                dockedItems: [
-                                                    {
-                                                        xtype: 'toolbar',
-                                                        dock: 'top',
-                                                        items: [
-                                                            {
-                                                                xtype: 'displayfield',
-                                                                fieldLabel: '',
-                                                                value: '<div style="font-size:14px; color:#007ED2;">代理设备列表</div>'
-                                                            },
-                                                            '->',
-                                                            {
-                                                                xtype: 'button',
-                                                                text: '添加设备',
-                                                                handler: function () {
-
-                                                                    var win = new deviceWin();
-
-                                                                    win.show(null, function () {
-
-                                                                        // wjdataBind(1);
-
-                                                                    });
-
-                                                                }
-                                                            }
-                                                        ]
-                                                    }
-                                                ],
-                                                buttonAlign: 'center',
-                                                buttons: [
-                                                    {
-                                                        text: '保存',
-                                                        handler: function () {
-                                                            var form = Ext.getCmp('addform');
-                                                            if (form.form.isValid()) {
-                                                                var values = form.getValues(false);
-                                                                CS('CZCLZ.JjrDB.SaveFdXX', function (retVal) {
-                                                                    if (retVal) {
-                                                                        FrameStack.popFrame();
-                                                                    }
-                                                                }, CS.onError, values, picItem);
-                                                            }
-                                                        }
-
-                                                    },
-                                                    {
-                                                        text: '返回',
-                                                        handler: function () {
-                                                            FrameStack.popFrame();
-                                                        }
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
+                                text: '返回',
+                                handler: function () {
+                                    FrameStack.popFrame();
+                                }
                             }
                         ]
                     }
@@ -538,7 +478,6 @@ Ext.onReady(function () {
 
     CS('CZCLZ.YHGLClass.GetQy', function (retVal) {
         if (retVal) {
-            dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
             dqstore.loadData(retVal, true);
             Ext.getCmp("QY_ID").setValue('');
         }

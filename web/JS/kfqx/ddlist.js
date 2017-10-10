@@ -163,7 +163,6 @@ Ext.define('tsWin', {
         {
             text: '确定',
             handler: function () {
-                alert(AuthorizeId);
                 var form = Ext.getCmp('form');
                 if (form.form.isValid()) {
                     //取得表单中的内容

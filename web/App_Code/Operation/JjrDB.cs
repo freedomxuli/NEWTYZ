@@ -57,7 +57,11 @@ public class JjrDB
                     sql += "ROLE_ID,";
                     sql += "STATUS,";
                     sql += "ADDTIME,";
+                    sql += "LoginName,";
+                    sql += "PassWord,";
+                    sql += "DealerAuthoriCode,";
                     sql += "ZT";
+
                     sql += ") values(";
                     sql += "@AGENT_MC,";
                     sql += "@AGENT_NAME,";
@@ -79,6 +83,9 @@ public class JjrDB
                     sql += "@ROLE_ID,";
                     sql += "@STATUS,";
                     sql += "@ADDTIME,";
+                    sql += "@LoginName,";
+                    sql += "@PassWord,";
+                    sql += "@DealerAuthoriCode,";
                     sql += "@ZT";
                     sql += ")";
 
@@ -103,6 +110,9 @@ public class JjrDB
                     cmd.Parameters.Add("@ROLE_ID", SystemUser.CurrentUser.UserID);
                     cmd.Parameters.Add("@STATUS", "0");
                     cmd.Parameters.Add("@ADDTIME", DateTime.Now);
+                    cmd.Parameters.Add("@LoginName", jsr["LoginName"].ToString());
+                    cmd.Parameters.Add("@PassWord", jsr["AGENT_IDENTITY_NUMBER"].ToString());
+                    cmd.Parameters.Add("@DealerAuthoriCode", DateTime.Now.ToString("yyMMddss"));
                     cmd.Parameters.Add("@ZT", "0");
 
                     dbc.ExecuteNonQuery(cmd);
@@ -129,7 +139,9 @@ public class JjrDB
                     sql += "AGENT_DEPOSIT=@AGENT_DEPOSIT,";
                     //sql += "QY_ID,";
                     sql += "ROLE_ID=@ROLE_ID,";
-                    sql += "UPDATETIME=@UPDATETIME";
+                    sql += "UPDATETIME=@UPDATETIME,";
+                    sql += "LoginName=@LoginName,";
+                    sql += "PassWord=@PassWord";
                     sql += " where ID=" + id;
 
 
@@ -153,6 +165,8 @@ public class JjrDB
                     //cmd.Parameters.Add("@QY_ID", jsr["QY_ID"].ToString());
                     cmd.Parameters.Add("@ROLE_ID", SystemUser.CurrentUser.UserID);
                     cmd.Parameters.Add("@UPDATETIME", DateTime.Now);
+                    cmd.Parameters.Add("@LoginName", Convert.ToDecimal(jsr["LoginName"].ToString()));
+                    cmd.Parameters.Add("@PassWord", Convert.ToDecimal(jsr["PassWord"].ToString()));
                     dbc.ExecuteNonQuery(cmd);
                 }
 
@@ -353,6 +367,10 @@ public class JjrDB
                 int id;
                 if (jsr["ID"].ToString() == "")
                 {
+                    DataTable dtUser = dbc.ExecuteDataTable("select * from tb_b_users where LoginName='" + jsr["LoginName"].ToString().Trim() + "'");
+                    if (dtUser.Rows.Count > 0)
+                        throw new Exception("用户名已存在");
+
                     id = Convert.ToInt16(dbc.ExecuteScalar("select AUTO_INCREMENT from INFORMATION_SCHEMA.TABLES where TABLE_NAME='tb_b_landlord'").ToString());
 
                     string sql = "insert into tb_b_landlord(";
@@ -378,6 +396,8 @@ public class JjrDB
                     sql += "ROLE_ID,";
                     sql += "STATUS,";
                     sql += "ADDTIME,";
+                    sql += "LoginName,";
+                    sql += "PassWord,";
                     sql += "ZT";
                     sql += ") values(";
                     sql += "@LANDLORD_MC,";
@@ -402,6 +422,8 @@ public class JjrDB
                     sql += "@ROLE_ID,";
                     sql += "@STATUS,";
                     sql += "@ADDTIME,";
+                    sql += "@LoginName,";
+                    sql += "@PassWord,";
                     sql += "@ZT";
                     sql += ")";
 
@@ -429,9 +451,14 @@ public class JjrDB
                     cmd.Parameters.Add("@ROLE_ID", SystemUser.CurrentUser.UserID);
                     cmd.Parameters.Add("@STATUS", "0");
                     cmd.Parameters.Add("@ADDTIME", DateTime.Now);
+                    cmd.Parameters.Add("@LoginName", jsr["LoginName"].ToString());
+                    cmd.Parameters.Add("@PassWord", jsr["PassWord"].ToString());
                     cmd.Parameters.Add("@ZT", "0");
 
                     dbc.ExecuteNonQuery(cmd);
+
+                    int flowId = Flow.SetFlow(dbc, id.ToString(), "房东申请");
+                    Flow.SetStep(dbc, flowId, 1, "发起房东申请", 1, "");
                 }
                 else
                 {
@@ -458,7 +485,8 @@ public class JjrDB
                     sql += "CONTACT_TEL=@CONTACT_TEL,";
                     //sql += "QY_ID,";
                     sql += "ROLE_ID=@ROLE_ID,";
-                    sql += "UPDATETIME=@UPDATETIME";
+                    sql += "UPDATETIME=@UPDATETIME,";
+                    sql += "PassWord=@PassWord";
                     sql += " where ID=" + id;
 
                     MySqlCommand cmd = new MySqlCommand(sql);
@@ -483,6 +511,7 @@ public class JjrDB
                     cmd.Parameters.Add("@QY_ID", Convert.ToInt16(jsr["QY_ID"].ToString()));
                     cmd.Parameters.Add("@ROLE_ID", SystemUser.CurrentUser.UserID);
                     cmd.Parameters.Add("@UPDATETIME", DateTime.Now);
+                    cmd.Parameters.Add("@PassWord", jsr["PassWord"].ToString());
 
 
                     dbc.ExecuteNonQuery(cmd);
@@ -629,11 +658,13 @@ public class JjrDB
                     sql += "DEVICE_NAME,";
                     sql += "DEVICE_NUMBER,";
                     sql += "DEVICE_MONEY,";
+                    sql += "ZT,";
                     sql += "STATUS";
                     sql += ") values(";
                     sql += "@DEVICE_NAME,";
                     sql += "@DEVICE_NUMBER,";
                     sql += "@DEVICE_MONEY,";
+                    sql += "@ZT,";
                     sql += "@STATUS";
                     sql += ")";
 
@@ -641,6 +672,7 @@ public class JjrDB
                     cmd.Parameters.Add("@DEVICE_NAME", jsr["DEVICE_NAME"].ToString());
                     cmd.Parameters.Add("@DEVICE_NUMBER", Convert.ToDecimal(jsr["DEVICE_NUMBER"].ToString()));
                     cmd.Parameters.Add("@DEVICE_MONEY", Convert.ToDecimal(jsr["DEVICE_MONEY"].ToString()));
+                    cmd.Parameters.Add("@ZT", "0");
                     cmd.Parameters.Add("@STATUS", "0");
                     dbc.ExecuteNonQuery(cmd);
                 }
@@ -759,7 +791,7 @@ public class JjrDB
                     sql += "COMMISSION_TYPE=@COMMISSION_TYPE,";
                     sql += "CONTRACT_START_TIME=@CONTRACT_START_TIME,";
                     sql += "CONTRACT_END_TIME=@CONTRACT_END_TIME,";
-               
+
                     sql += "UPDATETIME=@UPDATETIME";
                     sql += " where ID=" + id;
 
@@ -900,6 +932,44 @@ public class JjrDB
             }
 
         }
+    }
+
+
+    [CSMethod("GetSQList")]
+    public object GetSQList(int pagnum, int pagesize, string sj, string xm, int zt, int type)
+    {
+        using (DBConnection dbc = new DBConnection())
+        {
+            try
+            {
+                int cp = pagnum;
+                int ac = 0;
+
+                string where = "";
+                if (!string.IsNullOrEmpty(sj))
+                {
+                    where += " and Mobile like'%" + sj + "%'";
+                }
+                if (!string.IsNullOrEmpty(xm))
+                {
+                    where += " and Name like'%" + xm + "%'";
+                }
+
+                string str = "select * from tb_b_application where status=" + zt + " and ApplicationType=" + type + "";
+                str += where;
+
+                //开始取分页数据
+                System.Data.DataTable dtPage = new System.Data.DataTable();
+                dtPage = dbc.GetPagedDataTable(str + " order by addtime desc", pagesize, ref cp, out ac);
+
+                return new { dt = dtPage, cp = cp, ac = ac };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 
 }
