@@ -38,6 +38,8 @@
         sb.AppendFormat("<link type='text/css' href='{0}' rel='Stylesheet' />", GetVPath("~/css/icon.css"));
         sb.AppendFormat("<link type='text/css' href='{0}' rel='Stylesheet' />", GetVPath("~/css/Main.css"));
         sb.AppendFormat("<link type='text/css' href='{0}' rel='Stylesheet' />", GetVPath("~/js/BoxSelect/BoxSelect.css"));
+        sb.AppendFormat("<link type='text/css' href='{0}' rel='Stylesheet' />", GetVPath("~/js/baiduupload/webuploader.css"));
+        sb.AppendFormat("<link type='text/css' href='{0}' rel='Stylesheet' />", GetVPath("~/js/baiduupload/webuploadstyle.css"));
         sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>",
             GetVPath(IsDebugMode ? "~/js/extjs/ext-all-debug-w-comments.js" : "~/js/extjs/ext-all.js"));
         sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>", GetVPath("~/js/SFW4Uploader.js"));
@@ -52,6 +54,9 @@
         sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>", GetVPath("~/js/FrameStack.js"));
         sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>", GetVPath("~/js/BoxSelect/BoxSelect.js"));
         sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>", GetVPath("~/js/jquery-1.6.4.js"));
+        sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>", GetVPath("~/js/jquery-1.8.3.min.js"));
+        sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>", GetVPath("~/js/baiduupload/webuploader.min.js"));
+        sb.AppendFormat("\r\n<script type='text/javascript' src='{0}'></script>", GetVPath("~/js/baiduwebupload.js"));
         sb.AppendFormat("\r\n<script type='text/javascript' src='doconline/res/DocOnLine.js'></script>");
         Hashtable ht = new Hashtable();
         foreach (var key in Request.QueryString.AllKeys)

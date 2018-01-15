@@ -2,7 +2,10 @@
 var flowId;
 var stepId;
 var pageSize = 15;
-
+var isframe = true;
+if (window.queryString.isframe) {
+    isframe = false;
+}
 
 //************************************数据源*****************************************
 var store = createSFW4Store({
@@ -231,7 +234,21 @@ Ext.onReady(function () {
                                                     }
                                                 }
                                             ]
-                                        }
+                                        },
+                                         {
+                                             xtype: 'buttongroup',
+                                             title: '',
+                                             items: [
+                                                 {
+                                                     text: '返回',
+                                                     iconCls: 'back',
+                                                     hidden: isframe,
+                                                     handler: function () {
+                                                         FrameStack.popFrame();
+                                                     }
+                                                 }
+                                             ]
+                                         }
 
                                     ]
                                 },

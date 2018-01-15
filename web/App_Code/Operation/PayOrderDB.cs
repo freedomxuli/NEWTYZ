@@ -48,13 +48,13 @@ public class PayOrderDB
     }
 
     [CSMethod("GetUser")]
-    public object GetUser()
+    public object GetUser(int roleId)
     {
         using (DBConnection dbc = new DBConnection())
         {
             try
             {
-                string sqlStr = "select a.User_ID VALUE,User_XM TEXT from tb_b_users a inner join tb_b_user_js_gl b on a.User_ID=b.User_ID where b.JS_ID=6 and b.delflag=0 and a.User_Enable=0 and a.User_Delflag=0";
+                string sqlStr = "select a.User_ID VALUE,User_XM TEXT from tb_b_users a inner join tb_b_user_js_gl b on a.User_ID=b.User_ID where b.JS_ID=" + roleId + " and b.delflag=0 and a.User_Enable=0 and a.User_Delflag=0";
                 DataTable dt = dbc.ExecuteDataTable(sqlStr);
                 return dt;
             }
@@ -119,7 +119,7 @@ public class PayOrderDB
                 cmd.Parameters.AddWithValue("@SERVICETYPE", serviceType);
                 cmd.Parameters.AddWithValue("@STATUS", 0);
                 dbc.ExecuteNonQuery(cmd);
-               
+
                 sqlStr = "insert into tb_u_flow_step(";
                 sqlStr += "FLOWID,";
                 sqlStr += "STEP,";

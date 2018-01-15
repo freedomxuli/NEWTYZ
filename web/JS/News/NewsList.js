@@ -649,7 +649,7 @@ Ext.onReady(function () {
                         columns: [
                             {
                                 dataIndex: 'XW_TITLE',
-                                width: 300,
+                                flex: 1,
                                 text: '标题',
                                 sortable: false,
                                 menuDisabled: true
@@ -658,7 +658,7 @@ Ext.onReady(function () {
                             {
                                 dataIndex: 'people',
                                 text: '发布人',
-                                width: 100,
+                                flex: 1,
                                 sortable: false,
                                 menuDisabled: true
                             }
@@ -666,7 +666,7 @@ Ext.onReady(function () {
                            
                             {
                                 dataIndex: 'nADDTIME',
-                                width: 100,
+                                flex: 1,
                                 text: '时间',
                                 sortable: false,
                                 menuDisabled: true

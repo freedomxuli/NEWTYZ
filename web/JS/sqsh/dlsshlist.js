@@ -1,4 +1,7 @@
-﻿
+﻿var isframe = true;
+if (window.queryString.isframe) {
+    isframe = false;
+}
 var pageSize = 15;
 
 
@@ -9,6 +12,8 @@ var store = createSFW4Store({
     currentPage: 1,
     fields: [
        { name: 'ID' },
+         { name: 'FLOWID' },
+         { name: 'STEPID' },
        { name: 'AGENT_MC' },
        { name: 'User_XM' },
        { name: 'AGENT_LEVEL' },
@@ -16,7 +21,8 @@ var store = createSFW4Store({
        { name: 'AGENT_AREA' },
        { name: 'AGENT_MOBILE_TEL' },
        { name: 'AGENT_START_TIME' },
-       { name: 'AGENT_END_TIME' }
+       { name: 'AGENT_END_TIME' },
+       { name: 'QY_NAME' }
 
     ],
     //sorters: [{ property: 'b', direction: 'DESC'}],
@@ -230,7 +236,7 @@ function tp() {
 
 function sh(v) {
     FrameStack.pushFrame({
-        url: 'dlssh.html?id=' + v,
+        url: 'dlssh.html?id=' + v + '&flowId=' + flowId + '&stepId=' + stepId,
         onClose: function (ret) {
             loadData(1);
         }
@@ -271,6 +277,7 @@ Ext.onReady(function () {
                           },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'AGENT_MC',
                                 sortable: false,
                                 menuDisabled: true,
@@ -279,6 +286,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'gridcolumn',
+                                 flex: 1,
                                  dataIndex: 'AGENT_NAME',
                                  sortable: false,
                                  menuDisabled: true,
@@ -287,6 +295,7 @@ Ext.onReady(function () {
                              },
                               {
                                   xtype: 'gridcolumn',
+                                  flex: 1,
                                   dataIndex: 'User_XM',
                                   sortable: false,
                                   menuDisabled: true,
@@ -295,6 +304,7 @@ Ext.onReady(function () {
                               },
                                {
                                    xtype: 'gridcolumn',
+                                   flex: 1,
                                    dataIndex: 'AGENT_LEVEL',
                                    sortable: false,
                                    menuDisabled: true,
@@ -303,6 +313,7 @@ Ext.onReady(function () {
                                },
                                 {
                                     xtype: 'gridcolumn',
+                                    flex: 1,
                                     dataIndex: 'AGENT_MOBILE_TEL',
                                     sortable: false,
                                     menuDisabled: true,
@@ -312,6 +323,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'datecolumn',
+                                flex: 1,
                                 format: 'Y-m-d',
                                 dataIndex: 'AGENT_START_TIME',
                                 sortable: false,
@@ -321,6 +333,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'datecolumn',
+                                 flex: 1,
                                  format: 'Y-m-d',
                                  dataIndex: 'AGENT_END_TIME',
                                  sortable: false,
@@ -330,6 +343,7 @@ Ext.onReady(function () {
                              },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'AGENT_AREA',
                                 sortable: false,
                                 menuDisabled: true,
@@ -344,7 +358,7 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\")'>审核</a>";
+                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\",\"" + record.data.FLOWID + "\",\"" + record.data.STEPID + "\")'>审核</a>";
                                     return str;
                                 }
                             }
@@ -399,7 +413,21 @@ Ext.onReady(function () {
                                                     }
                                                 }
                                             ]
-                                        }
+                                        },
+                                         {
+                                             xtype: 'buttongroup',
+                                             title: '',
+                                             items: [
+                                                 {
+                                                     text: '返回',
+                                                     iconCls: 'back',
+                                                     hidden: isframe,
+                                                     handler: function () {
+                                                         FrameStack.popFrame();
+                                                     }
+                                                 }
+                                             ]
+                                         }
                                         
 
                                     ]
@@ -423,7 +451,7 @@ Ext.onReady(function () {
         if (retVal) {
             dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
             dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+            Ext.getCmp("cx_qy").setValue('');
         }
     }, CS.onError);
 

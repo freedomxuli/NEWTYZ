@@ -139,6 +139,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_XM',
                                 sortable: false,
                                 menuDisabled: true,
@@ -147,6 +148,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_JobNo',
                                 sortable: false,
                                 menuDisabled: true,
@@ -155,6 +157,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'datecolumn',
+                                flex: 1,
                                 format: 'Y-m-d',
                                 dataIndex: 'StartDate',
                                 sortable: false,
@@ -164,6 +167,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'QY_NAME',
                                 sortable: false,
                                 menuDisabled: true,
@@ -172,6 +176,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_Sex',
                                 sortable: false,
                                 menuDisabled: true,
@@ -188,6 +193,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_Age',
                                 sortable: false,
                                 menuDisabled: true,
@@ -196,6 +202,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_From',
                                 sortable: false,
                                 menuDisabled: true,
@@ -204,6 +211,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_SJ',
                                 sortable: false,
                                 menuDisabled: true,
@@ -212,6 +220,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_IdCard',
                                 sortable: false,
                                 menuDisabled: true,
@@ -221,6 +230,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'User_DZ',
                                 sortable: false,
                                 menuDisabled: true,
@@ -434,7 +444,7 @@ Ext.onReady(function () {
         if (retVal) {
             dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
             dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+            Ext.getCmp("cx_qy").setValue('');
         }
     }, CS.onError);
 

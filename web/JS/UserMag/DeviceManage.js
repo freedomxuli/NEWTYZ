@@ -74,6 +74,7 @@ Ext.onReady(function () {
                     columns: [Ext.create('Ext.grid.RowNumberer'),
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'EquipmentId',
                                 sortable: false,
                                 menuDisabled: true,
@@ -82,6 +83,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'Type',
                                 sortable: false,
                                 menuDisabled: true,
@@ -90,6 +92,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'EquipmentDate',
                                 sortable: false,
                                 menuDisabled: true,
@@ -98,6 +101,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'EquipmentVersion',
                                 sortable: false,
                                 menuDisabled: true,
@@ -106,6 +110,7 @@ Ext.onReady(function () {
                             },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'DealerAuthoriCode',
                                 sortable: false,
                                 menuDisabled: true,

@@ -1,4 +1,4 @@
-﻿
+﻿var AuthorizeId;
 var pageSize = 15;
 
 
@@ -9,14 +9,18 @@ var store = createSFW4Store({
     currentPage: 1,
     fields: [
        { name: 'ID' },
-        { name: 'OrderNo' },
+       { name: 'AuthorizeNo' },
        { name: 'RealName' },
        { name: 'CellPhone' },
-       { name: 'StartDate' },
-       { name: 'EndDate' },
-       { name: 'OrderStatus' },
-       { name: 'OrderStyle' }
-
+       { name: 'AuthorStatus' },
+       { name: 'CellPhone' },
+       { name: 'LiveStartDate' },
+       { name: 'LiveEndDate' },
+       { name: 'HotelName' },
+       { name: 'Mobile' },
+       { name: 'CompleteAddress' },
+       { name: 'RoomNo' },
+       { name: 'IssueState' }
     ],
     //sorters: [{ property: 'b', direction: 'DESC'}],
     onPageChange: function (sto, nPage, sorters) {
@@ -32,6 +36,10 @@ var JsStore = Ext.create('Ext.data.Store', {
     ]
 });
 
+var userStore = Ext.create('Ext.data.Store', {
+    fields: ['VALUE', 'TEXT']
+});
+
 var dqstore = Ext.create('Ext.data.Store', {
     fields: ['VALUE', 'TEXT'],
     data: [
@@ -42,6 +50,9 @@ function loadData(nPage) {
 
     var cx_mc = Ext.getCmp("cx_mc").getValue();
     var cx_no = Ext.getCmp("cx_no").getValue();
+    var cx_fjh = Ext.getCmp("cx_fjh").getValue();
+    var cx_bgmc = Ext.getCmp("cx_bgmc").getValue();
+    var cx_sqzt = Ext.getCmp("cx_sqzt").getValue();
 
     CS('CZCLZ.PayOrderDB.GetPayOrderList', function (retVal) {
         store.setData({
@@ -51,7 +62,7 @@ function loadData(nPage) {
             currentPage: retVal.cp
             //sorters: { property: 'a', direction: 'DESC' }
         });
-    }, CS.onError, nPage, pageSize, cx_mc, cx_no);
+    }, CS.onError, nPage, pageSize, cx_mc, cx_no, cx_fjh, cx_bgmc, cx_sqzt);
 
 }
 
@@ -64,19 +75,15 @@ function sh() {
 
 //************************************页面方法***************************************
 
-function tp() {
-    var win = new phWin();
-    win.show();
-}
-
-function sh(v) {
+function ck(id) {
     FrameStack.pushFrame({
-        url: 'fdqr.html?id=' + v,
+        url: "ddxx.html?id=" + id,
         onClose: function (ret) {
             loadData(1);
         }
     });
 }
+
 
 //************************************主界面*****************************************
 Ext.onReady(function () {
@@ -111,44 +118,56 @@ Ext.onReady(function () {
                           },
                            {
                                xtype: 'gridcolumn',
-                               dataIndex: 'OrderNo',
+                               flex: 1,
+                               dataIndex: 'AuthorizeNo',
                                sortable: false,
                                menuDisabled: true,
                                align: 'center',
-                               text: "订单编号"
+                               text: "授权单号"
                            },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'RealName',
                                 sortable: false,
                                 menuDisabled: true,
                                 align: 'center',
                                 text: "房客姓名"
                             },
-
+                             {
+                                 xtype: 'gridcolumn',
+                                 flex: 1,
+                                 dataIndex: 'CellPhone',
+                                 sortable: false,
+                                 menuDisabled: true,
+                                 align: 'center',
+                                 text: "房客电话"
+                             },
                               {
                                   xtype: 'datecolumn',
+                                  flex: 1,
                                   format: 'Y-m-d',
-                                  dataIndex: 'StartDate',
+                                  dataIndex: 'LiveStartDate',
                                   sortable: false,
                                   menuDisabled: true,
                                   align: 'center',
-                                  text: "入住时间"
+                                  text: "预计入住时间"
                               },
 
                                 {
                                     xtype: 'datecolumn',
+                                    flex: 1,
                                     format: 'Y-m-d',
-                                    dataIndex: 'EndDate',
+                                    dataIndex: 'LiveEndDate',
                                     sortable: false,
                                     menuDisabled: true,
                                     align: 'center',
-                                    text: "退房时间"
+                                    text: "预计退房时间"
                                 },
 
                             {
-                                xtype: 'datecolumn',
-                                format: 'Y-m-d',
+                                xtype: 'gridcolumn',
+                                flex: 2,
                                 dataIndex: 'HotelName',
                                 sortable: false,
                                 menuDisabled: true,
@@ -156,8 +175,17 @@ Ext.onReady(function () {
                                 text: "宾馆名称"
                             },
                              {
-                                 xtype: 'datecolumn',
-                                 format: 'Y-m-d',
+                                 xtype: 'gridcolumn',
+                                 flex: 1,
+                                 dataIndex: 'RoomNo',
+                                 sortable: false,
+                                 menuDisabled: true,
+                                 align: 'center',
+                                 text: "房间号"
+                             },
+                             {
+                                 xtype: 'gridcolumn',
+                                 flex: 2,
                                  dataIndex: 'CompleteAddress',
                                  sortable: false,
                                  menuDisabled: true,
@@ -166,22 +194,22 @@ Ext.onReady(function () {
                              },
                             {
                                 xtype: 'gridcolumn',
-                                dataIndex: 'QY_NAME',
+                                flex: 1,
+                                dataIndex: 'Mobile',
                                 sortable: false,
                                 menuDisabled: true,
                                 align: 'center',
-                                text: "负责人姓名"
+                                text: "宾馆电话"
                             },
                             {
                                 text: '操作',
                                 width: 80,
+                                dataIndex: 'AuthorStatus',
                                 align: 'center',
                                 sortable: false,
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
-                                    var str;
-                                    str = "<a href='#' onclick='ck(\"" + record.data.ID + "\")'>查看订单</a>";
-                                    return str;
+                                    return "<a href='#' onclick='ck(\"" + record.data.ID + "\")'>查看</a>";
                                 }
                             }
 
@@ -198,46 +226,54 @@ Ext.onReady(function () {
                                         {
                                             xtype: 'textfield',
                                             id: 'cx_no',
-                                            width: 180,
-                                            labelWidth: 80,
-                                            fieldLabel: '订单号'
+                                            width: 160,
+                                            labelWidth: 60,
+                                            fieldLabel: '授权单号'
                                         },
-                                          //{
-                                          //    xtype: 'datefield',
-                                          //    format: 'Y-m-d',
-                                          //    id: 'cx_sdate',
-                                          //    width: 180,
-                                          //    labelWidth: 80,
-                                          //    fieldLabel: '入住时间'
-                                          //},
-                                          // {
-                                          //     xtype: 'textfield',
-                                          //     id: 'cx_mc',
-                                          //     width: 180,
-                                          //     labelWidth: 80,
-                                          //     fieldLabel: '宾馆名称'
-                                          // },
-                                          //{
-                                          //    xtype: 'textfield',
-                                          //    id: 'cx_mc',
-                                          //    width: 180,
-                                          //    labelWidth: 80,
-                                          //    fieldLabel: '前台电话'
-                                          //},
-                                          //  {
-                                          //      xtype: 'textfield',
-                                          //      id: 'cx_mc',
-                                          //      width: 180,
-                                          //      labelWidth: 80,
-                                          //      fieldLabel: '房客电话'
-                                          //  },
+                                         {
+                                             xtype: 'textfield',
+                                             id: 'cx_mc',
+                                             width: 160,
+                                             labelWidth: 60,
+                                             fieldLabel: '房客姓名'
+                                         },
+                                           {
+                                               xtype: 'textfield',
+                                               id: 'cx_fjh',
+                                               width: 160,
+                                               labelWidth: 60,
+                                               fieldLabel: '房间号'
+                                           },
+                                             {
+                                                 xtype: 'textfield',
+                                                 id: 'cx_bgmc',
+                                                 width: 160,
+                                                 labelWidth: 60,
+                                                 fieldLabel: '宾馆名称'
+                                             },
                                               {
-                                                  xtype: 'textfield',
-                                                  id: 'cx_mc',
-                                                  width: 180,
-                                                  labelWidth: 80,
-                                                  fieldLabel: '房客姓名'
+                                                  xtype: 'combobox',
+                                                  id: 'cx_sqzt',
+                                                  width: 160,
+                                                  labelWidth: 60,
+                                                  fieldLabel: '授权状态',
+                                                  queryMode: 'local',
+                                                  displayField: 'TEXT',
+                                                  valueField: 'VALUE',
+                                                  store: new Ext.data.ArrayStore({
+                                                      fields: ['TEXT', 'VALUE'],
+                                                      data: [
+                                                           ['待授权', '1'],
+                                                           ['已授权', '2'],
+                                                           ['授权失败', '3'],
+                                                           ['授权挂起', '5'],
+                                                           ['授权关闭', '6'],
+                                                           ['授权取消', '7']
+                                                      ]
+                                                  }),
+                                                  value: '2'
                                               },
+
                                         {
                                             xtype: 'buttongroup',
                                             title: '',
@@ -270,13 +306,12 @@ Ext.onReady(function () {
 
     new mainView();
 
-    CS('CZCLZ.YHGLClass.GetQy', function (retVal) {
+    CS('CZCLZ.PayOrderDB.GetUser', function (retVal) {
         if (retVal) {
-            dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
-            dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+            userStore.loadData(retVal, true);
+            // Ext.getCmp("QY_ID").setValue('');
         }
-    }, CS.onError);
+    }, CS.onError, 6);
 
     loadData(1);
 })

@@ -60,6 +60,10 @@ website.publishproj
       <Project>{C9925492-E4ED-4EDD-B2B1-02D32C46D02D}</Project>
       <Name>SmartFramework4v2.Web</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{4CA123E6-2A51-4580-80E9-0B71A93C77EE}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(_WebPublishTargetsPath)\Web\Microsoft.WebSite.Publishing.targets" />
 </Project>

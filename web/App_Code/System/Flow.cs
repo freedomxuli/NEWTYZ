@@ -84,4 +84,16 @@ public class Flow
     {
         dbc.ExecuteNonQuery("update tb_u_flow_step set RESULT=" + result + ",RESULTINFO=" + dbc.ToSqlValue(RESULTINFO) + ",FINISHTIME=sysdate() where STEPID=" + stepId);
     }
+
+    public static int GetFlowId(DBConnection dbc, string serviceId, string serviceType)
+    {
+        int FlowId = Convert.ToInt32(dbc.ExecuteScalar("select FLOWID from tb_u_flow where SERVICEID='" + serviceId + "' and SERVICETYPE='" + serviceType + "'").ToString());
+        return FlowId;
+    }
+
+    public static int GetStepId(DBConnection dbc, int flowId)
+    {
+        int StepId = Convert.ToInt32(dbc.ExecuteScalar("select STEPID from tb_u_flow_step where FLOWID=" + flowId + " and RESULT=0").ToString());
+        return StepId;
+    }
 }

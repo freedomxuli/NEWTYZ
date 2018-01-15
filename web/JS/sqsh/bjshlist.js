@@ -1,4 +1,7 @@
-﻿
+﻿var isframe = true;
+if (window.queryString.isframe) {
+    isframe = false;
+}
 var pageSize = 15;
 
 
@@ -9,13 +12,16 @@ var store = createSFW4Store({
     currentPage: 1,
     fields: [
        { name: 'ID' },
+         { name: 'FLOWID' },
+         { name: 'STEPID' },
        { name: 'CLEANING_NAME' },
        { name: 'CLEANING_AGE' },
        { name: 'CLEANING_SEX' },
        { name: 'CLEANING_MOBILE_TEL' },
        { name: 'CLEANING_IDENTITY_NUMBER' },
        { name: 'CONTRACT_START_TIME' },
-       { name: 'CONTRACT_END_TIME' }
+       { name: 'CONTRACT_END_TIME' },
+          { name: 'QY_NAME' }
 
     ],
     //sorters: [{ property: 'b', direction: 'DESC'}],
@@ -69,9 +75,9 @@ function tp() {
     win.show();
 }
 
-function sh(v) {
+function sh(v, flowId, stepId) {
     FrameStack.pushFrame({
-        url: 'bjsh.html?id=' + v,
+        url: 'bjsh.html?id=' + v + '&flowId=' + flowId + '&stepId=' + stepId,
         onClose: function (ret) {
             loadData(1);
         }
@@ -112,6 +118,7 @@ Ext.onReady(function () {
                           },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'CLEANING_NAME',
                                 sortable: false,
                                 menuDisabled: true,
@@ -120,6 +127,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'gridcolumn',
+                                 flex: 1,
                                  dataIndex: 'CLEANING_AGE',
                                  sortable: false,
                                  menuDisabled: true,
@@ -128,6 +136,7 @@ Ext.onReady(function () {
                              },
                               {
                                   xtype: 'gridcolumn',
+                                  flex: 1,
                                   dataIndex: 'CLEANING_MOBILE_TEL',
                                   sortable: false,
                                   menuDisabled: true,
@@ -137,6 +146,7 @@ Ext.onReady(function () {
 
                                 {
                                     xtype: 'gridcolumn',
+                                    flex: 1,
                                     dataIndex: 'CLEANING_IDENTITY_NUMBER',
                                     width: 180,
                                     sortable: false,
@@ -147,6 +157,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'datecolumn',
+                                flex: 1,
                                 format: 'Y-m-d',
                                 dataIndex: 'CONTRACT_START_TIME',
                                 sortable: false,
@@ -156,6 +167,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'datecolumn',
+                                 flex: 1,
                                  format: 'Y-m-d',
                                  dataIndex: 'CONTRACT_END_TIME',
                                  sortable: false,
@@ -172,7 +184,7 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\")'>审核</a>";
+                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\",\"" + record.data.FLOWID + "\",\"" + record.data.STEPID + "\")'>审核</a>";
                                     return str;
                                 }
                             }
@@ -209,7 +221,21 @@ Ext.onReady(function () {
                                                     }
                                                 }
                                             ]
-                                        }
+                                        },
+                                         {
+                                             xtype: 'buttongroup',
+                                             title: '',
+                                             items: [
+                                                 {
+                                                     text: '返回',
+                                                     iconCls: 'back',
+                                                     hidden: isframe,
+                                                     handler: function () {
+                                                         FrameStack.popFrame();
+                                                     }
+                                                 }
+                                             ]
+                                         }
 
                                     ]
                                 },
@@ -232,7 +258,7 @@ Ext.onReady(function () {
         if (retVal) {
             dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
             dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+            // Ext.getCmp("QY_ID").setValue('');
         }
     }, CS.onError);
 

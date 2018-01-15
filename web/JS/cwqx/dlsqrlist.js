@@ -1,4 +1,7 @@
-﻿
+﻿var isframe = true;
+if (window.queryString.isframe) {
+    isframe = false;
+}
 var pageSize = 15;
 
 
@@ -271,6 +274,7 @@ Ext.onReady(function () {
                           },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'AGENT_MC',
                                 sortable: false,
                                 menuDisabled: true,
@@ -279,6 +283,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'gridcolumn',
+                                 flex: 1,
                                  dataIndex: 'AGENT_NAME',
                                  sortable: false,
                                  menuDisabled: true,
@@ -287,6 +292,7 @@ Ext.onReady(function () {
                              },
                               {
                                   xtype: 'gridcolumn',
+                                  flex: 1,
                                   dataIndex: 'User_XM',
                                   sortable: false,
                                   menuDisabled: true,
@@ -295,6 +301,7 @@ Ext.onReady(function () {
                               },
                                {
                                    xtype: 'gridcolumn',
+                                   flex: 1,
                                    dataIndex: 'AGENT_LEVEL',
                                    sortable: false,
                                    menuDisabled: true,
@@ -303,6 +310,7 @@ Ext.onReady(function () {
                                },
                                 {
                                     xtype: 'gridcolumn',
+                                    flex: 1,
                                     dataIndex: 'AGENT_MOBILE_TEL',
                                     sortable: false,
                                     menuDisabled: true,
@@ -312,6 +320,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'datecolumn',
+                                flex: 1,
                                 format: 'Y-m-d',
                                 dataIndex: 'AGENT_START_TIME',
                                 sortable: false,
@@ -321,6 +330,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'datecolumn',
+                                 flex: 1,
                                  format: 'Y-m-d',
                                  dataIndex: 'AGENT_END_TIME',
                                  sortable: false,
@@ -330,6 +340,7 @@ Ext.onReady(function () {
                              },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'AGENT_AREA',
                                 sortable: false,
                                 menuDisabled: true,
@@ -399,7 +410,21 @@ Ext.onReady(function () {
                                                     }
                                                 }
                                             ]
-                                        }
+                                        },
+                                         {
+                                             xtype: 'buttongroup',
+                                             title: '',
+                                             items: [
+                                                 {
+                                                     text: '返回',
+                                                     iconCls: 'back',
+                                                     hidden: isframe,
+                                                     handler: function () {
+                                                         FrameStack.popFrame();
+                                                     }
+                                                 }
+                                             ]
+                                         }
 
 
                                     ]
@@ -423,7 +448,7 @@ Ext.onReady(function () {
         if (retVal) {
             dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
             dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+           // Ext.getCmp("QY_ID").setValue('');
         }
     }, CS.onError);
 

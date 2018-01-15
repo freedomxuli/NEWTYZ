@@ -24,7 +24,22 @@ function DataBind() {
     CS('CZCLZ.JjrDB.GetBjById', function (retVal) {
         if (retVal) {
             var addform = Ext.getCmp("addform");
-            addform.form.setValues(retVal[0]);
+            addform.form.setValues(retVal.dt[0]);
+
+            var html1 = "";
+            var html2 = "";
+            var html3 = "";
+            for (var i in retVal.dtFJ) {
+                if (retVal.dtFJ[i]["fj_lx"] == 2)
+                    html1 += '<div class="file-item uploadimages" style="margin-left:5px;margin-bottom:5px" imageurl="~/' + retVal.dtFJ[i]["fj_url"] + '"><img src="approot/r/' + retVal.dtFJ[i]["fj_url"] + '" width="100px" height="100px"/></div>';
+                else if (retVal.dtFJ[i]["fj_lx"] == 3)
+                    html2 += '<div class="file-item uploadimages" style="margin-left:5px;margin-bottom:5px" imageurl="~/' + retVal.dtFJ[i]["fj_url"] + '"><img src="approot/r/' + retVal.dtFJ[i]["fj_url"] + '" width="100px" height="100px"/></div>';
+                else if (retVal.dtFJ[i]["fj_lx"] == 5)
+                    html3 += '<div class="file-item uploadimages" style="margin-left:5px;margin-bottom:5px" imageurl="~/' + retVal.dtFJ[i]["fj_url"] + '"><img src="approot/r/' + retVal.dtFJ[i]["fj_url"] + '" width="100px" height="100px"/></div>';
+            }
+            $("#fileList").append(html1);
+            $("#fileList2").append(html2);
+            $("#fileList3").append(html3);
         }
     }, CS.onError, id);
 }
@@ -72,7 +87,8 @@ Ext.onReady(function () {
                     {
                         xtype: 'panel',
                         layout: {
-                            type: 'fit'
+                            type: 'vbox',
+                            align: 'center'
                         },
                         autoScroll: true,
                         items: [
@@ -82,9 +98,11 @@ Ext.onReady(function () {
                                 layout: {
                                     type: 'column'
                                 },
+                                width: 850,
+                                height: 800,
                                 border: true,
                                 // margin: 10,
-                                title: '保洁基本信息',
+                                //title: '保洁基本信息',
                                 items: [
                                         {
                                             xtype: 'textfield',
@@ -113,6 +131,26 @@ Ext.onReady(function () {
                                               labelWidth: 150
 
                                           },
+                                            {
+                                                xtype: 'textfield',
+                                                name: 'LoginName',
+                                                margin: '10 10 10 10',
+                                                fieldLabel: '用户名',
+                                                allowBlank: false,
+                                                columnWidth: 0.5,
+                                                labelWidth: 150
+
+                                            },
+                                         {
+                                             xtype: 'textfield',
+                                             name: 'PassWord',
+                                             margin: '10 10 10 10',
+                                             fieldLabel: '密码',
+                                             allowBlank: false,
+                                             columnWidth: 0.5,
+                                             labelWidth: 150
+
+                                         },
                                           {
                                               xtype: 'combobox',
                                               name: 'CLEANING_SEX',
@@ -241,30 +279,73 @@ Ext.onReady(function () {
                                              columnWidth: 0.5,
                                              labelWidth: 150
                                          },
-                                         {
-                                             xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'2\')">上传</a>',
-                                             margin: '10 10 10 10',
-                                             fieldLabel: '保洁身份证图片',
-                                             columnWidth: 0.5,
-                                             labelWidth: 150
-                                         },
-                                         {
-                                             xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'3\')">上传</a>',
-                                             margin: '10 10 10 10',
-                                             fieldLabel: '保洁合同照片',
-                                             columnWidth: 0.5,
-                                             labelWidth: 150
-                                         },
-                                          {
-                                              xtype: 'displayfield',
-                                              value: '<a href="#" onclick="tp(\'5\')">上传</a>',
-                                              margin: '10 10 10 10',
-                                              fieldLabel: '保洁体检报告',
-                                              columnWidth: 0.5,
-                                              labelWidth: 150
-                                          }
+                                         //{
+                                         //    xtype: 'displayfield',
+                                         //    value: '<a href="#" onclick="tp(\'2\')">上传</a>',
+                                         //    margin: '10 10 10 10',
+                                         //    fieldLabel: '保洁身份证图片',
+                                         //    columnWidth: 0.5,
+                                         //    labelWidth: 150
+                                         //},
+                                         //{
+                                         //    xtype: 'displayfield',
+                                         //    value: '<a href="#" onclick="tp(\'3\')">上传</a>',
+                                         //    margin: '10 10 10 10',
+                                         //    fieldLabel: '保洁合同照片',
+                                         //    columnWidth: 0.5,
+                                         //    labelWidth: 150
+                                         //},
+                                         // {
+                                         //     xtype: 'displayfield',
+                                         //     value: '<a href="#" onclick="tp(\'5\')">上传</a>',
+                                         //     margin: '10 10 10 10',
+                                         //     fieldLabel: '保洁体检报告',
+                                         //     columnWidth: 0.5,
+                                         //     labelWidth: 150
+                                         // },
+                                           {
+                                               xtype: 'combobox',
+                                               id: 'QY_ID',
+                                               name: 'QY_ID',
+                                               editable: false,
+                                               allowBlank: false,
+                                               store: dqstore,
+                                               queryMode: 'local',
+                                               displayField: 'TEXT',
+                                               valueField: 'VALUE',
+                                               margin: '10 10 10 10',
+                                               fieldLabel: '所属区域',
+                                               columnWidth: 0.5,
+                                               labelWidth: 150
+                                           },
+                                             {
+                                                 xtype: 'displayfield',
+                                                 id: 'tp1',
+                                                 value: ' <div id="fileList"><div id="filePicker" style="float:left;margin-right:10px;margin-bottom:5px;width:50px;height:50px;">点击选择图片</div></div>',
+                                                 margin: '10 10 10 10',
+                                                 fieldLabel: '保洁身份证图片',
+                                                 columnWidth: 1,
+                                                 labelWidth: 150
+                                             },
+                                           {
+                                               xtype: 'displayfield',
+                                               id: 'tp2',
+                                               value: ' <div id="fileList2"><div id="filePicker2" style="float:left;margin-right:10px;margin-bottom:5px;width:50px;height:50px;">点击选择图片</div></div>',
+                                               margin: '10 10 10 10',
+                                               fieldLabel: '保洁合同照片',
+                                               columnWidth: 1,
+                                               labelWidth: 150
+                                           },
+                                            {
+                                                xtype: 'displayfield',
+                                                id: 'tp3',
+                                                value: ' <div id="fileList3"><div id="filePicker3" style="float:left;margin-right:10px;margin-bottom:5px;width:50px;height:50px;">点击选择图片</div></div>',
+                                                margin: '10 10 10 10',
+                                                fieldLabel: '保洁体检报告',
+                                                columnWidth: 1,
+                                                labelWidth: 150
+                                            }
+                                         
 
 
                                 ],
@@ -276,11 +357,36 @@ Ext.onReady(function () {
                                             var form = Ext.getCmp('addform');
                                             if (form.form.isValid()) {
                                                 var values = form.getValues(false);
+
+                                                var imglist = "";
+                                                $("#fileList .file-item").each(function () {
+                                                    imglist += $(this).attr("imageurl") + ",";
+                                                })
+
+                                                if (imglist.length > 0)
+                                                    imglist = imglist.substr(0, imglist.length - 1);
+
+                                                var imglist2 = "";
+                                                $("#fileList2 .file-item").each(function () {
+                                                    imglist2 += $(this).attr("imageurl") + ",";
+                                                })
+
+                                                if (imglist2.length > 0)
+                                                    imglist2 = imglist2.substr(0, imglist2.length - 1);
+
+                                                var imglist3 = "";
+                                                $("#fileList3 .file-item").each(function () {
+                                                    imglist3 += $(this).attr("imageurl") + ",";
+                                                })
+
+                                                if (imglist3.length > 0)
+                                                    imglist3 = imglist3.substr(0, imglist3.length - 1);
+
                                                 CS('CZCLZ.JjrDB.SaveBjXX', function (retVal) {
                                                     if (retVal) {
                                                         FrameStack.popFrame();
                                                     }
-                                                }, CS.onError, values, picItem);
+                                                }, CS.onError, values, picItem, imglist, imglist2, imglist3);
                                             }
                                         }
 
@@ -303,11 +409,19 @@ Ext.onReady(function () {
 
     });
     new add();
+    initwebupload("filePicker", "fileList", 5);
+    initwebupload("filePicker2", "fileList2", 5);
+    initwebupload("filePicker3", "fileList3", 5);
+    ACS('CZCLZ.YHGLClass.GetQy', function (retVal) {
+        if (retVal) {
+            dqstore.loadData(retVal, true);
+            if (id != null && id != "")
+                DataBind();
+        }
+    }, CS.onError);
 
-   
-
-    if (id != null && id != "")
-        DataBind();
+    //if (id != null && id != "")
+    //    DataBind();
 });
 
 Ext.define('phWin', {

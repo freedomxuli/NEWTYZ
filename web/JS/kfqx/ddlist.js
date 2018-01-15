@@ -429,7 +429,7 @@ Ext.onReady(function () {
             userStore.loadData(retVal, true);
             // Ext.getCmp("QY_ID").setValue('');
         }
-    }, CS.onError);
+    }, CS.onError, 6);
 
     loadData(1);
 })

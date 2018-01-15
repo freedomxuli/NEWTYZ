@@ -51,6 +51,9 @@ function sh() {
 
 
 var id = queryString.id;
+var flowId = queryString.flowId;
+var stepId = queryString.stepId;
+
 var picItem = [];
 
 var dqstore = Ext.create('Ext.data.Store', {
@@ -108,79 +111,7 @@ function tp(v) {
     win.show();
 }
 
-Ext.define('userWin', {
-    extend: 'Ext.window.Window',
 
-    height: 250,
-    width: 400,
-    layout: {
-        type: 'fit'
-    },
-    id: 'userWin',
-    closeAction: 'destroy',
-    modal: true,
-    title: '创建账户信息',
-    initComponent: function () {
-        var me = this;
-        me.items = [
-            {
-                xtype: 'form',
-                id: 'userform',
-                frame: true,
-                bodyPadding: 10,
-
-                title: '',
-                store: deviceStore,
-                items: [
-                    {
-                        xtype: 'textfield',
-                        id: 'yhm',
-                        fieldLabel: '用户名',
-                        labelWidth: 70,
-                        allowBlank: false,
-                        anchor: '100%'
-                    },
-                    {
-                        xtype: 'textfield',
-                        id: 'mm',
-                        fieldLabel: '密码',
-                        labelWidth: 70,
-                        allowBlank: false,
-                        anchor: '100%'
-                    }
-                ],
-                buttonAlign: 'center',
-                buttons: [
-                    {
-                        text: '确定',
-                        handler: function () {
-                            Ext.MessageBox.confirm('确认', '确认后将发送至财务组，是否继续？', function (btn) {
-                                if (btn == 'yes') {
-                                    var form = Ext.getCmp('userform');
-                                    if (form.form.isValid()) {
-                                        //取得表单中的内容
-                                        CS('CZCLZ.AdminDB.AgreeFd', function (retVal) {
-                                            if (retVal) {
-                                                FrameStack.popFrame();
-                                            }
-                                        }, CS.onError, id, Ext.getCmp("yhm").getValue(), Ext.getCmp("mm").getValue());
-                                    }
-                                }
-                            });
-                        }
-                    },
-                    {
-                        text: '取消',
-                        handler: function () {
-                            this.up('window').close();
-                        }
-                    }
-                ]
-            }
-        ];
-        me.callParent(arguments);
-    }
-});
 
 Ext.onReady(function () {
     Ext.define('add', {
@@ -207,15 +138,12 @@ Ext.onReady(function () {
                                 handler: function () {
                                     Ext.MessageBox.confirm('确认', '确认通过？', function (btn) {
                                         if (btn == 'yes') {
-                                            var form = Ext.getCmp('userform');
-                                            if (form.form.isValid()) {
-                                                //取得表单中的内容
-                                                CS('CZCLZ.AdminDB.AgreeFd', function (retVal) {
-                                                    if (retVal) {
-                                                        FrameStack.popFrame();
-                                                    }
-                                                }, CS.onError, id);
-                                            }
+
+                                            CS('CZCLZ.AdminDB.AgreeFd', function (retVal) {
+                                                if (retVal) {
+                                                    FrameStack.popFrame();
+                                                }
+                                            }, CS.onError, id, flowId, stepId);
                                         }
                                     });
                                 }
@@ -281,7 +209,26 @@ Ext.onReady(function () {
                                               labelWidth: 150
 
                                           },
+                                           {
+                                               xtype: 'textfield',
+                                               name: 'LoginName',
+                                               margin: '10 10 10 10',
+                                               fieldLabel: '用户名',
+                                               allowBlank: false,
+                                               columnWidth: 0.5,
+                                               labelWidth: 150
 
+                                           },
+                                         {
+                                             xtype: 'textfield',
+                                             name: 'PassWord',
+                                             margin: '10 10 10 10',
+                                             fieldLabel: '密码',
+                                             allowBlank: false,
+                                             columnWidth: 0.5,
+                                             labelWidth: 150
+
+                                         },
                                           {
                                               xtype: 'textfield',
                                               name: 'LANDLORD_MOBILE_TEL',
@@ -470,37 +417,37 @@ Ext.onReady(function () {
                                                 fieldLabel: '联系人',
                                                 columnWidth: 0.5,
                                                 labelWidth: 150
-                                            },
-                                        {
-                                            xtype: 'displayfield',
-                                            name: 'QY_NAME',
+                                            }
+                                        //{
+                                        //    xtype: 'displayfield',
+                                        //    name: 'QY_NAME',
 
-                                            margin: '10 10 10 10',
-                                            fieldLabel: '代理商所属区域',
-                                            columnWidth: 0.5,
-                                            labelWidth: 150
-                                        },
-                                          {
-                                              xtype: 'displayfield',
-                                              name: 'User_XM',
-                                              margin: '10 10 10 10',
-                                              fieldLabel: '经纪人',
-                                              columnWidth: 0.5,
-                                              labelWidth: 150
-                                          },
-                                          {
-                                              xtype: 'displayfield',
-                                              name: 'LANDLORD_APPLY_TIME',
-                                              margin: '10 10 10 10',
-                                              fieldLabel: '申请时间',
-                                              columnWidth: 0.5,
-                                              labelWidth: 150
-                                          }
+                                        //    margin: '10 10 10 10',
+                                        //    fieldLabel: '代理商所属区域',
+                                        //    columnWidth: 0.5,
+                                        //    labelWidth: 150
+                                        //},
+                                        //  {
+                                        //      xtype: 'displayfield',
+                                        //      name: 'User_XM',
+                                        //      margin: '10 10 10 10',
+                                        //      fieldLabel: '经纪人',
+                                        //      columnWidth: 0.5,
+                                        //      labelWidth: 150
+                                        //  },
+                                        //  {
+                                        //      xtype: 'displayfield',
+                                        //      name: 'LANDLORD_APPLY_TIME',
+                                        //      margin: '10 10 10 10',
+                                        //      fieldLabel: '申请时间',
+                                        //      columnWidth: 0.5,
+                                        //      labelWidth: 150
+                                        //  }
 
 
                                 ]
                             }
-                               
+
                         ]
                     }
                 ]
@@ -512,7 +459,7 @@ Ext.onReady(function () {
     });
     new add();
 
- 
+
 
     if (id != null && id != "")
         DataBind();
@@ -532,7 +479,7 @@ Ext.define('phWin', {
             id: 'uploadproductpic',
             region: 'center',
             autoScroll: true
-           
+
         }];
         me.callParent(arguments);
     }

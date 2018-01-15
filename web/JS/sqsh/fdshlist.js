@@ -1,4 +1,7 @@
-﻿
+﻿var isframe = true;
+if (window.queryString.isframe) {
+    isframe = false;
+}
 var pageSize = 15;
 
 
@@ -9,6 +12,8 @@ var store = createSFW4Store({
     currentPage: 1,
     fields: [
        { name: 'ID' },
+        { name: 'FLOWID' },
+         { name: 'STEPID' },
        { name: 'LANDLORD_MC' },
        { name: 'User_XM' },
        { name: 'LANDLORD_NAME' },
@@ -71,9 +76,9 @@ function tp() {
     win.show();
 }
 
-function sh(v) {
+function sh(v, flowId, stepId) {
     FrameStack.pushFrame({
-        url: 'fdsh.html?id=' + v,
+        url: 'fdsh.html?id=' + v + '&flowId=' + flowId + '&stepId=' + stepId,
         onClose: function (ret) {
             loadData(1);
         }
@@ -114,6 +119,7 @@ Ext.onReady(function () {
                           },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'LANDLORD_MC',
                                 sortable: false,
                                 menuDisabled: true,
@@ -122,6 +128,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'gridcolumn',
+                                 flex: 1,
                                  dataIndex: 'LANDLORD_NAME',
                                  sortable: false,
                                  menuDisabled: true,
@@ -130,6 +137,7 @@ Ext.onReady(function () {
                              },
                               {
                                   xtype: 'gridcolumn',
+                                  flex: 1,
                                   dataIndex: 'User_XM',
                                   sortable: false,
                                   menuDisabled: true,
@@ -139,6 +147,7 @@ Ext.onReady(function () {
 
                                 {
                                     xtype: 'gridcolumn',
+                                    flex: 1,
                                     dataIndex: 'LANDLORD_MOBILE_TEL',
                                     sortable: false,
                                     menuDisabled: true,
@@ -148,6 +157,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'datecolumn',
+                                flex: 1,
                                 format: 'Y-m-d',
                                 dataIndex: 'LANDLORD_START_TIME',
                                 sortable: false,
@@ -157,6 +167,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'datecolumn',
+                                 flex: 1,
                                  format: 'Y-m-d',
                                  dataIndex: 'LANDLORD_END_TIME',
                                  sortable: false,
@@ -166,6 +177,7 @@ Ext.onReady(function () {
                              },
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'QY_NAME',
                                 sortable: false,
                                 menuDisabled: true,
@@ -180,7 +192,7 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\")'>审核</a>";
+                                    str = "<a href='#' onclick='sh(\"" + record.data.ID + "\",\"" + record.data.FLOWID + "\",\"" + record.data.STEPID + "\")'>审核</a>";
                                     return str;
                                 }
                             }
@@ -235,7 +247,21 @@ Ext.onReady(function () {
                                                     }
                                                 }
                                             ]
-                                        }
+                                        },
+                                          {
+                                              xtype: 'buttongroup',
+                                              title: '',
+                                              items: [
+                                                  {
+                                                      text: '返回',
+                                                      iconCls: 'back',
+                                                      hidden: isframe,
+                                                      handler: function () {
+                                                          FrameStack.popFrame();
+                                                      }
+                                                  }
+                                              ]
+                                          }
 
                                     ]
                                 },

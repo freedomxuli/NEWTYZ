@@ -4,7 +4,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web\", "{29522DB1-9E08-41F7-89ED-29500E23F4A9}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{dd9de1b6-79a4-44b9-a326-b14a65a1407d}|SmartFramework4v2.Cache.dll;{2A39343D-9F8D-4CB3-98BC-BF1A5D88AD1F}|SmartFramework4v2.Data.dll;{7461419B-3FB4-4CEC-8033-37B3D2A53D95}|SmartFramework4v2.Log.dll;{c9925492-e4ed-4edd-b2b1-02d32c46d02d}|SmartFramework4v2.Web.dll;"
+		ProjectReferences = "{dd9de1b6-79a4-44b9-a326-b14a65a1407d}|SmartFramework4v2.Cache.dll;{2A39343D-9F8D-4CB3-98BC-BF1A5D88AD1F}|SmartFramework4v2.Data.dll;{7461419B-3FB4-4CEC-8033-37B3D2A53D95}|SmartFramework4v2.Log.dll;{c9925492-e4ed-4edd-b2b1-02d32c46d02d}|SmartFramework4v2.Web.dll;{4ca123e6-2a51-4580-80e9-0b71a93c77ee}|Tools.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/web"
 		Debug.AspNetCompiler.PhysicalPath = "web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\web\"
@@ -19,7 +19,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "web", "web\", "{29522DB1-9E
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "41972"
+		VWDPort = "50572"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
@@ -30,6 +30,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartFramework4v2.Log", "..\Library\Library\SmartFramework4v2\SmartFramework4v2.Log\SmartFramework4v2.Log.csproj", "{7461419B-3FB4-4CEC-8033-37B3D2A53D95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartFramework4v2.Cache", "..\Library\Library\SmartFramework4v2\SmartFramework4v2.Cache\SmartFramework4v2.Cache.csproj", "{DD9DE1B6-79A4-44B9-A326-B14A65A1407D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{4CA123E6-2A51-4580-80E9-0B71A93C77EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +90,14 @@ Global
 		{DD9DE1B6-79A4-44B9-A326-B14A65A1407D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DD9DE1B6-79A4-44B9-A326-B14A65A1407D}.Release|x64.ActiveCfg = Release|Any CPU
 		{DD9DE1B6-79A4-44B9-A326-B14A65A1407D}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Release|x64.ActiveCfg = Release|Any CPU
+		{4CA123E6-2A51-4580-80E9-0B71A93C77EE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

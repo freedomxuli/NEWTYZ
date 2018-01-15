@@ -423,7 +423,7 @@ Ext.onReady(function () {
         if (retVal) {
             dqstore.add([{ 'VALUE': '', 'TEXT': '所有区域' }]);
             dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+           // Ext.getCmp("QY_ID").setValue('');
         }
     }, CS.onError);
 

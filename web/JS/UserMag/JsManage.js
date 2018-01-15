@@ -201,11 +201,12 @@ Ext.onReady(function () {
                             dataIndex: 'JS_NAME',
                             sortable: false,
                             menuDisabled: true,
-                            width: 400,
+                            flex: 1,
                             text: '角色名称'
                         },
                         {
                             xtype: 'gridcolumn',
+                            flex: 1,
                             dataIndex: 'JS_ZT',
                             sortable: false,
                             menuDisabled: true,
@@ -226,6 +227,7 @@ Ext.onReady(function () {
                         },
                         {
                             xtype: 'gridcolumn',
+                            flex: 1,
                             sortable: false,
                             menuDisabled: true,
                             text: '操作',

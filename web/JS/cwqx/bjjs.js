@@ -133,6 +133,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'gridcolumn',
+                                flex:1,
                                 dataIndex: 'UserName',
                                 sortable: false,
                                 menuDisabled: true,
@@ -141,6 +142,7 @@ Ext.onReady(function () {
                             },
                              {
                                  xtype: 'gridcolumn',
+                                 flex: 1,
                                  dataIndex: 'NickName',
                                  sortable: false,
                                  menuDisabled: true,
@@ -149,6 +151,7 @@ Ext.onReady(function () {
                              },
                               {
                                   xtype: 'gridcolumn',
+                                  flex: 1,
                                   dataIndex: 'TxMoney',
                                   sortable: false,
                                   menuDisabled: true,
@@ -157,6 +160,7 @@ Ext.onReady(function () {
                               },
                                {
                                    xtype: 'datecolumn',
+                                   flex: 1,
                                    format: 'Y-m-d H:m:s',
                                    width: 150,
                                    dataIndex: 'CreateTime',
@@ -167,6 +171,7 @@ Ext.onReady(function () {
                                },
                                {
                                    xtype: 'datecolumn',
+                                   flex: 1,
                                    format: 'Y-m-d H:m:s',
                                    width: 150,
                                    dataIndex: 'FinishTime',
@@ -178,6 +183,7 @@ Ext.onReady(function () {
 
                             {
                                 xtype: 'gridcolumn',
+                                flex: 1,
                                 dataIndex: 'Status',
                                 sortable: false,
                                 menuDisabled: true,

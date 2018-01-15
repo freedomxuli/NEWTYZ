@@ -24,7 +24,18 @@ function DataBind() {
     CS('CZCLZ.JjrDB.GetFdById', function (retVal) {
         if (retVal) {
             var addform = Ext.getCmp("addform");
-            addform.form.setValues(retVal[0]);
+            addform.form.setValues(retVal.dt[0]);
+
+            var html1 = "";
+            var html2 = "";
+            for (var i in retVal.dtFJ) {
+                if (retVal.dtFJ[i]["fj_lx"] == 2)
+                    html1 += '<div class="file-item uploadimages" style="margin-left:5px;margin-bottom:5px" imageurl="~/' + retVal.dtFJ[i]["fj_url"] + '"><img src="approot/r/' + retVal.dtFJ[i]["fj_url"] + '" width="100px" height="100px"/></div>';
+                else if (retVal.dtFJ[i]["fj_lx"] == 3)
+                    html2 += '<div class="file-item uploadimages" style="margin-left:5px;margin-bottom:5px" imageurl="~/' + retVal.dtFJ[i]["fj_url"] + '"><img src="approot/r/' + retVal.dtFJ[i]["fj_url"] + '" width="100px" height="100px"/></div>';
+            }
+            $("#fileList").append(html1);
+            $("#fileList2").append(html2);
         }
     }, CS.onError, id);
 }
@@ -152,6 +163,105 @@ Ext.define('deviceWin', {
     }
 });
 
+Ext.define('deviceWin', {
+    extend: 'Ext.window.Window',
+
+    height: 250,
+    width: 400,
+    layout: {
+        type: 'fit'
+    },
+    id: 'deviceWin',
+    closeAction: 'destroy',
+    modal: true,
+    title: '设备信息',
+    initComponent: function () {
+        var me = this;
+        me.items = [
+            {
+                xtype: 'form',
+                id: 'deviceform',
+                frame: true,
+                bodyPadding: 10,
+
+                title: '',
+                store: deviceStore,
+                items: [
+                    {
+                        xtype: 'textfield',
+                        fieldLabel: 'ID',
+                        id: 'ID',
+                        name: 'ID',
+                        labelWidth: 70,
+                        hidden: true,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        id: 'DEVICE_NAME',
+                        name: 'DEVICE_NAME',
+                        fieldLabel: '设备类型',
+                        labelWidth: 70,
+                        allowBlank: false,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'numberfield',
+                        id: 'DEVICE_NUMBER',
+                        name: 'DEVICE_NUMBER',
+                        fieldLabel: '设备数量',
+                        labelWidth: 70,
+                        allowBlank: false,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'numberfield',
+                        id: 'DEVICE_MONEY',
+                        name: 'DEVICE_MONEY',
+                        fieldLabel: '金额',
+                        labelWidth: 70,
+                        allowBlank: false,
+                        anchor: '100%'
+                    }
+                ],
+                buttonAlign: 'center',
+                buttons: [
+                    {
+                        text: '确定',
+                        handler: function () {
+                            var form = Ext.getCmp('deviceform');
+                            if (form.form.isValid()) {
+                                //取得表单中的内容
+                                var values = form.form.getValues(false);
+
+                                CS('CZCLZ.JjrDB.SaveDlsDevice', function (retVal) {
+                                    if (retVal) {
+                                        var grid = Ext.getCmp("devicegrid");
+                                        var store = grid.getStore();
+                                        store.insert(0, retVal[0]);
+                                    }
+
+                                    Ext.getCmp('deviceWin').close()
+                                }, CS.onError, values);
+                            }
+                        }
+                    },
+                    {
+                        text: '取消',
+                        handler: function () {
+                            this.up('window').close();
+                        }
+                    }
+                ]
+            }
+        ];
+        me.callParent(arguments);
+    }
+});
+
+
+
+
 Ext.onReady(function () {
     Ext.define('add', {
         extend: 'Ext.container.Viewport',
@@ -167,7 +277,8 @@ Ext.onReady(function () {
                     {
                         xtype: 'panel',
                         layout: {
-                            type: 'anchor'
+                            type: 'vbox',
+                            align: 'center'
                         },
                         autoScroll: true,
                         items: [
@@ -177,9 +288,11 @@ Ext.onReady(function () {
                                 layout: {
                                     type: 'column'
                                 },
+                                width: 850,
+                                height: 800,
                                 border: true,
                                 // margin: 10,
-                                title: '房东基本信息',
+                                // title: '房东基本信息',
                                 items: [
                                         {
                                             xtype: 'textfield',
@@ -309,7 +422,8 @@ Ext.onReady(function () {
                                                labelWidth: 150
                                            },
                                             {
-                                                xtype: 'textfield',
+                                                xtype: 'numberfield',
+                                                allowBlank: false,
                                                 name: 'COMMISSION_RATIO',
                                                 margin: '10 10 10 10',
                                                 fieldLabel: '佣金比例',
@@ -343,22 +457,6 @@ Ext.onReady(function () {
                                              columnWidth: 0.5,
                                              labelWidth: 150
                                          },
-                                         {
-                                             xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'2\')">上传</a>',
-                                             margin: '10 10 10 10',
-                                             fieldLabel: '身份证图片',
-                                             columnWidth: 0.5,
-                                             labelWidth: 150
-                                         },
-                                         {
-                                             xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'3\')">上传</a>',
-                                             margin: '10 10 10 10',
-                                             fieldLabel: '用工合同照片',
-                                             columnWidth: 0.5,
-                                             labelWidth: 150
-                                         },
                                           {
                                               xtype: 'textfield',
                                               name: 'LANDLORD_CONTRACT_NUMBER',
@@ -367,6 +465,41 @@ Ext.onReady(function () {
                                               columnWidth: 0.5,
                                               labelWidth: 150
                                           },
+                                         //{
+                                         //    xtype: 'displayfield',
+                                         //    value: '<a href="#" onclick="tp(\'2\')">上传</a>',
+                                         //    margin: '10 10 10 10',
+                                         //    fieldLabel: '身份证图片',
+                                         //    columnWidth: 0.5,
+                                         //    labelWidth: 150
+                                         //},
+                                         //{
+                                         //    xtype: 'displayfield',
+                                         //    value: '<a href="#" onclick="tp(\'3\')">上传</a>',
+                                         //    margin: '10 10 10 10',
+                                         //    fieldLabel: '用工合同照片',
+                                         //    columnWidth: 0.5,
+                                         //    labelWidth: 150
+                                         //},
+                                          {
+                                              xtype: 'displayfield',
+                                              id: 'tp1',
+                                              value: ' <div id="fileList"><div id="filePicker" style="float:left;margin-right:10px;margin-bottom:5px;width:50px;height:50px;">点击选择图片</div></div>',
+                                              margin: '10 10 10 10',
+                                              fieldLabel: '身份证图片',
+                                              columnWidth: 1,
+                                              labelWidth: 80
+                                          },
+                                           {
+                                               xtype: 'displayfield',
+                                               id: 'tp2',
+                                               value: ' <div id="fileList2"><div id="filePicker2" style="float:left;margin-right:10px;margin-bottom:5px;width:50px;height:50px;">点击选择图片</div></div>',
+                                               margin: '10 10 10 10',
+                                               fieldLabel: '用工合同照片',
+                                               columnWidth: 1,
+                                               labelWidth: 80
+                                           },
+
                                          {
                                              xtype: 'datefield',
                                              name: 'LANDLORD_START_TIME',
@@ -398,7 +531,8 @@ Ext.onReady(function () {
                                               labelWidth: 150
                                           },
                                            {
-                                               xtype: 'textfield',
+                                               xtype: 'numberfield',
+                                               allowBlank: false,
                                                name: 'LANDLORD_DEPOSIT',
                                                margin: '10 10 10 10',
                                                fieldLabel: '押金总额',
@@ -435,7 +569,15 @@ Ext.onReady(function () {
                                              fieldLabel: '所属区域',
                                              columnWidth: 0.5,
                                              labelWidth: 150
-                                         }
+                                         },
+                                          {
+                                              xtype: 'displayfield',
+                                              name: 'DealerAuthoriCode',
+                                              margin: '10 10 10 10',
+                                              fieldLabel: '授权码',
+                                              columnWidth: 0.5,
+                                              labelWidth: 150
+                                          }
 
 
                                 ]
@@ -450,11 +592,28 @@ Ext.onReady(function () {
                                     var form = Ext.getCmp('addform');
                                     if (form.form.isValid()) {
                                         var values = form.getValues(false);
+
+                                        var imglist = "";
+                                        $("#fileList .file-item").each(function () {
+                                            imglist += $(this).attr("imageurl") + ",";
+                                        })
+
+                                        if (imglist.length > 0)
+                                            imglist = imglist.substr(0, imglist.length - 1);
+
+                                        var imglist2 = "";
+                                        $("#fileList2 .file-item").each(function () {
+                                            imglist2 += $(this).attr("imageurl") + ",";
+                                        })
+
+                                        if (imglist2.length > 0)
+                                            imglist2 = imglist2.substr(0, imglist2.length - 1);
+
                                         CS('CZCLZ.JjrDB.SaveFdXX', function (retVal) {
                                             if (retVal) {
                                                 FrameStack.popFrame();
                                             }
-                                        }, CS.onError, values, picItem);
+                                        }, CS.onError, values, picItem, imglist, imglist2);
                                     }
                                 }
 
@@ -475,16 +634,17 @@ Ext.onReady(function () {
 
     });
     new add();
-
-    CS('CZCLZ.YHGLClass.GetQy', function (retVal) {
+    initwebupload("filePicker", "fileList", 5);
+    initwebupload("filePicker2", "fileList2", 5);
+    ACS('CZCLZ.YHGLClass.GetQy', function (retVal) {
         if (retVal) {
             dqstore.loadData(retVal, true);
-            Ext.getCmp("QY_ID").setValue('');
+            if (id != null && id != "")
+                DataBind();
         }
     }, CS.onError);
 
-    if (id != null && id != "")
-        DataBind();
+
 });
 
 Ext.define('phWin', {

@@ -44,6 +44,11 @@ var dqstore = Ext.create('Ext.data.Store', {
     ]
 });
 
+var userStore = Ext.create('Ext.data.Store', {
+    fields: ['VALUE', 'TEXT']
+});
+
+
 function sh() {
     var win = new ShWin();
     win.show();
@@ -51,6 +56,9 @@ function sh() {
 
 
 var id = queryString.id;
+var flowId = queryString.flowId;
+var stepId = queryString.stepId;
+
 var picItem = [];
 
 var dqstore = Ext.create('Ext.data.Store', {
@@ -108,78 +116,89 @@ function tp(v) {
     win.show();
 }
 
-Ext.define('userWin', {
+Ext.define('shWin', {
     extend: 'Ext.window.Window',
-
+    id: 'shWin',
     height: 250,
-    width: 400,
+    width: 478,
     layout: {
-        type: 'fit'
+        type: 'anchor'
     },
-    id: 'userWin',
-    closeAction: 'destroy',
+    title: '审核',
     modal: true,
-    title: '创建账户信息',
     initComponent: function () {
         var me = this;
-        me.items = [
-            {
-                xtype: 'form',
-                id: 'userform',
-                frame: true,
-                bodyPadding: 10,
-
-                title: '',
-                store: deviceStore,
-                items: [
+        Ext.applyIf(me, {
+            items: [
+                {
+                    xtype: 'form',
+                    id: 'form',
+                    items: [
                     {
-                        xtype: 'textfield',
-                        id: 'yhm',
-                        fieldLabel: '用户名',
-                        labelWidth: 70,
+                        xtype: 'combobox',
+                        id: 'TOUSERID',
+                        name: 'TOUSERID',
+                        margin: '10 10 10 10',
+                        width: 200,
+                        labelWidth: 60,
+                        fieldLabel: '发送至',
+                        queryMode: 'local',
+                        displayField: 'TEXT',
+                        valueField: 'VALUE',
                         allowBlank: false,
-                        anchor: '100%'
+                        store: userStore
                     },
-                    {
-                        xtype: 'textfield',
-                        id: 'mm',
-                        fieldLabel: '密码',
-                        labelWidth: 70,
-                        allowBlank: false,
-                        anchor: '100%'
-                    }
-                ],
-                buttonAlign: 'center',
-                buttons: [
-                    {
-                        text: '确定',
-                        handler: function () {
-                            Ext.MessageBox.confirm('确认', '确认后将发送至财务组，是否继续？', function (btn) {
-                                if (btn == 'yes') {
-                                    var form = Ext.getCmp('userform');
-                                    if (form.form.isValid()) {
-                                        //取得表单中的内容
-                                        CS('CZCLZ.AdminDB.AgreeFd', function (retVal) {
-                                            if (retVal) {
-                                                FrameStack.popFrame();
-                                            }
-                                        }, CS.onError, id, Ext.getCmp("yhm").getValue(), Ext.getCmp("mm").getValue());
-                                    }
+                   {
+                       xtype: 'textareafield',
+                       id: 'ISSUEINFO',
+                       name: 'ISSUEINFO',
+                       height: 102,
+                       width: 436,
+                       labelWidth: 60,
+                       margin: '10 10 10 10',
+                       fieldLabel: '附加信息'
+                   }
+                    ]
+                }
+
+            ]
+        });
+
+        me.callParent(arguments);
+    },
+    buttonAlign: 'center',
+    buttons: [
+        {
+            text: '提交',
+            handler: function () {
+                var form = Ext.getCmp('form');
+                if (form.form.isValid()) {
+                    //取得表单中的内容
+                    var values = form.form.getValues(false);
+                    CS('CZCLZ.AdminDB.SendDeviceFlow', function (retVal) {
+                        if (retVal) {
+                            Ext.Msg.show({
+                                title: '提示',
+                                msg: '提交成功',
+                                buttons: Ext.MessageBox.OK,
+                                icon: Ext.MessageBox.INFO,
+                                fn: function () {
+                                    FrameStack.popFrame();
                                 }
                             });
                         }
-                    },
-                    {
-                        text: '取消',
-                        handler: function () {
-                            this.up('window').close();
-                        }
-                    }
-                ]
+                    }, CS.onError, flowId, stepId, 1, Ext.getCmp("TOUSERID").getValue(), Ext.getCmp("ISSUEINFO").getValue(), 3);
+                }
             }
-        ];
-        me.callParent(arguments);
-    }
+        },
+        {
+            text: '关闭',
+            handler: function () {
+                Ext.getCmp('shWin').close();
+            }
+        }
+    ]
+
 });
 
 Ext.onReady(function () {
@@ -202,12 +221,20 @@ Ext.onReady(function () {
                         autoScroll: true,
                         buttonAlign: 'center',
                         buttons: [
+                            {
+                                text: '同意',
+                                handler: function () {
+                                    var win = new shWin();
+                                    win.show();
+                                }
+
+                            },
                              {
-                                 text: '通过',
+                                 text: '拒绝',
                                  handler: function () {
-                                     Ext.MessageBox.confirm('确认', '通过后将发送至生产组，是否继续？', function (btn) {
+                                     Ext.MessageBox.confirm('确认', '是否拒绝？', function (btn) {
                                          if (btn == 'yes') {
-                                             CS('CZCLZ.CwDB.AgreeFd', function (retVal) {
+                                             CS('CZCLZ.AdminDB.NoAgreeFd', function (retVal) {
                                                  if (retVal) {
                                                      FrameStack.popFrame();
                                                  }
@@ -378,7 +405,7 @@ Ext.onReady(function () {
                                          },
                                          {
                                              xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'2\')">上传</a>',
+                                             value: '<a href="#" onclick="tp(\'2\')">查看</a>',
                                              margin: '10 10 10 10',
                                              fieldLabel: '身份证图片',
                                              columnWidth: 0.5,
@@ -386,7 +413,7 @@ Ext.onReady(function () {
                                          },
                                          {
                                              xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'3\')">上传</a>',
+                                             value: '<a href="#" onclick="tp(\'3\')">查看</a>',
                                              margin: '10 10 10 10',
                                              fieldLabel: '用工合同照片',
                                              columnWidth: 0.5,
@@ -451,104 +478,79 @@ Ext.onReady(function () {
                                                 fieldLabel: '联系人',
                                                 columnWidth: 0.5,
                                                 labelWidth: 150
-                                            },
-                                        {
-                                            xtype: 'displayfield',
-                                            name: 'QY_NAME',
-
-                                            margin: '10 10 10 10',
-                                            fieldLabel: '代理商所属区域',
-                                            columnWidth: 0.5,
-                                            labelWidth: 150
-                                        },
-                                          {
-                                              xtype: 'displayfield',
-                                              name: 'User_XM',
-                                              margin: '10 10 10 10',
-                                              fieldLabel: '经纪人',
-                                              columnWidth: 0.5,
-                                              labelWidth: 150
-                                          },
-                                          {
-                                              xtype: 'displayfield',
-                                              name: 'LANDLORD_APPLY_TIME',
-                                              margin: '10 10 10 10',
-                                              fieldLabel: '申请时间',
-                                              columnWidth: 0.5,
-                                              labelWidth: 150
-                                          }
-
+                                            }
 
                                 ]
                             },
-                            {
-                                xtype: 'panel',
-                                margin: '10 0 0 0',
-                                // border: true,
-                                items: [
-                                    {
-                                        xtype: 'panel',
-                                        items: [
-                                            {
-                                                xtype: 'gridpanel',
-                                                margin: '0 0 0 0',
-                                                id: 'devicegrid',
-                                                //  store: store2,
-                                                height: 300,
-                                                columnLines: true,
-                                                border: true,
-                                                autoscroll: true,
-                                                columns: [
+                             {
+                                 xtype: 'panel',
+                                 margin: '10 0 0 0',
+                                 // border: true,
+                                 items: [
+                                     {
+                                         xtype: 'panel',
+                                         items: [
+                                             {
+                                                 xtype: 'gridpanel',
+                                                 margin: '0 0 0 0',
+                                                 id: 'devicegrid',
+                                                 store: deviceStore,
+                                                 height: 300,
+                                                 columnLines: true,
+                                                 border: true,
+                                                 autoscroll: true,
+                                                 columns: [
+                                                      {
+                                                          xtype: 'gridcolumn',
+                                                          dataIndex: 'DEVICE_NAME',
+                                                          align: 'center',
+                                                          text: '设备类型',
+                                                          flex: 1,
+                                                          sortable: false,
+                                                          menuDisabled: true
+                                                      },
+
                                                      {
                                                          xtype: 'gridcolumn',
-                                                         dataIndex: 'DEVICE_NAME',
+                                                         dataIndex: 'DEVICE_NUMBER',
                                                          align: 'center',
-                                                         text: '设备类型',
+                                                         text: '设备数量',
                                                          flex: 1,
                                                          sortable: false,
                                                          menuDisabled: true
                                                      },
+                                                     {
+                                                         xtype: 'gridcolumn',
+                                                         dataIndex: 'DEVICE_MONEY',
+                                                         align: 'center',
+                                                         text: '押金金额',
+                                                         flex: 1,
+                                                         sortable: false,
+                                                         menuDisabled: true
+                                                     }
 
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'DEVICE_NUMBER',
-                                                        align: 'center',
-                                                        text: '设备数量',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    },
-                                                    {
-                                                        xtype: 'gridcolumn',
-                                                        dataIndex: 'DEVICE_MONEY',
-                                                        align: 'center',
-                                                        text: '押金金额',
-                                                        flex: 1,
-                                                        sortable: false,
-                                                        menuDisabled: true
-                                                    }
+                                                 ],
+                                                 dockedItems: [
+                                                     {
+                                                         xtype: 'toolbar',
+                                                         dock: 'top',
+                                                         items: [
+                                                             {
+                                                                 xtype: 'displayfield',
+                                                                 fieldLabel: '',
+                                                                 value: '<div style="font-size:14px; color:#007ED2;">代理设备列表</div>'
+                                                             },
+                                                             '->'
 
-                                                ],
-                                                dockedItems: [
-                                                    {
-                                                        xtype: 'toolbar',
-                                                        dock: 'top',
-                                                        items: [
-                                                            {
-                                                                xtype: 'displayfield',
-                                                                fieldLabel: '',
-                                                                value: '<div style="font-size:14px; color:#007ED2;">代理设备列表</div>'
-                                                            },
-                                                            '->'
+                                                         ]
+                                                     }
+                                                 ]
 
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
+                                             }
+                                         ]
+                                     }
+                                 ]
+                             }
                         ]
                     }
                 ]
@@ -561,6 +563,19 @@ Ext.onReady(function () {
     new add();
 
 
+    CS('CZCLZ.AdminDB.GetFdSbByFlow', function (retVal) {
+        if (retVal) {
+            deviceStore.loadData(retVal);
+        }
+    }, CS.onError, flowId);
+
+
+    CS('CZCLZ.PayOrderDB.GetUser', function (retVal) {
+        if (retVal) {
+            userStore.loadData(retVal, true);
+            // Ext.getCmp("QY_ID").setValue('');
+        }
+    }, CS.onError, 11);
 
     if (id != null && id != "")
         DataBind();
