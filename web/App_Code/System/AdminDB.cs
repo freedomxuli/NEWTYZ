@@ -554,7 +554,7 @@ public class AdminDB
                 Flow.FinishFlow(dbc, flowId);
                 Flow.FinishStep(dbc, stepId, 1, "审核通过");
 
-                InsertUser(dt.Rows[0]["LoginName"].ToString(), dt.Rows[0]["PassWord"].ToString(), dt.Rows[0]["LANDLORD_NAME"].ToString(), "55B5B7EE-6046-464B-B4A0-0D4151C38097");
+                InsertUser(dt.Rows[0]["LANDLORD_MOBILE_TEL"].ToString(), dt.Rows[0]["PassWord"].ToString(), dt.Rows[0]["LANDLORD_NAME"].ToString(), "55B5B7EE-6046-464B-B4A0-0D4151C38097");
 
                 dbc.CommitTransaction();
                 return true;
@@ -643,7 +643,7 @@ public class AdminDB
                     int userId = Convert.ToInt16(dbc.ExecuteScalar("SELECT IDENT_CURRENT('aspnet_Users') + IDENT_INCR('aspnet_Users')").ToString());
                     var dtUser = dbc.GetEmptyDataTable("aspnet_Users");
                     var drUser = dtUser.NewRow();
-                    drUser["UserName"] = userName;
+                    drUser["UserName"] = loginName;
                     drUser["LoweredUserName"] = loginName;
                     drUser["PassWord"] = passWord;
                     drUser["IsAnonymous"] = 0;
@@ -827,7 +827,7 @@ public class AdminDB
         {
             try
             {
-                DataTable dt = dbc.ExecuteDataTable("select * from tb_b_landlord_sp where FLOWID=" + flowId + " and STATUS=0");
+                DataTable dt = dbc.ExecuteDataTable("select a.*,b.Type from tb_b_landlord_sp a left join equipmenttype_table b on a.DEVICE_NAME=b.TypeNo where FLOWID=" + flowId + " and STATUS=0");
                 return dt;
             }
             catch (Exception ex)
@@ -861,13 +861,15 @@ public class AdminDB
     }
 
     [CSMethod("CheckDevice")]
-    public object CheckDevice(string SN)
+    public object CheckDevice(string SN, string type, int num)
     {
         using (DBConnection dbc = new DBConnection())
         {
             try
             {
                 string[] arr = SN.Split(',');
+                if (arr.Length != num)
+                    throw new Exception("申请设备个数" + num + "个，" + "扫描设备个数" + arr.Length + "个，不一致");
                 foreach (string sn in arr)
                 {
                     DataTable dt = dbc.ExecuteDataTable("select * from equipmentinfo_table where EquipmentId='" + sn + "'");
@@ -875,11 +877,14 @@ public class AdminDB
                     {
                         throw new Exception("设备" + sn + "在数据库中不存在");
                     }
-                    dt = dbc.ExecuteDataTable("select * from equipmentinfo_table where EquipmentId='" + sn + "' and EquipmentDealer is not null");
-                    if (dt.Rows.Count > 0)
+                    else
                     {
-                        throw new Exception("设备" + sn + "已被授权");
+                        if (dt.Rows[0]["EquipmentDealer"].ToString() != "")
+                            throw new Exception("设备" + sn + "已被授权");
+                        else if (!type.Equals(dt.Rows[0]["EquipmentType"].ToString()))
+                            throw new Exception("设备" + sn + "不是申请设备类型");
                     }
+
                 }
                 return true;
             }

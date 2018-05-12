@@ -467,6 +467,7 @@ Ext.onReady(function () {
                                                 {
                                                     xtype: 'button',
                                                     iconCls: 'delete',
+                                                    hidden: true,
                                                     text: '删除',
                                                     handler: function () {
                                                         var idlist = [];

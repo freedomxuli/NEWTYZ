@@ -38,7 +38,8 @@ var deviceStore = Ext.create('Ext.data.Store', {
        { name: 'ID', type: 'string' },
        { name: 'DEVICE_NAME', type: 'string' },
        { name: 'DEVICE_NUMBER', type: 'string' },
-       { name: 'DEVICE_MONEY', type: 'string' }
+       { name: 'DEVICE_MONEY', type: 'string' },
+        { name: 'Type', type: 'string' }
     ]
 
 });
@@ -199,13 +200,28 @@ Ext.define('addWin', {
                          anchor: '100%'
                      },
                     {
-                        xtype: 'textfield',
+                        xtype: 'combobox',
                         id: 'DEVICE_NAME',
                         name: 'DEVICE_NAME',
                         fieldLabel: '设备类型',
                         labelWidth: 70,
                         allowBlank: false,
-                        anchor: '100%'
+                        anchor: '100%',
+                        queryMode: 'local',
+                        displayField: 'TEXT',
+                        valueField: 'VALUE',
+                        store: new Ext.data.ArrayStore({
+                            fields: ['TEXT', 'VALUE'],
+                            data: [
+                                ['取电开关', '32'],
+                                ['网关设备', '16'],
+                                ['门锁', '48'],
+                                ['开关设备', '64'],
+                                ['插座设备', '80'],
+                                ['可视门铃', '96'],
+                                ['红外控制器', '112']
+                            ]
+                        })
                     },
                     {
                         xtype: 'numberfield',
@@ -288,7 +304,7 @@ Ext.define('deviceWin', {
                 columns: [
                      {
                          xtype: 'gridcolumn',
-                         dataIndex: 'DEVICE_NAME',
+                         dataIndex: 'Type',
                          align: 'center',
                          text: '设备类型',
                          flex: 1,
@@ -744,7 +760,7 @@ Ext.onReady(function () {
                                                 }
                                             ]
                                         },
-                                        
+
                                         {
                                             xtype: 'buttongroup',
                                             title: '',

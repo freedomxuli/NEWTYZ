@@ -77,7 +77,7 @@ left join tb_b_users c on a.ROLE_ID=c.User_Id where a.STATUS=0 and (a.ZT=2 or a.
                     }
                     else if (MenuName == "待处理纠纷,approot/r/page/kfqx/dcljfdd.html|已处理纠纷,approot/r/page/kfqx/ycljfdd.html")
                     {
-                        sql = @"select a.*,b.*,c.User_XM FQR,d.User_XM CLR from tb_u_flow a
+                        sql = @"select count(*) from tb_u_flow a
                                  left join tb_u_flow_step b on a.FLOWID=b.FLOWID
                                  left join tb_b_users c on b.FROMUSERID=c.User_ID
                                  left join tb_b_users d on b.TOUSERID=d.User_ID
@@ -85,7 +85,7 @@ left join tb_b_users c on a.ROLE_ID=c.User_Id where a.STATUS=0 and (a.ZT=2 or a.
                     }
                     else if (MenuName == "待处理投诉,approot/r/page/kfqx/dcltsdd.html|已处理投诉,approot/r/page/kfqx/ycltsdd.html")
                     {
-                        sql = @"select a.*,b.*,c.User_XM FQR,d.User_XM CLR from tb_u_flow a
+                        sql = @"select count(*) from tb_u_flow a
                                  left join tb_u_flow_step b on a.FLOWID=b.FLOWID
                                  left join tb_b_users c on b.FROMUSERID=c.User_ID
                                  left join tb_b_users d on b.TOUSERID=d.User_ID
@@ -109,15 +109,15 @@ left join tb_b_users c on a.ROLE_ID=c.User_Id where a.STATUS=0 and (a.ZT=2 or a.
                     }
                     else if (MenuName == "待处理纠纷订单,approot/r/page/ddqx/dcljflist.html|已处理纠纷订单,approot/r/page/ddqx/ycljflist.html")
                     {
-                        sql = @"select a.*,b.*,c.User_XM FQR,d.User_XM CLR from tb_u_flow a
+                        sql = @"select count(*) from tb_u_flow a
                                  left join tb_u_flow_step b on a.FLOWID=b.FLOWID
                                  left join tb_b_users c on b.FROMUSERID=c.User_ID
                                  left join tb_b_users d on b.TOUSERID=d.User_ID
                                  where RESULT=0 and SERVICETYPE='纠纷订单'";
                     }
-                    else if (MenuName == "")
+                    else if (MenuName == "待处理投诉订单,approot/r/page/ddqx/dcltslist.html|已处理投诉订单,approot/r/page/ddqx/ycltslist.html")
                     {
-                        sql = @"select a.*,b.*,c.User_XM FQR,d.User_XM CLR from tb_u_flow a
+                        sql = @"select count(*) from tb_u_flow a
                                  left join tb_u_flow_step b on a.FLOWID=b.FLOWID
                                  left join tb_b_users c on b.FROMUSERID=c.User_ID
                                  left join tb_b_users d on b.TOUSERID=d.User_ID

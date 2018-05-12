@@ -1,4 +1,4 @@
-﻿
+﻿var cx_zt = queryString.zt;
 var pageSize = 15;
 
 //************************************数据源*****************************************
@@ -35,7 +35,7 @@ var taskStore = Ext.create('Ext.data.Store', {
 
 function loadData(nPage) {
 
-    var cx_zt = Ext.getCmp("cx_zt").getValue();
+   // var cx_zt = Ext.getCmp("cx_zt").getValue();
 
     CS('CZCLZ.JjrDB.GetTaskList', function (retVal) {
         store.setData({
@@ -258,12 +258,12 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    var zt = Ext.getCmp("cx_zt").getValue();
-                                    if (zt == 1) {
+                                    //var zt = Ext.getCmp("cx_zt").getValue();
+                                    if (cx_zt == 1) {
                                         str = "<a href='#' onclick='cl(\"" + record.data.SERVICETYPE + "\")'>处理</a>";
                                         str += "|<a href='#' onclick='ck(\"" + record.data.FLOWID + "\")'>明细</a>";
                                     }
-                                    else if (zt == 2)
+                                    else if (cx_zt == 2)
                                         str = "<a href='#' onclick='ck(\"" + record.data.FLOWID + "\")'>明细</a>";
                                     else
                                         str = "<a href='#' onclick='ck(\"" + record.data.FLOWID + "\")'>明细</a>";
@@ -276,45 +276,7 @@ Ext.onReady(function () {
 
                     },
                     dockedItems: [
-                                {
-                                    xtype: 'toolbar',
-                                    dock: 'top',
-                                    items: [
-                                         {
-                                             xtype: 'combobox',
-                                             fieldLabel: '任务状态',
-                                             width: 160,
-                                             labelWidth: 60,
-                                             id: 'cx_zt',
-                                             queryMode: 'local',
-                                             displayField: 'TEXT',
-                                             valueField: 'VALUE',
-                                             store: new Ext.data.ArrayStore({
-                                                 fields: ['TEXT', 'VALUE'],
-                                                 data: [
-                                                     ['待处理', 1],
-                                                     ['处理中', 2],
-                                                     ['已处理', 3]
-                                                 ]
-                                             }),
-                                             value: 1
-                                         },
-                                        {
-                                            xtype: 'buttongroup',
-                                            title: '',
-                                            items: [
-                                                {
-                                                    xtype: 'button',
-                                                    iconCls: 'search',
-                                                    text: '查询',
-                                                    handler: function () {
-                                                        loadData(1);
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
+                                
                                 {
                                     xtype: 'pagingtoolbar',
                                     displayInfo: true,

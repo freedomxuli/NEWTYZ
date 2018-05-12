@@ -72,7 +72,8 @@ var deviceStore = Ext.create('Ext.data.Store', {
        { name: 'ID', type: 'string' },
        { name: 'DEVICE_NAME', type: 'string' },
        { name: 'DEVICE_NUMBER', type: 'string' },
-       { name: 'DEVICE_MONEY', type: 'string' }
+       { name: 'DEVICE_MONEY', type: 'string' },
+       { name: 'Type', type: 'string' }
     ]
 
 });
@@ -516,7 +517,7 @@ Ext.onReady(function () {
                                                  columns: [
                                                       {
                                                           xtype: 'gridcolumn',
-                                                          dataIndex: 'DEVICE_NAME',
+                                                          dataIndex: 'Type',
                                                           align: 'center',
                                                           text: '设备类型',
                                                           flex: 1,

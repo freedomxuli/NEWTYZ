@@ -60,9 +60,14 @@ function loadData(nPage) {
 }
 
 
-function sh() {
-    var win = new ShWin();
-    win.show();
+function sh(v) {
+    FrameStack.pushFrame({
+        url: 'fdxz.html?pid=' + v,
+        onClose: function (ret) {
+            loadData(1);
+        }
+    });
+
 }
 
 
@@ -165,7 +170,7 @@ Ext.onReady(function () {
                                    align: 'center',
                                    text: "房东类型"
                                },
-                               
+
                              {
                                  text: '操作',
                                  width: 80,

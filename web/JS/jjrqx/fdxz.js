@@ -1,4 +1,5 @@
 ﻿var id = queryString.id;
+var pid = queryString.pid;
 var picItem = [];
 
 var dqstore = Ext.create('Ext.data.Store', {
@@ -38,6 +39,18 @@ function DataBind() {
             $("#fileList2").append(html2);
         }
     }, CS.onError, id);
+}
+
+function FillData() {
+    CS('CZCLZ.JjrDB.GetSQXX', function (retVal) {
+        if (retVal) {
+            Ext.getCmp("LANDLORD_NAME").setValue(retVal[0]["Name"]);
+            Ext.getCmp("LANDLORD_MOBILE_TEL").setValue(retVal[0]["Mobile"]);
+            Ext.getCmp("ROOM_TYPE").setValue(retVal[0]["RoomKind"]);
+            Ext.getCmp("LANDLORD_IDENTITY_NUMBER").setValue(retVal[0]["IdCard"]);
+            Ext.getCmp("LoginName").setValue(retVal[0]["Mobile"]);
+        }
+    }, CS.onError, pid);
 }
 
 function tp(v) {
@@ -305,6 +318,7 @@ Ext.onReady(function () {
                                         },
                                          {
                                              xtype: 'textfield',
+                                             id: 'LANDLORD_MC',
                                              name: 'LANDLORD_MC',
                                              margin: '10 10 10 10',
                                              fieldLabel: '房东名称',
@@ -314,6 +328,7 @@ Ext.onReady(function () {
                                          },
                                           {
                                               xtype: 'textfield',
+                                              id: 'LANDLORD_NAME',
                                               name: 'LANDLORD_NAME',
                                               margin: '10 10 10 10',
                                               fieldLabel: '房东姓名',
@@ -324,6 +339,7 @@ Ext.onReady(function () {
                                           },
                                          {
                                              xtype: 'textfield',
+                                             id: 'LoginName',
                                              name: 'LoginName',
                                              margin: '10 10 10 10',
                                              fieldLabel: '用户名',
@@ -345,6 +361,7 @@ Ext.onReady(function () {
 
                                           {
                                               xtype: 'textfield',
+                                              id: 'LANDLORD_MOBILE_TEL',
                                               name: 'LANDLORD_MOBILE_TEL',
                                               margin: '10 10 10 10',
                                               fieldLabel: '手机',
@@ -361,6 +378,7 @@ Ext.onReady(function () {
                                            },
                                             {
                                                 xtype: 'combobox',
+                                                id: 'ROOM_TYPE',
                                                 name: 'ROOM_TYPE',
                                                 margin: '10 10 10 10',
                                                 fieldLabel: '房源类型',
@@ -414,21 +432,53 @@ Ext.onReady(function () {
                                                })
                                            },
                                            {
-                                               xtype: 'textfield',
+                                               xtype: 'combobox',
                                                name: 'SETTLEMENT_CYCLE',
                                                margin: '10 10 10 10',
                                                fieldLabel: '结算周期',
                                                columnWidth: 0.5,
-                                               labelWidth: 150
+                                               labelWidth: 150,
+                                               queryMode: 'local',
+                                               displayField: 'TEXT',
+                                               valueField: 'VALUE',
+                                               store: new Ext.data.ArrayStore({
+                                                   fields: ['TEXT', 'VALUE'],
+                                                   data: [
+                                                       ['T+3', '3'],
+                                                       ['T+7', '7'],
+                                                       ['T+10', '10'],
+                                                       ['T+15', '15'],
+                                                       ['T+20', '20'],
+                                                       ['T+30', '30']
+
+                                                   ]
+                                               })
                                            },
                                             {
-                                                xtype: 'numberfield',
+                                                xtype: 'combobox',
                                                 allowBlank: false,
                                                 name: 'COMMISSION_RATIO',
                                                 margin: '10 10 10 10',
                                                 fieldLabel: '佣金比例',
                                                 columnWidth: 0.5,
-                                                labelWidth: 150
+                                                labelWidth: 150,
+                                                queryMode: 'local',
+                                                displayField: 'TEXT',
+                                                valueField: 'VALUE',
+                                                store: new Ext.data.ArrayStore({
+                                                    fields: ['TEXT', 'VALUE'],
+                                                    data: [
+                                                        ['1%', 0.01],
+                                                        ['3%', 0.03],
+                                                        ['5%', 0.05],
+                                                        ['8%', 0.08],
+                                                        ['10%', 0.1],
+                                                        ['15%', 0.15],
+                                                        ['30%', 0.3],
+                                                        ['50%', 0.5],
+                                                        ['70%', 0.7]
+                                                    ]
+                                                })
                                             },
                                               {
                                                   xtype: 'combobox',
@@ -451,6 +501,7 @@ Ext.onReady(function () {
 
                                          {
                                              xtype: 'textfield',
+                                             id: 'LANDLORD_IDENTITY_NUMBER',
                                              name: 'LANDLORD_IDENTITY_NUMBER',
                                              margin: '10 10 10 10',
                                              fieldLabel: '身份证号',
@@ -523,12 +574,22 @@ Ext.onReady(function () {
                                              labelWidth: 150
                                          },
                                           {
-                                              xtype: 'textfield',
+                                              xtype: 'combobox',
                                               name: 'LANDLORD_CONTRACT_STATE',
                                               margin: '10 10 10 10',
                                               fieldLabel: '合同类型',
                                               columnWidth: 0.5,
-                                              labelWidth: 150
+                                              labelWidth: 150,
+                                              queryMode: 'local',
+                                              displayField: 'TEXT',
+                                              valueField: 'VALUE',
+                                              store: new Ext.data.ArrayStore({
+                                                  fields: ['TEXT', 'VALUE'],
+                                                  data: [
+                                                      ['托管合同', '托管合同'],
+                                                      ['合作合同', '合作合同']
+                                                  ]
+                                              })
                                           },
                                            {
                                                xtype: 'numberfield',
@@ -641,6 +702,8 @@ Ext.onReady(function () {
             dqstore.loadData(retVal, true);
             if (id != null && id != "")
                 DataBind();
+            else if (pid != null && pid != "")
+                FillData();
         }
     }, CS.onError);
 

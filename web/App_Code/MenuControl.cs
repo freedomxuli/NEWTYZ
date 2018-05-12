@@ -17,9 +17,19 @@ public class MenuControl
     public static String xmlMenu = @"
         <MainMenu>
              <Menu Name='经纪人权限'>
+ 
+<Item Name='我发起的任务'>
+                    <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.我发起的任务' Name='我发起的任务'>approot/r/page/jjrqx/dclrw.html?zt=4</Tab>
+                </Item> 
                 <Item Name='待处理任务'>
-                    <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.待处理任务' Name='待处理任务'>approot/r/page/jjrqx/dclrw.html</Tab>
-                </Item>  
+                    <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.待处理任务' Name='待处理任务'>approot/r/page/jjrqx/dclrw.html?zt=1</Tab>
+                </Item> 
+                <Item Name='处理中的任务'>
+                    <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.处理中的任务' Name='处理中的任务'>approot/r/page/jjrqx/dclrw.html?zt=2</Tab>
+                </Item> 
+                <Item Name='已完成任务'>
+                    <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.已完成任务' Name='已完成任务'>approot/r/page/jjrqx/dclrw.html?zt=3</Tab>
+                </Item> 
                <Item Name='房东管理'>
                     <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.房东管理' Name='房东管理'>approot/r/page/jjrqx/fdgl.html</Tab>
                 </Item>       
@@ -44,10 +54,19 @@ public class MenuControl
                     <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.门店审核' Name='门店审核'>approot/r/page/jjrqx/mdsh.html</Tab>
                 </Item>
             </Menu>
-            <Menu Name='财务权限'>
+            <Menu Name='财务权限'> 
+<Item Name='我发起的任务'>
+                    <Tab p='Smart.SystemPrivilege.财务权限_财务权限.我发起的任务' Name='我发起的任务'>approot/r/page/cwqx/dclrw.html?zt=4</Tab>
+                </Item> 
                 <Item Name='待处理任务'>
-                    <Tab p='Smart.SystemPrivilege.财务权限_财务权限.待处理任务' Name='待处理任务'>approot/r/page/cwqx/dclrw.html</Tab>
-                </Item>  
+                    <Tab p='Smart.SystemPrivilege.财务权限_财务权限.待处理任务' Name='待处理任务'>approot/r/page/cwqx/dclrw.html?zt=1</Tab>
+                </Item> 
+                <Item Name='处理中的任务'>
+                    <Tab p='Smart.SystemPrivilege.财务权限_财务权限.处理中的任务' Name='处理中的任务'>approot/r/page/cwqx/dclrw.html?zt=2</Tab>
+                </Item> 
+                <Item Name='已完成任务'>
+                    <Tab p='Smart.SystemPrivilege.财务权限_财务权限.已完成任务' Name='已完成任务'>approot/r/page/cwqx/dclrw.html?zt=3</Tab>
+                </Item> 
                  <Item Name='房东设备申请审核'>
                     <Tab p='Smart.SystemPrivilege.财务权限_财务权限.房东设备申请审核' Name='房东设备申请审核'>approot/r/page/cwqx/fdqrlist.html</Tab>
                 </Item> 
@@ -69,9 +88,19 @@ public class MenuControl
              
             </Menu>
           <Menu Name='生产组权限'>
- <Item Name='待处理任务'>
-                    <Tab p='Smart.SystemPrivilege.生产组权限_生产组权限.待处理任务' Name='待处理任务'>approot/r/page/sczqx/dclrw.html</Tab>
-                </Item>  
+
+ <Item Name='我发起的任务'>
+                    <Tab p='Smart.SystemPrivilege.生产组权限_生产组权限.我发起的任务' Name='我发起的任务'>approot/r/page/sczqx/dclrw.html?zt=4</Tab>
+                </Item> 
+                <Item Name='待处理任务'>
+                    <Tab p='Smart.SystemPrivilege.生产组权限_生产组权限.待处理任务' Name='待处理任务'>approot/r/page/sczqx/dclrw.html?zt=1</Tab>
+                </Item> 
+                <Item Name='处理中的任务'>
+                    <Tab p='Smart.SystemPrivilege.生产组权限_生产组权限.处理中的任务' Name='处理中的任务'>approot/r/page/sczqx/dclrw.html?zt=2</Tab>
+                </Item> 
+                <Item Name='已完成任务'>
+                    <Tab p='Smart.SystemPrivilege.生产组权限_生产组权限.已完成任务' Name='已完成任务'>approot/r/page/sczqx/dclrw.html?zt=3</Tab>
+                </Item> 
                  <Item Name='房东设备配货'>
                     <Tab p='Smart.SystemPrivilege.生产组权限_生产组权限.房东设备配货' Name='房东设备配货'>approot/r/page/sczqx/fdlist.html</Tab>
                 </Item>  
@@ -82,9 +111,19 @@ public class MenuControl
              
             </Menu>
           <Menu Name='客服权限'>
-<Item Name='待处理任务'>
-                    <Tab p='Smart.SystemPrivilege.客服权限_客服权限.待处理任务' Name='待处理任务'>approot/r/page/kfqx/dclrw.html</Tab>
-                </Item>  
+
+ <Item Name='我发起的任务'>
+                    <Tab p='Smart.SystemPrivilege.客服权限_客服权限.我发起的任务' Name='我发起的任务'>approot/r/page/kfqx/dclrw.html?zt=4</Tab>
+                </Item> 
+                <Item Name='待处理任务'>
+                    <Tab p='Smart.SystemPrivilege.客服权限_客服权限.待处理任务' Name='待处理任务'>approot/r/page/kfqx/dclrw.html?zt=1</Tab>
+                </Item> 
+                <Item Name='处理中的任务'>
+                    <Tab p='Smart.SystemPrivilege.客服权限_客服权限.处理中的任务' Name='处理中的任务'>approot/r/page/kfqx/dclrw.html?zt=2</Tab>
+                </Item> 
+                <Item Name='已完成任务'>
+                    <Tab p='Smart.SystemPrivilege.客服权限_客服权限.已完成任务' Name='已完成任务'>approot/r/page/kfqx/dclrw.html?zt=3</Tab>
+                </Item> 
 
                 <Item Name='订单查询'>
                     <Tab p='Smart.SystemPrivilege.客服权限_客服权限.订单查询' Name='订单查询'>approot/r/page/kfqx/ddlist.html</Tab>
@@ -99,9 +138,21 @@ public class MenuControl
                 </Item>
             </Menu>
           <Menu Name='订单专员权限'>
-<Item Name='待处理任务'>
-                    <Tab p='Smart.SystemPrivilege.订单专员权限_订单专员权限.待处理任务' Name='待处理任务'>approot/r/page/ddqx/dclrw.html</Tab>
+
+
+      <Item Name='我发起的任务'>
+                    <Tab p='Smart.SystemPrivilege.订单专员权限_订单专员权限.我发起的任务' Name='我发起的任务'>approot/r/page/ddqx/dclrw.html?zt=4</Tab>
                 </Item> 
+                <Item Name='待处理任务'>
+                    <Tab p='Smart.SystemPrivilege.订单专员权限_订单专员权限.待处理任务' Name='待处理任务'>approot/r/page/ddqx/dclrw.html?zt=1</Tab>
+                </Item> 
+                <Item Name='处理中的任务'>
+                    <Tab p='Smart.SystemPrivilege.订单专员权限_订单专员权限.处理中的任务' Name='处理中的任务'>approot/r/page/ddqx/dclrw.html?zt=2</Tab>
+                </Item> 
+                <Item Name='已完成任务'>
+                    <Tab p='Smart.SystemPrivilege.订单专员权限_订单专员权限.已完成任务' Name='已完成任务'>approot/r/page/ddqx/dclrw.html?zt=3</Tab>
+                </Item> 
+
                <Item Name='订单查询'>
                     <Tab p='Smart.SystemPrivilege.订单专员权限_订单专员权限.订单查询' Name='订单查询'>approot/r/page/ddqx/ddlist.html</Tab>
                 </Item>
@@ -139,8 +190,17 @@ public class MenuControl
              
             </Menu>
           <Menu Name='待处理审核'>
-<Item Name='待处理任务'>
-                    <Tab p='Smart.SystemPrivilege.待处理审核_待处理审核.待处理任务' Name='待处理任务'>approot/r/page/sqsh/dclrw.html</Tab>
+                <Item Name='我发起的任务'>
+                    <Tab p='Smart.SystemPrivilege.待处理审核_待处理审核.我发起的任务' Name='我发起的任务'>approot/r/page/sqsh/dclrw.html?zt=4</Tab>
+                </Item> 
+                <Item Name='待处理任务'>
+                    <Tab p='Smart.SystemPrivilege.待处理审核_待处理审核.待处理任务' Name='待处理任务'>approot/r/page/sqsh/dclrw.html?zt=1</Tab>
+                </Item> 
+                <Item Name='处理中的任务'>
+                    <Tab p='Smart.SystemPrivilege.待处理审核_待处理审核.处理中的任务' Name='处理中的任务'>approot/r/page/sqsh/dclrw.html?zt=2</Tab>
+                </Item> 
+                <Item Name='已完成任务'>
+                    <Tab p='Smart.SystemPrivilege.待处理审核_待处理审核.已完成任务' Name='已完成任务'>approot/r/page/sqsh/dclrw.html?zt=3</Tab>
                 </Item> 
                 <Item Name='房东申请审核'>
                     <Tab p='Smart.SystemPrivilege.待处理审核_待处理审核.房东申请审核' Name='房东申请审核'>approot/r/page/sqsh/fdshlist.html</Tab>
@@ -187,6 +247,10 @@ public class MenuControl
                 </Item>
                <Item Name='页面内容设置'>
                     <Tab p='Smart.SystemPrivilege.系统维护中心_系统维护中心.页面内容设置' Name='页面内容设置'>approot/r/page/WebSet/webset.html</Tab>
+                </Item>
+               <Item Name='字典管理'>
+                    <Tab p='Smart.SystemPrivilege.系统维护中心_系统维护中心.字典管理' Name='字典管理'>approot/r/page/Dictionary/zdb.html</Tab>
+                    <Tab p='Smart.SystemPrivilege.系统维护中心_系统维护中心.字典类型管理' Name='字典类型管理'>approot/r/page/Dictionary/zdblx.html</Tab>
                 </Item>
             </Menu>
           

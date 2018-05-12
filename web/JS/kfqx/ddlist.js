@@ -54,6 +54,9 @@ function loadData(nPage) {
     var cx_bgmc = Ext.getCmp("cx_bgmc").getValue();
     var cx_sqzt = Ext.getCmp("cx_sqzt").getValue();
 
+    var cx_fksj = Ext.getCmp("cx_fksj").getValue();
+    var cx_fdsj = Ext.getCmp("cx_fdsj").getValue();
+
     CS('CZCLZ.PayOrderDB.GetPayOrderList', function (retVal) {
         store.setData({
             data: retVal.dt,
@@ -62,7 +65,7 @@ function loadData(nPage) {
             currentPage: retVal.cp
             //sorters: { property: 'a', direction: 'DESC' }
         });
-    }, CS.onError, nPage, pageSize, cx_mc, cx_no, cx_fjh, cx_bgmc, cx_sqzt);
+    }, CS.onError, nPage, pageSize, cx_mc, cx_no, cx_fjh, cx_bgmc, cx_sqzt, cx_fksj, cx_fdsj);
 
 }
 
@@ -390,25 +393,63 @@ Ext.onReady(function () {
                                                       ]
                                                   }),
                                                   value: '2'
-                                              },
-
-                                        {
-                                            xtype: 'buttongroup',
-                                            title: '',
-                                            items: [
-                                                {
-                                                    xtype: 'button',
-                                                    iconCls: 'search',
-                                                    text: '查询',
-                                                    handler: function () {
-                                                        loadData(1);
-                                                    }
-                                                }
-                                            ]
-                                        }
+                                              }
 
                                     ]
                                 },
+                                 {
+                                     xtype: 'toolbar',
+                                     dock: 'top',
+                                     items: [
+
+                                         {
+                                             xtype: 'textfield',
+                                             id:'cx_fdsj',
+                                             width: 160,
+                                             labelWidth: 60,
+                                             fieldLabel: '房东手机'
+                                         },
+                                          {
+                                              xtype: 'textfield',
+                                              id: 'cx_fksj',
+                                              width: 160,
+                                              labelWidth: 60,
+                                              fieldLabel: '房客手机'
+                                          },
+                                            {
+                                                xtype: 'datefield',
+                                                format:'Y-m-d',
+                                                id:'cx_rzsj',
+                                                width: 160,
+                                                labelWidth: 60,
+                                                fieldLabel: '入住时间'
+                                            },
+                                             {
+                                                 xtype: 'datefield',
+                                                 format: 'Y-m-d',
+                                                 id: 'cx_ldsj',
+                                                 width: 160,
+                                                 labelWidth: 60,
+                                                 fieldLabel: '离店时间'
+                                             },
+                                              
+                                         {
+                                             xtype: 'buttongroup',
+                                             title: '',
+                                             items: [
+                                                 {
+                                                     xtype: 'button',
+                                                     iconCls: 'search',
+                                                     text: '查询',
+                                                     handler: function () {
+                                                         loadData(1);
+                                                     }
+                                                 }
+                                             ]
+                                         }
+
+                                     ]
+                                 },
                                 {
                                     xtype: 'pagingtoolbar',
                                     displayInfo: true,

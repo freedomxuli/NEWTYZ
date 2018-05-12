@@ -85,6 +85,109 @@ function sh(v, flowId, stepId) {
     });
 }
 
+function zfpz(fid) {
+    flowid = fid;
+    var win = new zfpzWin();
+    win.show(null, function () {
+        CS('CZCLZ.JjrDB.GetZFPZ', function (retVal) {
+            if (retVal) {
+                var form = Ext.getCmp("zfpzForm");
+                form.form.setValues(retVal[0]);
+            }
+        }, CS.onError, fid);
+    });
+}
+
+Ext.define('zfpzWin', {
+    extend: 'Ext.window.Window',
+
+    height: 250,
+    width: 400,
+    layout: {
+        type: 'fit'
+    },
+    id: 'zfpzWin',
+    closeAction: 'destroy',
+    modal: true,
+    title: '支付凭证',
+    initComponent: function () {
+        var me = this;
+        me.items = [
+            {
+                xtype: 'form',
+                id: 'zfpzForm',
+                frame: true,
+                bodyPadding: 10,
+
+                title: '',
+                items: [
+                     {
+                         xtype: 'textfield',
+                         name: 'ID',
+                         hidden: true,
+                         fieldLabel: 'ID',
+                         labelWidth: 70,
+                         anchor: '100%'
+                     },
+                    {
+                        xtype: 'textfield',
+                        name: 'Account',
+                        fieldLabel: '账号',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'Payment',
+                        fieldLabel: '支付方式',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'OpeningBank',
+                        fieldLabel: '开户行',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'datefield',
+                        name: 'PayDate',
+                        fieldLabel: '支付时间',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'TradeSheet',
+                        fieldLabel: '交易号',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'AnswerSheet',
+                        fieldLabel: '回单',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    }
+                ],
+                buttonAlign: 'center',
+                buttons: [
+
+                    {
+                        text: '关闭',
+                        handler: function () {
+                            this.up('window').close();
+                        }
+                    }
+                ]
+            }
+        ];
+        me.callParent(arguments);
+    }
+});
+
 //************************************主界面*****************************************
 Ext.onReady(function () {
     Ext.define('mainView', {
@@ -186,13 +289,14 @@ Ext.onReady(function () {
                             },
                             {
                                 text: '操作',
-                                width: 80,
+                                width: 120,
                                 align: 'center',
                                 sortable: false,
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
                                     str = "<a href='#' onclick='sh(\"" + record.data.ID + "\",\"" + record.data.FLOWID + "\",\"" + record.data.STEPID + "\")'>审核</a>";
+                                    str += "|<a href='#' onclick='zfpz(\"" + record.data.FLOWID + "\")'>支付凭证</a>";
                                     return str;
                                 }
                             }

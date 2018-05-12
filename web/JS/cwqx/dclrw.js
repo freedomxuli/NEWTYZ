@@ -1,4 +1,4 @@
-﻿
+﻿var cx_zt = queryString.zt;
 var pageSize = 15;
 
 //************************************数据源*****************************************
@@ -7,6 +7,7 @@ var store = createSFW4Store({
     total: 1,
     currentPage: 1,
     fields: [
+       { name: 'ID' },
        { name: 'FLOWID' },
        { name: 'SERVICETYPE' },
        { name: 'STATUS' },
@@ -35,7 +36,7 @@ var taskStore = Ext.create('Ext.data.Store', {
 
 function loadData(nPage) {
 
-    var cx_zt = Ext.getCmp("cx_zt").getValue();
+    //var cx_zt = Ext.getCmp("cx_zt").getValue();
 
     CS('CZCLZ.JjrDB.GetTaskList', function (retVal) {
         store.setData({
@@ -74,6 +75,109 @@ function cl(type) {
         }
     });
 }
+
+var flowid;
+function zfpz(fid) {
+    flowid = fid;
+    var win = new zfpzWin();
+    win.show(null, function () {
+        CS('CZCLZ.JjrDB.GetZFPZ', function (retVal) {
+            if (retVal) {
+                var form = Ext.getCmp("zfpzForm");
+                form.form.setValues(retVal[0]);
+            }
+        }, CS.onError, fid);
+    });
+}
+
+Ext.define('zfpzWin', {
+    extend: 'Ext.window.Window',
+
+    height: 250,
+    width: 400,
+    layout: {
+        type: 'fit'
+    },
+    id: 'zfpzWin',
+    closeAction: 'destroy',
+    modal: true,
+    title: '支付凭证',
+    initComponent: function () {
+        var me = this;
+        me.items = [
+            {
+                xtype: 'form',
+                id: 'zfpzForm',
+                frame: true,
+                bodyPadding: 10,
+
+                title: '',
+                items: [
+                     {
+                         xtype: 'textfield',
+                         name: 'ID',
+                         hidden: true,
+                         fieldLabel: 'ID',
+                         labelWidth: 70,
+                         anchor: '100%'
+                     },
+                    {
+                        xtype: 'textfield',
+                        name: 'Account',
+                        fieldLabel: '账号',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'Payment',
+                        fieldLabel: '支付方式',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'OpeningBank',
+                        fieldLabel: '开户行',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'datefield',
+                        name: 'PayDate',
+                        fieldLabel: '支付时间',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'TradeSheet',
+                        fieldLabel: '交易号',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        name: 'AnswerSheet',
+                        fieldLabel: '回单',
+                        labelWidth: 70,
+                        anchor: '100%'
+                    }
+                ],
+                buttonAlign: 'center',
+                buttons: [                  
+                    {
+                        text: '关闭',
+                        handler: function () {
+                            this.up('window').close();
+                        }
+                    }
+                ]
+            }
+        ];
+        me.callParent(arguments);
+    }
+});
 
 Ext.define('taskWin', {
     extend: 'Ext.window.Window',
@@ -258,15 +362,17 @@ Ext.onReady(function () {
                                 menuDisabled: true,
                                 renderer: function (value, cellmeta, record, rowIndex, columnIndex, store) {
                                     var str;
-                                    var zt = Ext.getCmp("cx_zt").getValue();
-                                    if (zt == 1) {
+                                    //var zt = Ext.getCmp("cx_zt").getValue();
+                                    if (cx_zt == 1) {
                                         str = "<a href='#' onclick='cl(\"" + record.data.SERVICETYPE + "\")'>处理</a>";
                                         str += "|<a href='#' onclick='ck(\"" + record.data.FLOWID + "\")'>明细</a>";
                                     }
-                                    else if (zt == 2)
+                                    else if (cx_zt == 2)
                                         str = "<a href='#' onclick='ck(\"" + record.data.FLOWID + "\")'>明细</a>";
                                     else
                                         str = "<a href='#' onclick='ck(\"" + record.data.FLOWID + "\")'>明细</a>";
+                                    if (record.data.ID != "" && record.data.ID != undefined)
+                                        str += "|<a href='#' onclick='zfpz(\"" + record.data.FLOWID + "\")'>明细</a>";
                                     return str;
                                 }
                             }
@@ -276,45 +382,7 @@ Ext.onReady(function () {
 
                     },
                     dockedItems: [
-                                {
-                                    xtype: 'toolbar',
-                                    dock: 'top',
-                                    items: [
-                                         {
-                                             xtype: 'combobox',
-                                             fieldLabel: '任务状态',
-                                             width: 160,
-                                             labelWidth: 60,
-                                             id: 'cx_zt',
-                                             queryMode: 'local',
-                                             displayField: 'TEXT',
-                                             valueField: 'VALUE',
-                                             store: new Ext.data.ArrayStore({
-                                                 fields: ['TEXT', 'VALUE'],
-                                                 data: [
-                                                     ['待处理', 1],
-                                                     ['处理中', 2],
-                                                     ['已处理', 3]
-                                                 ]
-                                             }),
-                                             value: 1
-                                         },
-                                        {
-                                            xtype: 'buttongroup',
-                                            title: '',
-                                            items: [
-                                                {
-                                                    xtype: 'button',
-                                                    iconCls: 'search',
-                                                    text: '查询',
-                                                    handler: function () {
-                                                        loadData(1);
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    ]
-                                },
+                              
                                 {
                                     xtype: 'pagingtoolbar',
                                     displayInfo: true,

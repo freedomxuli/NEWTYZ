@@ -84,7 +84,18 @@ function DataBind() {
     CS('CZCLZ.JjrDB.GetFdById', function (retVal) {
         if (retVal) {
             var addform = Ext.getCmp("addform");
-            addform.form.setValues(retVal[0]);
+            addform.form.setValues(retVal.dt[0]);
+
+            var html1 = "";
+            var html2 = "";
+            for (var i in retVal.dtFJ) {
+                if (retVal.dtFJ[i]["fj_lx"] == 2)
+                    html1 += '<div class="file-item uploadimages" style="margin-left:5px;margin-bottom:5px" imageurl="~/' + retVal.dtFJ[i]["fj_url"] + '"><img src="approot/r/' + retVal.dtFJ[i]["fj_url"] + '" width="100px" height="100px"/></div>';
+                else if (retVal.dtFJ[i]["fj_lx"] == 3)
+                    html2 += '<div class="file-item uploadimages" style="margin-left:5px;margin-bottom:5px" imageurl="~/' + retVal.dtFJ[i]["fj_url"] + '"><img src="approot/r/' + retVal.dtFJ[i]["fj_url"] + '" width="100px" height="100px"/></div>';
+            }
+            $("#fileList").append(html1);
+            $("#fileList2").append(html2);
         }
     }, CS.onError, id);
 }
@@ -403,30 +414,33 @@ Ext.onReady(function () {
                                              columnWidth: 0.5,
                                              labelWidth: 150
                                          },
-                                         {
-                                             xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'2\')">查看</a>',
-                                             margin: '10 10 10 10',
-                                             fieldLabel: '身份证图片',
-                                             columnWidth: 0.5,
-                                             labelWidth: 150
-                                         },
-                                         {
-                                             xtype: 'displayfield',
-                                             value: '<a href="#" onclick="tp(\'3\')">查看</a>',
-                                             margin: '10 10 10 10',
-                                             fieldLabel: '用工合同照片',
-                                             columnWidth: 0.5,
-                                             labelWidth: 150
-                                         },
-                                          {
-                                              xtype: 'textfield',
-                                              name: 'LANDLORD_CONTRACT_NUMBER',
-                                              margin: '10 10 10 10',
-                                              fieldLabel: '合同编号',
-                                              columnWidth: 0.5,
-                                              labelWidth: 150
-                                          },
+                                           {
+                                               xtype: 'textfield',
+                                               name: 'LANDLORD_CONTRACT_NUMBER',
+                                               margin: '10 10 10 10',
+                                               fieldLabel: '合同编号',
+                                               columnWidth: 0.5,
+                                               labelWidth: 150
+                                           },
+                                                   {
+                                                       xtype: 'displayfield',
+                                                       id: 'tp1',
+                                                       value: ' <div id="fileList"><div id="filePicker" style="float:left;margin-right:10px;margin-bottom:5px;width:50px;height:50px;">点击选择图片</div></div>',
+                                                       margin: '10 10 10 10',
+                                                       fieldLabel: '身份证图片',
+                                                       columnWidth: 1,
+                                                       labelWidth: 80
+                                                   },
+                                           {
+                                               xtype: 'displayfield',
+                                               id: 'tp2',
+                                               value: ' <div id="fileList2"><div id="filePicker2" style="float:left;margin-right:10px;margin-bottom:5px;width:50px;height:50px;">点击选择图片</div></div>',
+                                               margin: '10 10 10 10',
+                                               fieldLabel: '用工合同照片',
+                                               columnWidth: 1,
+                                               labelWidth: 80
+                                           },
+                                        
                                          {
                                              xtype: 'datefield',
                                              name: 'LANDLORD_START_TIME',
@@ -561,7 +575,8 @@ Ext.onReady(function () {
 
     });
     new add();
-
+    initwebupload("filePicker", "fileList", 5);
+    initwebupload("filePicker2", "fileList2", 5);
 
     CS('CZCLZ.AdminDB.GetFdSbByFlow', function (retVal) {
         if (retVal) {

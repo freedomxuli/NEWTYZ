@@ -474,7 +474,7 @@ namespace jjrDB
                         cmd.Parameters.Add("@ROOM_ATTRIBUTE", jsr["ROOM_ATTRIBUTE"].ToString());
                         cmd.Parameters.Add("@COMMISSION_TYPE", jsr["COMMISSION_TYPE"].ToString());
                         cmd.Parameters.Add("@SETTLEMENT_CYCLE", jsr["SETTLEMENT_CYCLE"].ToString());
-                        cmd.Parameters.Add("@COMMISSION_RATIO", Convert.ToInt16(jsr["COMMISSION_RATIO"].ToString()));
+                        cmd.Parameters.Add("@COMMISSION_RATIO", Convert.ToDecimal(jsr["COMMISSION_RATIO"].ToString()));
                         cmd.Parameters.Add("@LEASE_TYPE", jsr["LEASE_TYPE"].ToString());
                         cmd.Parameters.Add("@LANDLORD_IDENTITY_NUMBER", jsr["LANDLORD_IDENTITY_NUMBER"].ToString());
                         cmd.Parameters.Add("@LANDLORD_CONTRACT_NUMBER", jsr["LANDLORD_CONTRACT_NUMBER"].ToString());
@@ -536,7 +536,7 @@ namespace jjrDB
                         cmd.Parameters.Add("@ROOM_ATTRIBUTE", jsr["ROOM_ATTRIBUTE"].ToString());
                         cmd.Parameters.Add("@COMMISSION_TYPE", jsr["COMMISSION_TYPE"].ToString());
                         cmd.Parameters.Add("@SETTLEMENT_CYCLE", jsr["SETTLEMENT_CYCLE"].ToString());
-                        cmd.Parameters.Add("@COMMISSION_RATIO", Convert.ToInt16(jsr["COMMISSION_RATIO"].ToString()));
+                        cmd.Parameters.Add("@COMMISSION_RATIO", Convert.ToDecimal(jsr["COMMISSION_RATIO"].ToString()));
                         cmd.Parameters.Add("@LEASE_TYPE", jsr["LEASE_TYPE"].ToString());
                         cmd.Parameters.Add("@LANDLORD_IDENTITY_NUMBER", jsr["LANDLORD_IDENTITY_NUMBER"].ToString());
                         cmd.Parameters.Add("@LANDLORD_CONTRACT_NUMBER", jsr["LANDLORD_CONTRACT_NUMBER"].ToString());
@@ -574,49 +574,54 @@ namespace jjrDB
                     //}
 
                     dbc.ExecuteNonQuery("delete from tb_b_fj where fj_pid='" + id + "' and fj_lx=2");
-                    string[] imglist1 = imgs1.Split(new char[] { ',' });
-                    for (int i = 0; i < imglist1.Count(); i++)
+                    if (imgs1.Trim() != "")
                     {
-                        string newfilename = GetNewFilePath(imglist1[i], "~/files/fd/");
+                        string[] imglist1 = imgs1.Split(new char[] { ',' });
+                        for (int i = 0; i < imglist1.Count(); i++)
+                        {
+                            string newfilename = GetNewFilePath(imglist1[i], "~/files/fd/");
 
-                        var sqlStr = "insert into tb_b_FJ (fj_id,fj_pid,addtime,updatetime,status,xgyh_id,fj_lx,fj_url)"
-                   + "values (@fj_id,@fj_pid,@addtime,@updatetime,0,@xgyh_id,@fj_lx,@fj_url)";
+                            var sqlStr = "insert into tb_b_FJ (fj_id,fj_pid,addtime,updatetime,status,xgyh_id,fj_lx,fj_url)"
+                       + "values (@fj_id,@fj_pid,@addtime,@updatetime,0,@xgyh_id,@fj_lx,@fj_url)";
 
-                        string FJID = Guid.NewGuid().ToString();
-                        MySqlCommand cmd = new MySqlCommand(sqlStr);
-                        cmd.Parameters.AddWithValue("@fj_id", FJID);
-                        cmd.Parameters.AddWithValue("@fj_pid", id);
-                        //  cmd.Parameters.AddWithValue("@fj_mc", fds[0].FileName);
-                        cmd.Parameters.AddWithValue("@addtime", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@updatetime", DateTime.Now);
-                        // cmd.Parameters.AddWithValue("@fj_nr", fds[0].FileBytes);
-                        cmd.Parameters.AddWithValue("@xgyh_id", SystemUser.CurrentUser.UserID);
-                        cmd.Parameters.AddWithValue("@fj_lx", 2);
-                        cmd.Parameters.AddWithValue("@fj_url", newfilename.Substring(2, newfilename.Length - 2));
-                        dbc.ExecuteNonQuery(cmd);
+                            string FJID = Guid.NewGuid().ToString();
+                            MySqlCommand cmd = new MySqlCommand(sqlStr);
+                            cmd.Parameters.AddWithValue("@fj_id", FJID);
+                            cmd.Parameters.AddWithValue("@fj_pid", id);
+                            //  cmd.Parameters.AddWithValue("@fj_mc", fds[0].FileName);
+                            cmd.Parameters.AddWithValue("@addtime", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@updatetime", DateTime.Now);
+                            // cmd.Parameters.AddWithValue("@fj_nr", fds[0].FileBytes);
+                            cmd.Parameters.AddWithValue("@xgyh_id", SystemUser.CurrentUser.UserID);
+                            cmd.Parameters.AddWithValue("@fj_lx", 2);
+                            cmd.Parameters.AddWithValue("@fj_url", newfilename.Substring(2, newfilename.Length - 2));
+                            dbc.ExecuteNonQuery(cmd);
+                        }
                     }
-
                     dbc.ExecuteNonQuery("delete from tb_b_fj where fj_pid='" + id + "' and fj_lx=3");
-                    string[] imglist2 = imgs2.Split(new char[] { ',' });
-                    for (int i = 0; i < imglist2.Count(); i++)
+                    if (imgs2.Trim() != "")
                     {
-                        string newfilename = GetNewFilePath(imglist2[i], "~/files/fd/");
+                        string[] imglist2 = imgs2.Split(new char[] { ',' });
+                        for (int i = 0; i < imglist2.Count(); i++)
+                        {
+                            string newfilename = GetNewFilePath(imglist2[i], "~/files/fd/");
 
-                        var sqlStr = "insert into tb_b_FJ (fj_id,fj_pid,addtime,updatetime,status,xgyh_id,fj_lx,fj_url)"
-                   + "values (@fj_id,@fj_pid,@addtime,@updatetime,0,@xgyh_id,@fj_lx,@fj_url)";
+                            var sqlStr = "insert into tb_b_FJ (fj_id,fj_pid,addtime,updatetime,status,xgyh_id,fj_lx,fj_url)"
+                       + "values (@fj_id,@fj_pid,@addtime,@updatetime,0,@xgyh_id,@fj_lx,@fj_url)";
 
-                        string FJID = Guid.NewGuid().ToString();
-                        MySqlCommand cmd = new MySqlCommand(sqlStr);
-                        cmd.Parameters.AddWithValue("@fj_id", FJID);
-                        cmd.Parameters.AddWithValue("@fj_pid", id);
-                        //  cmd.Parameters.AddWithValue("@fj_mc", fds[0].FileName);
-                        cmd.Parameters.AddWithValue("@addtime", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@updatetime", DateTime.Now);
-                        // cmd.Parameters.AddWithValue("@fj_nr", fds[0].FileBytes);
-                        cmd.Parameters.AddWithValue("@xgyh_id", SystemUser.CurrentUser.UserID);
-                        cmd.Parameters.AddWithValue("@fj_lx", 3);
-                        cmd.Parameters.AddWithValue("@fj_url", newfilename.Substring(2, newfilename.Length - 2));
-                        dbc.ExecuteNonQuery(cmd);
+                            string FJID = Guid.NewGuid().ToString();
+                            MySqlCommand cmd = new MySqlCommand(sqlStr);
+                            cmd.Parameters.AddWithValue("@fj_id", FJID);
+                            cmd.Parameters.AddWithValue("@fj_pid", id);
+                            //  cmd.Parameters.AddWithValue("@fj_mc", fds[0].FileName);
+                            cmd.Parameters.AddWithValue("@addtime", DateTime.Now);
+                            cmd.Parameters.AddWithValue("@updatetime", DateTime.Now);
+                            // cmd.Parameters.AddWithValue("@fj_nr", fds[0].FileBytes);
+                            cmd.Parameters.AddWithValue("@xgyh_id", SystemUser.CurrentUser.UserID);
+                            cmd.Parameters.AddWithValue("@fj_lx", 3);
+                            cmd.Parameters.AddWithValue("@fj_url", newfilename.Substring(2, newfilename.Length - 2));
+                            dbc.ExecuteNonQuery(cmd);
+                        }
                     }
 
                     dbc.CommitTransaction();
@@ -1285,7 +1290,7 @@ namespace jjrDB
             {
                 try
                 {
-                    string sqlStr = "select * from tb_b_landlord_sp where LANDLORD_ID=" + id + " and STATUS=0 and ZT is null";
+                    string sqlStr = "select a.*,b.Type from tb_b_landlord_sp a left join equipmenttype_table b on a.DEVICE_NAME=b.TypeNo where LANDLORD_ID=" + id + " and STATUS=0 and ZT is null";
                     DataTable dt = dbc.ExecuteDataTable(sqlStr);
                     return dt;
                 }
@@ -1453,6 +1458,7 @@ namespace jjrDB
 
                         DataTable dtApply = dbc.ExecuteDataTable("select * from Lock_HotelApply where ID=" + ID);
                         dtApply.TableName = "Lock_Hotel";
+                        dtApply.Rows[0]["CommissionRate"] = GetCommission(dtApply.Rows[0]["UserName"].ToString());
                         dtApply.Columns.Remove("ID");
                         dbc.InsertTable(dtApply);
 
@@ -1501,6 +1507,17 @@ namespace jjrDB
                 }
             }
         }
+
+        private decimal GetCommission(string tel)
+        {
+            using (DBConnection dbc = new DBConnection())
+            {
+                string sql = "select COMMISSION_RATIO from tb_b_landlord where LANDLORD_MOBILE_TEL='" + tel + "'";
+                decimal commission = Convert.ToDecimal(dbc.ExecuteScalar(sql).ToString());
+                return commission;
+            }
+        }
+
 
         [CSMethod("getUserInfo")]
         public object getUserInfo(string phone)
@@ -1668,15 +1685,19 @@ namespace jjrDB
                     string sql = "";
                     if (zt == 1)
                     {
-                        sql = "select a.SERVICETYPE,b.* from tb_u_flow a inner join tb_u_flow_step b on a.FLOWID=b.FLOWID where TOUSERID=" + SystemUser.CurrentUser.UserID + " and RESULT=0";
+                        sql = "select a.SERVICETYPE,a.FLOWID,b.*,c.* from tb_u_flow a inner join tb_u_flow_step b on a.FLOWID=b.FLOWID left join tb_b_voucher c on a.FLOWID=c.ServiceID where TOUSERID=" + SystemUser.CurrentUser.UserID + " and RESULT=0";
                     }
                     else if (zt == 2)
                     {
-                        sql = "select a.SERVICETYPE,b.* from tb_u_flow a inner join tb_u_flow_step b on a.FLOWID=b.FLOWID where FROMUSERID=" + SystemUser.CurrentUser.UserID + " and STATUS=0";
+                        sql = "select a.SERVICETYPE,a.FLOWID,b.*,c.*  from tb_u_flow a inner join tb_u_flow_step b on a.FLOWID=b.FLOWID left join tb_b_voucher c on a.FLOWID=c.ServiceID where FROMUSERID=" + SystemUser.CurrentUser.UserID + " and a.STATUS=0";
                     }
                     else if (zt == 3)
                     {
-                        sql = "select a.SERVICETYPE,b.* from tb_u_flow a inner join tb_u_flow_step b on a.FLOWID=b.FLOWID where (FROMUSERID=" + SystemUser.CurrentUser.UserID + " or TOUSERID=" + SystemUser.CurrentUser.UserID + ") and STATUS=1";
+                        sql = "select a.SERVICETYPE,a.FLOWID,b.*,c.* from tb_u_flow a inner join tb_u_flow_step b on a.FLOWID=b.FLOWID left join tb_b_voucher c on a.FLOWID=c.ServiceID where (FROMUSERID=" + SystemUser.CurrentUser.UserID + " or TOUSERID=" + SystemUser.CurrentUser.UserID + ") and a.STATUS=1";
+                    }
+                    else if (zt == 4)
+                    {
+                        sql = "select a.SERVICETYPE,a.FLOWID,b.*,c.* from tb_u_flow a inner join tb_u_flow_step b on a.FLOWID=b.FLOWID left join tb_b_voucher c on a.FLOWID=c.ServiceID where (FROMUSERID=" + SystemUser.CurrentUser.UserID + ") and a.STATUS=1";
                     }
 
                     //开始取分页数据
@@ -1713,6 +1734,122 @@ namespace jjrDB
                 }
             }
 
+        }
+
+        [CSMethod("SaveZFPZ")]
+        public object SaveZFPZ(JSReader jsr, int flowid)
+        {
+            using (DBConnection dbc = new DBConnection())
+            {
+                dbc.BeginTransaction();
+                try
+                {
+                    if (jsr["ID"].ToString() == "")
+                    {
+                        string sql = @"insert into tb_b_voucher(";
+                        sql += "Account,";
+                        sql += "Payment,";
+                        sql += "OpeningBank,";
+                        sql += "PayDate,";
+                        sql += "TradeSheet,";
+                        sql += "AnswerSheet,";
+                        sql += "Status,";
+                        sql += "AddTime,";
+                        sql += "ServiceID) values(";
+                        sql += "@Account,";
+                        sql += "@Payment,";
+                        sql += "@OpeningBank,";
+                        sql += "@PayDate,";
+                        sql += "@TradeSheet,";
+                        sql += "@AnswerSheet,";
+                        sql += "@Status,";
+                        sql += "@AddTime,";
+                        sql += "@ServiceID)";
+
+                        MySqlCommand cmd = new MySqlCommand(sql);
+                        cmd.Parameters.Add("@Account", jsr["Account"].ToString());
+                        cmd.Parameters.Add("@Payment", jsr["Payment"].ToString());
+                        cmd.Parameters.Add("@OpeningBank", jsr["OpeningBank"].ToString());
+                        if (!string.IsNullOrEmpty(jsr["PayDate"].ToString()))
+                            cmd.Parameters.Add("@PayDate", Convert.ToDateTime(jsr["PayDate"].ToString()));
+                        else
+                            cmd.Parameters.Add("@PayDate", DBNull.Value);
+                        cmd.Parameters.Add("@TradeSheet", jsr["TradeSheet"].ToString());
+                        cmd.Parameters.Add("@AnswerSheet", jsr["AnswerSheet"].ToString());
+                        cmd.Parameters.Add("@Status", 0);
+                        cmd.Parameters.Add("@AddTime", DateTime.Now);
+                        cmd.Parameters.Add("@ServiceID", flowid);
+                        dbc.ExecuteNonQuery(cmd);
+                    }
+                    else
+                    {
+                        string ID = jsr["ID"].ToString();
+                        string sql = @"update tb_b_voucher set ";
+                        sql += "Account=@Account,";
+                        sql += "Payment=@Payment,";
+                        sql += "OpeningBank=@OpeningBank,";
+                        sql += "PayDate=@PayDate,";
+                        sql += "TradeSheet=@TradeSheet,";
+                        sql += "AnswerSheet=@Account";
+                        sql += " where ID=" + ID;
+
+                        MySqlCommand cmd = new MySqlCommand(sql);
+                        cmd.Parameters.Add("@Account", jsr["Account"].ToString());
+                        cmd.Parameters.Add("@Payment", jsr["Payment"].ToString());
+                        cmd.Parameters.Add("@OpeningBank", jsr["OpeningBank"].ToString());
+                        if (!string.IsNullOrEmpty(jsr["PayDate"].ToString()))
+                            cmd.Parameters.Add("@PayDate", Convert.ToDateTime(jsr["PayDate"].ToString()));
+                        else
+                            cmd.Parameters.Add("@PayDate", DBNull.Value);
+                        cmd.Parameters.Add("@TradeSheet", jsr["TradeSheet"].ToString());
+                        cmd.Parameters.Add("@AnswerSheet", jsr["AnswerSheet"].ToString());
+
+                        dbc.ExecuteNonQuery(cmd);
+                    }
+
+                    dbc.CommitTransaction();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    dbc.RoolbackTransaction();
+                    throw ex;
+                }
+            }
+        }
+
+        [CSMethod("GetZFPZ")]
+        public object GetZFPZ(string flowid)
+        {
+            using (DBConnection dbc = new DBConnection())
+            {
+                try
+                {
+                    string sql = "select * from tb_b_voucher where ServiceID=" + flowid;
+                    return dbc.ExecuteDataTable(sql);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        [CSMethod("GetSQXX")]
+        public object GetSQXX(string pid)
+        {
+            using (DBConnection dbc = new DBConnection())
+            {
+                try
+                {
+                    string sql = "select * from tb_b_application where ID=" + pid;
+                    return dbc.ExecuteDataTable(sql);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
         }
     }
 }
