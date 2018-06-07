@@ -287,14 +287,54 @@ Ext.onReady(function () {
                                             labelWidth: 40,
                                             fieldLabel: '工号'
                                         },
-                                         {
-                                             xtype: 'datefield',
-                                             id: 'cx_sdate',
-                                             format: 'Y-m-d',
-                                             width: 160,
-                                             labelWidth: 60,
-                                             fieldLabel: '入职时间'
-                                         },
+                                       
+                                        {
+                                            xtype: 'combobox',
+                                            id: 'cx_qy',
+                                            fieldLabel: '负责区域',
+                                            editable: false,
+                                            store: dqstore,
+                                            queryMode: 'local',
+                                            displayField: 'TEXT',
+                                            valueField: 'VALUE',
+                                            width: 160,
+                                            labelWidth: 60
+                                        }
+                                        
+
+                                    ]
+                                },
+                                 {
+                                     xtype: 'toolbar',
+                                     dock: 'top',
+                                     items: [
+                                           {
+                                               xtype: 'combobox',
+                                               fieldLabel: '在职状态',
+                                               width: 160,
+                                               labelWidth: 60,
+                                               id: 'cx_zt',
+                                               queryMode: 'local',
+                                               displayField: 'TEXT',
+                                               valueField: 'VALUE',
+                                               store: new Ext.data.ArrayStore({
+                                                   fields: ['TEXT', 'VALUE'],
+                                                   data: [
+                                                       ['在职', 0],
+                                                       ['停职', 1],
+                                                       ['离职', 2]
+                                                   ]
+                                               }),
+                                               value: 0
+                                           },
+                                           {
+                                               xtype: 'datefield',
+                                               id: 'cx_sdate',
+                                               format: 'Y-m-d',
+                                               width: 160,
+                                               labelWidth: 60,
+                                               fieldLabel: '入职时间'
+                                           },
                                          {
                                              xtype: 'datefield',
                                              id: 'cx_edate',
@@ -304,50 +344,19 @@ Ext.onReady(function () {
                                              fieldLabel: '至'
                                          },
                                          {
-                                             xtype: 'combobox',
-                                             id: 'cx_qy',
-                                             fieldLabel: '负责区域',
-                                             editable: false,
-                                             store: dqstore,
-                                             queryMode: 'local',
-                                             displayField: 'TEXT',
-                                             valueField: 'VALUE',
-                                             width: 160,
-                                             labelWidth: 60
+                                             xtype: 'buttongroup',
+                                             title: '',
+                                             items: [
+                                                 {
+                                                     xtype: 'button',
+                                                     iconCls: 'search',
+                                                     text: '查询',
+                                                     handler: function () {
+                                                         getUser(1);
+                                                     }
+                                                 }
+                                             ]
                                          },
-                                         {
-                                             xtype: 'combobox',
-                                             fieldLabel: '在职状态',
-                                             width: 160,
-                                             labelWidth: 60,
-                                             id: 'cx_zt',
-                                             queryMode: 'local',
-                                             displayField: 'TEXT',
-                                             valueField: 'VALUE',
-                                             store: new Ext.data.ArrayStore({
-                                                 fields: ['TEXT', 'VALUE'],
-                                                 data: [
-                                                     ['在职', 0],
-                                                     ['停职', 1],
-                                                     ['离职', 2]
-                                                 ]
-                                             }),
-                                             value: 0
-                                         },
-                                        {
-                                            xtype: 'buttongroup',
-                                            title: '',
-                                            items: [
-                                                {
-                                                    xtype: 'button',
-                                                    iconCls: 'search',
-                                                    text: '查询',
-                                                    handler: function () {
-                                                        getUser(1);
-                                                    }
-                                                }
-                                            ]
-                                        },
                                         {
                                             xtype: 'buttongroup',
                                             title: '',
@@ -414,9 +423,9 @@ Ext.onReady(function () {
                                                 }
                                             ]
                                         }
-
-                                    ]
-                                },
+                                        
+                                     ]
+                                 },
                                 {
                                     xtype: 'pagingtoolbar',
                                     displayInfo: true,

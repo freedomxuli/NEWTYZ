@@ -1,5 +1,0 @@
-E:\gitProjects\Tools\obj\Debug\Tools.csprojResolveAssemblyReference.cache
-E:\gitProjects\Tools\bin\Debug\Tools.dll
-E:\gitProjects\Tools\bin\Debug\Tools.pdb
-E:\gitProjects\Tools\obj\Debug\Tools.dll
-E:\gitProjects\Tools\obj\Debug\Tools.pdb

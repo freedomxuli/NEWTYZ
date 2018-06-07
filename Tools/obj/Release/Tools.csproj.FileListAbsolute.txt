@@ -1,5 +1,0 @@
-E:\gitProjects\Tools\bin\Release\Tools.dll
-E:\gitProjects\Tools\bin\Release\Tools.pdb
-E:\gitProjects\Tools\obj\Release\Tools.csprojResolveAssemblyReference.cache
-E:\gitProjects\Tools\obj\Release\Tools.dll
-E:\gitProjects\Tools\obj\Release\Tools.pdb

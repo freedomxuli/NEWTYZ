@@ -1,2 +1,5 @@
 # git ignore file
 web/Bin/
+/Tools/bin
+/Tools/obj
+/web/SmartLog.db

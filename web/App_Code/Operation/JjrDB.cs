@@ -682,7 +682,7 @@ namespace jjrDB
                         where += " and QY_ID='" + qy + "'";
                     }
 
-                    string str = "select a.*,b.QY_NAME,c.User_XM from tb_b_landlord a left join tb_b_qy b on a.QY_ID=b.QY_ID left join tb_b_users c on a.ROLE_ID=c.User_Id where a.STATUS=0 ";
+                    string str = "select a.*,b.QY_NAME,c.User_XM from tb_b_landlord a left join tb_b_qy b on a.QY_ID=b.QY_ID left join tb_b_users c on a.ROLE_ID=c.User_Id where a.STATUS=0 and c.User_ID=" + SystemUser.CurrentUser.UserID + "";
                     str += where;
 
                     //开始取分页数据
