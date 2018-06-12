@@ -22,6 +22,7 @@ namespace Smart.SystemPrivilege
         public static PrivilegeDescription 代理商申请 = new PrivilegeDescription("经纪人权限_经纪人权限-代理商申请", "查看", 5);
         public static PrivilegeDescription 保洁申请 = new PrivilegeDescription("经纪人权限_经纪人权限-保洁申请", "查看", 6);
         public static PrivilegeDescription 门店审核 = new PrivilegeDescription("经纪人权限_经纪人权限-门店审核", "查看", 7);
+        public static PrivilegeDescription 门店管理 = new PrivilegeDescription("经纪人权限_经纪人权限-门店管理", "查看", 7);
     }
 
     public class 财务权限_财务权限

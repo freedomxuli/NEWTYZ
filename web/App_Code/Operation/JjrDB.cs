@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using SmartFramework4v2.Data;
 using SmartFramework4v2.Data.MySql;
 using SmartFramework4v2.Web.Common.JSON;
 using SmartFramework4v2.Web.WebExcutor;
@@ -1442,6 +1443,24 @@ namespace jjrDB
             }
         }
 
+        [CSMethod("GetHotelInfo2")]
+        public object GetHotelInfo2(int ID)
+        {
+            using (SmartFramework4v2.Data.SqlServer.DBConnection dbc = new SmartFramework4v2.Data.SqlServer.DBConnection(ConfigurationManager.ConnectionStrings["LockConnStr"].ConnectionString))
+            {
+                try
+                {
+                    string sqlStr = "select * from Lock_Hotel where ID=" + ID;
+                    DataTable dt = dbc.ExecuteDataTable(sqlStr);
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
         [CSMethod("SHHotel")]
         public object SHHotel(int ID, int result)
         {
@@ -1844,6 +1863,94 @@ namespace jjrDB
                 {
                     string sql = "select * from tb_b_application where ID=" + pid;
                     return dbc.ExecuteDataTable(sql);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        [CSMethod("GetHotelList2")]
+        public object GetHotelList2(int pagnum, int pagesize, string hotelName)
+        {
+            using (SmartFramework4v2.Data.SqlServer.DBConnection dbc = new SmartFramework4v2.Data.SqlServer.DBConnection(ConfigurationManager.ConnectionStrings["LockConnStr"].ConnectionString))
+            {
+                try
+                {
+                    List<string> list = new List<string>();
+                    using (DBConnection db = new DBConnection())
+                    {
+                        DataTable dtFd = db.ExecuteDataTable("select landlord_mobile_tel from tb_b_landlord where role_id='" + SystemUser.CurrentUser.UserID + "'");
+                        foreach (DataRow dr in dtFd.Rows)
+                        {
+                            list.Add(dr["landlord_mobile_tel"].ToString());
+                        }
+                    }
+                    int cp = pagnum;
+                    int ac = 0;
+
+                    string where = "";
+                    if (!string.IsNullOrEmpty(hotelName))
+                    {
+                        where += " and " + dbc.C_Like("HotelName", hotelName, LikeStyle.LeftAndRightLike);
+                    }
+
+
+                    string str = @"select a.*,b.CellPhone,b.RealName from Lock_Hotel a left join aspnet_Members b on a.UserId=b.UserId 
+                left join aspnet_Users c on b.UserId=c.UserId
+                where c.UserName in('" + string.Join("','", list) + "')";
+                    str += where;
+
+                    //开始取分页数据
+                    System.Data.DataTable dtPage = new System.Data.DataTable();
+                    dtPage = dbc.GetPagedDataTable(str + " order by a.CreateDate desc", pagesize, ref cp, out ac);
+
+                    return new { dt = dtPage, cp = cp, ac = ac };
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+        }
+
+        [CSMethod("EditHotel")]
+        public object EditHotel(JSReader jsr, int ID)
+        {
+            using (SmartFramework4v2.Data.SqlServer.DBConnection dbc = new SmartFramework4v2.Data.SqlServer.DBConnection(ConfigurationManager.ConnectionStrings["LockConnStr"].ConnectionString))
+            {
+                try
+                {
+                    var dt = dbc.GetEmptyDataTable("Lock_Hotel");
+                    DataTableTracker dtt = new DataTableTracker(dt);
+                    var dr = dt.NewRow();
+                    dr["ID"] = ID;
+                    dr["XieChenUrl"] = jsr["XieChenUrl"].ToString();
+                    dr["HotelType"] = jsr["HotelType"].ToString();
+                    dr["HotelFeature"] = jsr["HotelFeature"].ToString();
+                    dr["IsServicePrice"] = Convert.ToInt32(jsr["IsServicePrice"].ToString());
+                    dr["UpdateDate"] = DateTime.Now;
+                    dr["IsServicePrice"] = int.Parse(jsr["IsServicePrice"].ToString());
+                    if (int.Parse(jsr["IsServicePrice"].ToString()) == 1)
+                    {
+                        dr["ServiceSDate"] = jsr["ServiceSDate"].ToString();
+                        dr["ServiceEDate"] = jsr["ServiceEDate"].ToString();
+                        dr["ServicePrice"] = decimal.Parse(jsr["ServicePrice"].ToString());
+                    }
+                    else
+                    {
+                        dr["ServiceSDate"] = DBNull.Value;
+                        dr["ServiceEDate"] = DBNull.Value;
+                        dr["ServicePrice"] = DBNull.Value;
+                    }
+
+                    dt.Rows.Add(dr);
+                    dt.Columns["ID"].ReadOnly = false;
+                    dbc.UpdateTable(dt, dtt);
+
+                    return true;
                 }
                 catch (Exception ex)
                 {

@@ -53,6 +53,9 @@ public class MenuControl
                 <Item Name='门店审核'>
                     <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.门店审核' Name='门店审核'>approot/r/page/jjrqx/mdsh.html</Tab>
                 </Item>
+ <Item Name='门店管理'>
+                    <Tab p='Smart.SystemPrivilege.经纪人权限_经纪人权限.门店管理' Name='门店管理'>approot/r/page/jjrqx/mdgl.html</Tab>
+                </Item>
             </Menu>
             <Menu Name='财务权限'> 
 <Item Name='我发起的任务'>
